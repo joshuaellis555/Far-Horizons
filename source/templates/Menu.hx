@@ -13,7 +13,6 @@ class Menu extends FlxSubState
 	public function new() 
 	{
 		super(FlxColor.GRAY);
-		this.open
 	}
 	
 }
