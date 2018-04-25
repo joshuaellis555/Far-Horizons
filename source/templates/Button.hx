@@ -13,10 +13,10 @@ import haxe.Constraints.Function;
 class Button extends FlxSprite 
 {
 	
-	public function new(width:Int,height:Int,x:Int,y:Int,color:FlxColor,click:Function,rightClick:Function) 
+	public function new(width:Int,height:Int,x:Int,y:Int,color:FlxColor)//,click:Function,rightClick:Function) 
 	{
 		super(x, y);
 		this.makeGraphic(width, height, color);
-		FlxMouseEventManager.add(this,click,rightClick);
+		//FlxMouseEventManager.add(this,click,rightClick);
 	}
 }
