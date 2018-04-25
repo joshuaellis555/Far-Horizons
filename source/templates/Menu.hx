@@ -1,5 +1,7 @@
 package templates;
 
+import flixel.FlxG;
+import flixel.FlxState;
 import flixel.FlxSubState;
 import flixel.util.FlxColor;
 
@@ -9,10 +11,17 @@ import flixel.util.FlxColor;
  */
 class Menu extends FlxSubState
 {
-
-	public function new() 
+	private var priorState:FlxState;
+	public function new(state:FlxState) 
 	{
 		super(FlxColor.GRAY);
+		priorState = state;
+	}
+	
+	private function switchBack()
+	{
+		FlxG.switchState(priorState);
+		
 	}
 	
 }
