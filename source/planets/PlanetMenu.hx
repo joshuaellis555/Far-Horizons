@@ -17,14 +17,18 @@ class PlanetMenu extends Menu
 {
 	private var backgroundButton:Button;
 	
-	public function new(state:FlxState) 
+	public function new(color:FlxColor) 
 	{
-		super(state);
-		//backgroundButton = new Button(640, 480, 0, 0 ,FlxColor.WHITE,this.Clicked,this.RightClicked);
-		//backgroundButton.alpha = 0;
-		trace("loaded");
+		super(color);
+		
 	}
-	public function foo():Void{}
+	override public function create()
+	{
+		super.create();
+		backgroundButton = new Button(FlxG.width, FlxG.height, 0, 0 ,FlxColor.WHITE,this.Clicked,this.RightClicked);
+		backgroundButton.alpha = 0;
+		add(backgroundButton);
+	}
 	
 	public function Clicked(button:Button):Void 
 	{
@@ -32,9 +36,6 @@ class PlanetMenu extends Menu
 	}
 	public function RightClicked(button:Button):Void 
 	{
-		trace("right");
-		if (FlxG.mouse.justReleasedRight){
-			this.switchBack();
-		}
+		this.exitMenu();
 	}
 }

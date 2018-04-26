@@ -1,9 +1,11 @@
 package planets;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.input.mouse.FlxMouseButton.FlxMouseButtonID;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxColor;
 import planets.PlanetMenu;
+import flixel.FlxState;
 
 /**
  * ...
@@ -12,12 +14,14 @@ import planets.PlanetMenu;
 class Planet extends FlxSprite
 {
 	private var menu:PlanetMenu;
-	public function new(x:Int,y:Int)
+	private var parent:FlxState;
+	public function new(x:Int,y:Int,play:FlxState)
 	{
 		super(x, y);
+		parent = play;
 		super.makeGraphic(100, 100, FlxColor.WHITE);
 		this.color=FlxColor.GREEN;
-		FlxMouseEventManager.add(this, clicked);
+		FlxMouseEventManager.add(this, null, clicked);
 	}
 	
 	override public function update(elapsed:Float):Void
@@ -27,7 +31,7 @@ class Planet extends FlxSprite
 	
 	public function clicked(sprite:FlxSprite):Void
 	{
-		menu = new PlanetMenu(FlxG.state);
-		FlxG.switchState(menu);
+		menu = new PlanetMenu(FlxColor.GRAY);
+		parent.openSubState(menu);
 	}
 }
