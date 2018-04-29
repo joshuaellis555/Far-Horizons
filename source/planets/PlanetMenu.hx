@@ -8,33 +8,47 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxColor;
 import templates.Button;
 import templates.Menu;
+import templates.ButtonTriggers;
 
 /**
  * ...
  * @author ...
  */
-class PlanetMenu extends Menu 
+class PlanetMenu extends Menu implements ButtonTriggers
 {
-	private var backgroundButton:Button;
+	private var background:Button;
+	private var color:FlxColor;
 	
-	public function new(state:FlxState) 
+	private var myPlanet:Planet;
+	
+	public function new(c:FlxColor,planet:Planet)
 	{
-		super(state);
-		//backgroundButton = new Button(640, 480, 0, 0 ,FlxColor.WHITE,this.Clicked,this.RightClicked);
-		//backgroundButton.alpha = 0;
-		trace("loaded");
+		myPlanet = planet;
+		color = c;
+		super(FlxColor.RED);
 	}
-	public function foo():Void{}
-	
+	override public function create()
+	{
+		super.create();
+		background = new Button(FlxG.width, FlxG.height, 0, 0 , color,this);
+		add(background);
+	}
 	public function Clicked(button:Button):Void 
 	{
+		if (FlxG.mouse.justReleased){
+			trace("pay");
+			myPlanet.getOwner().charge(myPlanet.planetResources);
+			trace(myPlanet.getOwner().playerResources);
+		}
+		else if (FlxG.mouse.justReleasedRight)
+		{
+			trace("close");
+			close();
+		}
 		
 	}
 	public function RightClicked(button:Button):Void 
 	{
-		trace("right");
-		if (FlxG.mouse.justReleasedRight){
-			this.switchBack();
-		}
+		
 	}
 }

@@ -11,17 +11,8 @@ import flixel.util.FlxColor;
  */
 class Menu extends FlxSubState
 {
-	private var priorState:FlxState;
-	public function new(state:FlxState) 
+	public function new(color:FlxColor) 
 	{
-		super(FlxColor.GRAY);
-		priorState = state;
+		super(color);
 	}
-	
-	private function switchBack()
-	{
-		FlxG.switchState(priorState);
-		
-	}
-	
 }
