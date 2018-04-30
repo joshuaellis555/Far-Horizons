@@ -6,9 +6,9 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxColor;
-import templates.Button;
+import button.Button;
 import templates.Menu;
-import templates.ButtonTriggers;
+import button.ButtonTriggers;
 
 /**
  * ...
@@ -30,7 +30,7 @@ class PlanetMenu extends Menu implements ButtonTriggers
 	override public function create()
 	{
 		super.create();
-		background = new Button(FlxG.width, FlxG.height, 0, 0 , color,this);
+		background = new Button(FlxG.width, FlxG.height, 0, 0 , color);
 		add(background);
 	}
 	public function Clicked(button:Button):Void 

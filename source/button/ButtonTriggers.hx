@@ -1,4 +1,5 @@
-package templates;
+package button;
+import button.Button;
 
 /**
  * @author JoshuaEllis

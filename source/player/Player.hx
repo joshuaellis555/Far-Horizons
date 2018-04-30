@@ -1,23 +1,18 @@
 package player;
 
-import templates.Observer;
+import observer.Observer;
 
 /**
  * ...
  * @author ...
  */
-class Player extends Observer 
+class Player
 {
 	public var playerResources:Resources;
 	
 	public function new() 
 	{
-		super();
 		playerResources = new Resources(1000, 1000, 1000, 1000, 1000);
-	}
-	override public function notify() 
-	{
-		super.notify();
 	}
 	public function pay(resources)
 	{
