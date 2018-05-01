@@ -6,5 +6,5 @@ package observer;
  */
 interface Observer 
 {
-	public function notify(event:Event):Void;
+	public function onNotify(event:Event):Void;
 }

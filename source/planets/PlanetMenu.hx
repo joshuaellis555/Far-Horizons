@@ -7,6 +7,10 @@ import flixel.FlxState;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxColor;
 import button.Button;
+import observer.Event;
+import observer.MouseEvent;
+import observer.MouseEventType;
+import observer.Observer;
 import templates.Menu;
 import button.ButtonTriggers;
 
@@ -14,7 +18,7 @@ import button.ButtonTriggers;
  * ...
  * @author ...
  */
-class PlanetMenu extends Menu implements ButtonTriggers
+class PlanetMenu extends Menu implements Observer
 {
 	private var background:Button;
 	private var color:FlxColor;
@@ -30,25 +34,29 @@ class PlanetMenu extends Menu implements ButtonTriggers
 	override public function create()
 	{
 		super.create();
-		background = new Button(FlxG.width, FlxG.height, 0, 0 , color);
+		background = new Button(FlxG.width, FlxG.height, 0, 0 , color,this);
 		add(background);
 	}
-	public function Clicked(button:Button):Void 
+	
+	/* INTERFACE observer.Observer */
+	
+	public function onNotify(event:Event):Void 
 	{
-		if (FlxG.mouse.justReleased){
-			trace("pay");
-			myPlanet.getOwner().charge(myPlanet.planetResources);
-			trace(myPlanet.getOwner().playerResources);
-		}
-		else if (FlxG.mouse.justReleasedRight)
+		for (mouseEvent in cast(event, MouseEvent).mouseEvents)
 		{
-			trace("close");
-			close();
+			switch(mouseEvent)
+			{
+				case LeftJustReleased:{
+					trace("pay");
+					myPlanet.getOwner().charge(myPlanet.planetResources);
+					trace(myPlanet.getOwner().playerResources);
+				}
+				case RightJustReleased:{
+					trace("close");
+					close();
+				}
+				default:null;
+			}
 		}
-		
-	}
-	public function RightClicked(button:Button):Void 
-	{
-		
 	}
 }

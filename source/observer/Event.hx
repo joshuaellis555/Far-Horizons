@@ -8,9 +8,9 @@ class Event
 {
 	public var eventType:EventType;
 	public var eventSource:Int;
-	public function new(source:Int,type:EventType)
+	public function new(subject:Subject)
 	{
-		eventType = type;
-		eventSource = source;
+		eventType = subject.getType();
+		eventSource = subject.getID();
 	}
 }

@@ -7,7 +7,12 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import haxe.Constraints.Function;
+import observer.Event;
+import observer.EventType;
+import observer.MouseEvent;
 import observer.MouseEventType;
+import observer.Observer;
+import observer.Subject;
 
 /**
  * ...
@@ -16,12 +21,14 @@ import observer.MouseEventType;
 class Button extends FlxSprite 
 {
 	private var buttons:Array<MouseEventType>;
-	public function new(width:Int, height:Int, x:Int, y:Int, color:FlxColor)
+	private var subject:Subject;
+	public function new(width:Int, height:Int, x:Int, y:Int, color:FlxColor,observer:Observer)
 	{
 		super(x, y);
 		this.makeGraphic(width, height, color);
 		FlxMouseEventManager.add(this, mouseDown, mouseUp, mouseOver, mouseOff, null, null, false, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
 		buttons = [];
+		subject = new Subject(EventType.Mouse, observer);
 	}
 	public function mouseDown(button:Button):Void
 	{
@@ -52,7 +59,9 @@ class Button extends FlxSprite
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		
-		buttons = [];
+		if (buttons.length>0){
+			subject.notify(new MouseEvent(subject,buttons));
+			buttons = [];
+		}
 	}
 }

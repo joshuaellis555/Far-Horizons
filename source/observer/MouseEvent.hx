@@ -9,11 +9,11 @@ import observer.EventType;
  */
 class MouseEvent extends Event 
 {
-	public var mouseEvents:Array<MouseEventType>
+	public var mouseEvents:Array<MouseEventType>;
 	
-	public function new(source:Int, type:EventType,events:Array<MouseEventType>) 
+	public function new(subject:Subject, events:Array<MouseEventType>)
 	{
-		super(source, type);
+		super(subject);
 		mouseEvents = events;
 	}
 	
