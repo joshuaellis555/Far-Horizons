@@ -6,35 +6,57 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxColor;
-import templates.Button;
+import button.Button;
+import observer.Event;
+import observer.MouseEvent;
+import observer.MouseEventType;
+import observer.Observer;
 import templates.Menu;
+import button.ButtonTriggers;
 
 /**
  * ...
  * @author ...
  */
-class PlanetMenu extends Menu 
+class PlanetMenu extends Menu implements Observer
 {
-	private var backgroundButton:Button;
+	private var background:Button;
+	private var color:FlxColor;
 	
-	public function new(state:FlxState) 
-	{
-		super(state);
-		//backgroundButton = new Button(640, 480, 0, 0 ,FlxColor.WHITE,this.Clicked,this.RightClicked);
-		//backgroundButton.alpha = 0;
-		trace("loaded");
-	}
-	public function foo():Void{}
+	private var myPlanet:Planet;
 	
-	public function Clicked(button:Button):Void 
+	public function new(c:FlxColor,planet:Planet)
 	{
-		
+		myPlanet = planet;
+		color = c;
+		super(FlxColor.RED);
 	}
-	public function RightClicked(button:Button):Void 
+	override public function create()
 	{
-		trace("right");
-		if (FlxG.mouse.justReleasedRight){
-			this.switchBack();
+		super.create();
+		background = new Button(FlxG.width, FlxG.height, 0, 0 , color,this);
+		add(background);
+	}
+	
+	/* INTERFACE observer.Observer */
+	
+	public function onNotify(event:Event):Void 
+	{
+		for (mouseEvent in cast(event, MouseEvent).mouseEvents)
+		{
+			switch(mouseEvent)
+			{
+				case LeftJustReleased:{
+					trace("pay");
+					myPlanet.getOwner().charge(myPlanet.planetResources);
+					trace(myPlanet.getOwner().playerResources);
+				}
+				case RightJustReleased:{
+					trace("close");
+					close();
+				}
+				default:null;
+			}
 		}
 	}
 }
