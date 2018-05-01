@@ -1,4 +1,4 @@
-package observer;
+package event;
 
 /**
  * @author JoshuaEllis

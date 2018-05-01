@@ -1,4 +1,6 @@
 package observer;
+import event.Event;
+import event.EventType;
 
 /**
  * Basic class for subjects in the Observer design pattern.
@@ -8,12 +10,10 @@ class Subject
 {
 	private var observers:Array<Observer>;
 	private var subjectID:Int;
-	private var subjectType:EventType;
 	
-	public function new(setType:EventType,observer:Observer,?setID:Int = 0)
+	public function new(observer:Observer,?setID:Int = 0)
 	{
 		subjectID = setID;
-		subjectType = setType;
 		observers = [observer];
 	}
 	
@@ -25,16 +25,6 @@ class Subject
 	public function setID(newID:Int):Void
 	{
 		subjectID = newID;
-	}
-	
-	public function getType():EventType
-	{
-		return subjectType;
-	}
-	
-	public function setType(newType:EventType):Void
-	{
-		subjectType = newType;
 	}
 	
 	public function addObserver(obs:Observer):Void

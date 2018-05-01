@@ -1,5 +1,8 @@
 package planets;
 
+import event.EventType;
+import event.ResourceEvent;
+import event.ResourceEventType;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -7,12 +10,13 @@ import flixel.FlxState;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxColor;
 import button.Button;
-import observer.Event;
-import observer.MouseEvent;
-import observer.MouseEventType;
+import event.Event;
+import event.MouseEvent;
+import event.MouseEventType;
 import observer.Observer;
+import observer.Subject;
+import resources.Resources;
 import templates.Menu;
-import button.ButtonTriggers;
 
 /**
  * ...
@@ -23,11 +27,11 @@ class PlanetMenu extends Menu implements Observer
 	private var background:Button;
 	private var color:FlxColor;
 	
-	private var myPlanet:Planet;
+	private var myPlanet:Subject;
 	
 	public function new(c:FlxColor,planet:Planet)
 	{
-		myPlanet = planet;
+		myPlanet = new Subject(planet);
 		color = c;
 		super(FlxColor.RED);
 	}
@@ -42,21 +46,26 @@ class PlanetMenu extends Menu implements Observer
 	
 	public function onNotify(event:Event):Void 
 	{
-		for (mouseEvent in cast(event, MouseEvent).mouseEvents)
-		{
-			switch(mouseEvent)
-			{
-				case LeftJustReleased:{
-					trace("pay");
-					myPlanet.getOwner().charge(myPlanet.planetResources);
-					trace(myPlanet.getOwner().playerResources);
+		switch(event.eventType){
+			case Mouse:{
+				var m:MouseEvent = cast event;
+				for (mouseEvent in m.mouseEvents)
+				{
+					switch(mouseEvent)
+					{
+						case LeftJustReleased:{
+							trace("pay");
+							myPlanet.notify(new ResourceEvent(new Resources(1,1,1,1,1),ResourceEventType.Gain));
+						}
+						case RightJustReleased:{
+							trace("close");
+							close();
+						}
+						default:null;
+					}
 				}
-				case RightJustReleased:{
-					trace("close");
-					close();
-				}
-				default:null;
 			}
+			default:null;
 		}
 	}
 }

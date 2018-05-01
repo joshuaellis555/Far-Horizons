@@ -1,4 +1,5 @@
 package observer;
+import event.Event;
 
 /**
  * ...
