@@ -6,7 +6,10 @@ import event.EventType;
 import event.MouseEvent;
 import event.ResourceEvent;
 import event.ResourceEventType;
+import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.graphics.FlxGraphic;
+import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import observer.Observer;
 import observer.Subject;
@@ -22,7 +25,14 @@ class PlayState extends FlxState implements Observer
 	
 	private var planets:Planets;
 	private var originX:Float=0;
-	private var originY:Float=0;
+	private var originY:Float = 0;
+	
+	var mapCam:FlxCamera; //The camera that renders the tilemap being drawn
+	var uiCam:FlxCamera; //The camera that renders the UI elements
+	var bgCam:FlxCamera; //The camera that renders background elements
+	
+	var grabbedPos:FlxPoint = new FlxPoint( -1, -1); //For camera scrolling
+	var initialScroll:FlxPoint = new FlxPoint(0, 0); //Ditto ^
 	
 	override public function create():Void
 	{
@@ -31,25 +41,44 @@ class PlayState extends FlxState implements Observer
 		
 		activePlayer = new Player();
 		
-		var background = new Button(FlxG.width*10, FlxG.height*10, -FlxG.width*5, -FlxG.height*5 , FlxColor.BLACK,this);
+		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		mapCam.bgColor = FlxColor.TRANSPARENT;
+		mapCam.antialiasing = true;
+		
+		bgCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		bgCam.antialiasing = true;
+		
+		uiCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		uiCam.bgColor = FlxColor.TRANSPARENT;
+		uiCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
+		uiCam.antialiasing = true;
+		
+		FlxG.camera.antialiasing = true;
+		
+		FlxG.cameras.add(bgCam);
+		FlxG.cameras.add(mapCam);
+		FlxG.cameras.add(uiCam);
+		
+		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,bgCam,AssetPaths.Stars__png, 4096, 2304);
 		add(background);
 		
 		planets = new Planets(this);
 		
-		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),100,FlxColor.GREEN,this,activePlayer, new Resources(100,100,100,100,100));
+		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),300,FlxColor.GREEN,this,activePlayer, new Resources(100,100,100,100,100),mapCam);
 		planets.addPlanet(planet);
 		
-		var planet = new Planet(0, 0,60,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0));
+		var planet = new Planet(0, 0,200,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
 		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, 0,60,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0));
+		var planet = new Planet(FlxG.width, 0,200,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
 		planets.addPlanet(planet);
-		var planet = new Planet(0, FlxG.height,60,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0));
+		var planet = new Planet(0, FlxG.height,200,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
 		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, FlxG.height,60,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0));
+		var planet = new Planet(FlxG.width, FlxG.height,200,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
 		planets.addPlanet(planet);
 		
-		FlxG.camera.zoom = 0.9;
 		
+		mapCam.zoom = 0.9;
+		bgCam.zoom = (mapCam.zoom + 39) /60;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -58,26 +87,18 @@ class PlayState extends FlxState implements Observer
 		
 		if (FlxG.mouse.wheel != 0)
 		{
-			FlxG.camera.zoom = Math.min(Math.max(0.05, FlxG.camera.zoom+(FlxG.mouse.wheel / 20)),0.9);
+			mapCam.zoom = Math.min(Math.max(0.1, mapCam.zoom + (FlxG.mouse.wheel / 20)), 0.9);
+			bgCam.zoom = (mapCam.zoom + 39) /60;
 		}
-		var x:Float = Std.int((FlxG.mouse.screenX + FlxG.camera.x)*FlxG.camera.zoom);
-		var y:Float = Std.int((FlxG.mouse.screenY + FlxG.camera.y)*FlxG.camera.zoom);
-		trace("origin", originX, originY, "mouse", FlxG.mouse.x, FlxG.mouse.y, "x,y", x, y , FlxG.camera.zoom);
 		
-		if (FlxG.mouse.justPressedMiddle)
-		{
-			originX += x;
-			originY += y;
+		if (FlxG.mouse.justPressedMiddle){
+			grabbedPos = FlxG.mouse.getWorldPosition(mapCam);
+			initialScroll = mapCam.scroll;
 		}
-		if (FlxG.mouse.pressedMiddle)
-		{	
-			FlxG.camera.x = Std.int((x-originX ));
-			FlxG.camera.y = Std.int((y-originY ));
-		}
-		if (FlxG.mouse.justReleasedMiddle)
-		{
-			originX -= x;
-			originY -= y;
+		if (FlxG.mouse.pressedMiddle){
+			var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(mapCam).subtractPoint(grabbedPos);
+			mapCam.scroll.subtractPoint(mousePosChange);
+			bgCam.scroll.subtract(mousePosChange.x/40,mousePosChange.y/40);
 		}
 		
 	}
