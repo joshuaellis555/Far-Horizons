@@ -31,10 +31,13 @@ class Planet extends Button implements Observer
 	
 	private var resourceSubject:Subject;
 	
-	public function new(x:Int,y:Int,color:FlxColor,state:FlxState,player:Player,resources:Resources)
+	public var size:Int;
+	
+	public function new(x:Int,y:Int,size:Int,color:FlxColor,state:FlxState,player:Player,resources:Resources)
 	{
+		this.size = size;
 		primaryState = state;
-		super(100,100,x, y,color,this);
+		super(size,size,Std.int(x-size/2), Std.int(y-size/2),color,this);
 		
 		owner = player;
 		planetResources = resources;
