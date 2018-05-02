@@ -15,6 +15,7 @@ import observer.Observer;
 import observer.Subject;
 import planets.Planet;
 import flixel.FlxState;
+import planets.PlanetType;
 import planets.Planets;
 import player.Player;
 import resources.Resources;
@@ -64,20 +65,20 @@ class PlayState extends FlxState implements Observer
 		
 		planets = new Planets(this);
 		
-		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),300,FlxColor.GREEN,this,activePlayer, new Resources(100,100,100,100,100),mapCam);
+		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),300,PlanetType.GREEN,this,activePlayer, new Resources(100,100,100,100,100),mapCam);
 		planets.addPlanet(planet);
 		
-		var planet = new Planet(0, 0,200,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
+		var planet = new Planet(0, 0,200,PlanetType.RED,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
 		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, 0,200,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
+		var planet = new Planet(FlxG.width, 0,200,PlanetType.PURPLE,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
 		planets.addPlanet(planet);
-		var planet = new Planet(0, FlxG.height,200,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
+		var planet = new Planet(0, FlxG.height,200,PlanetType.BLUE,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
 		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, FlxG.height,200,FlxColor.BROWN,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
+		var planet = new Planet(FlxG.width, FlxG.height,200,PlanetType.GRAY,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
 		planets.addPlanet(planet);
 		
 		
-		mapCam.zoom = 0.9;
+		mapCam.zoom = 1;
 		bgCam.zoom = (mapCam.zoom + 39) /60;
 	}
 
@@ -87,7 +88,7 @@ class PlayState extends FlxState implements Observer
 		
 		if (FlxG.mouse.wheel != 0)
 		{
-			mapCam.zoom = Math.min(Math.max(0.1, mapCam.zoom + (FlxG.mouse.wheel / 20)), 0.9);
+			mapCam.zoom = Math.min(Math.max(0.1, mapCam.zoom + (FlxG.mouse.wheel / 20)), 1);
 			bgCam.zoom = (mapCam.zoom + 39) /60;
 		}
 		

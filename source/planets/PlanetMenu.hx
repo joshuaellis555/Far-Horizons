@@ -33,12 +33,13 @@ class PlanetMenu extends Menu implements Observer
 	{
 		myPlanet = new Subject(planet);
 		color = c;
-		super(FlxColor.RED);
+		super(FlxColor.TRANSPARENT);
 	}
 	override public function create()
 	{
 		super.create();
-		background = new Button(FlxG.width, FlxG.height, 0, 0 , color,this);
+		background = new Button(FlxG.width, FlxG.height, 0, 0 , color, this);
+		background.alpha = 0.5;
 		add(background);
 	}
 	

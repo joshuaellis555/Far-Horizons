@@ -34,19 +34,19 @@ class Planet extends Button implements Observer
 	
 	public var size:Int;
 	
-	public function new(x:Int,y:Int,size:Int,color:FlxColor,state:FlxState,player:Player,resources:Resources,?camera:Null<FlxCamera>=null)
+	public function new(x:Int,y:Int,size:Int,type:Int,state:FlxState,player:Player,resources:Resources,?camera:Null<FlxCamera>=null)
 	{
 		this.size = size;
 		primaryState = state;
 		
-		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), color, this,camera);
+		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), FlxColor.WHITE, this,camera);
 		
 		loadGraphic(AssetPaths.imgPlanets__png, true, 401, 401);
-		animation.add("base", [2], 1, false);
+		offset.x = (401-size)/2;
+		offset.y = offset.x;
+		animation.add("base", [type], 1, false);
 		animation.play("base");
 		setGraphicSize(size, size);
-		//set_x(x-size);
-		//set_y(y-size);
 		
 		owner = player;
 		planetResources = resources;
