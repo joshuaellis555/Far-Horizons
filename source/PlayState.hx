@@ -25,7 +25,7 @@ class PlayState extends FlxState implements Observer
 	public var activePlayer:Player;
 	
 	private var planets:Planets;
-	private var originX:Float=0;
+	private var originX:Float = 0;
 	private var originY:Float = 0;
 	
 	var mapCam:FlxCamera; //The camera that renders the tilemap being drawn
@@ -65,16 +65,16 @@ class PlayState extends FlxState implements Observer
 		
 		planets = new Planets(this);
 		
-		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),300,PlanetType.GREEN,this,activePlayer, new Resources(100,100,100,100,100),mapCam);
+		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),300,PlanetType.GREEN,activePlayer, new Resources(100,100,100,100,100));
 		planets.addPlanet(planet);
 		
-		var planet = new Planet(0, 0,200,PlanetType.RED,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
+		var planet = new Planet(0, 0,200,PlanetType.RED,activePlayer, new Resources(0,0,0,0,0));
 		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, 0,200,PlanetType.PURPLE,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
+		var planet = new Planet(FlxG.width, 0,200,PlanetType.PURPLE,activePlayer, new Resources(0,0,0,0,0));
 		planets.addPlanet(planet);
-		var planet = new Planet(0, FlxG.height,200,PlanetType.BLUE,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
+		var planet = new Planet(0, FlxG.height,200,PlanetType.BLUE,activePlayer, new Resources(0,0,0,0,0));
 		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, FlxG.height,200,PlanetType.GRAY,this,activePlayer, new Resources(0,0,0,0,0),mapCam);
+		var planet = new Planet(FlxG.width, FlxG.height,200,PlanetType.GRAY,activePlayer, new Resources(0,0,0,0,0));
 		planets.addPlanet(planet);
 		
 		

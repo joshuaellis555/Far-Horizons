@@ -34,12 +34,11 @@ class Planet extends Button implements Observer
 	
 	public var size:Int;
 	
-	public function new(x:Int,y:Int,size:Int,type:Int,state:FlxState,player:Player,resources:Resources,?camera:Null<FlxCamera>=null)
+	public function new(x:Int,y:Int,size:Int,type:Int,player:Player,resources:Resources)
 	{
 		this.size = size;
-		primaryState = state;
 		
-		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), FlxColor.WHITE, this,camera);
+		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), FlxColor.WHITE, this, FlxG.cameras.list[2]);
 		
 		loadGraphic(AssetPaths.imgPlanets__png, true, 401, 401);
 		offset.x = (401-size)/2;
@@ -84,8 +83,8 @@ class Planet extends Button implements Observer
 					{
 						case MouseEventType.LeftJustClicked:{
 							trace("menu");
-							menu = new PlanetMenu(FlxColor.GRAY, this);
-							primaryState.openSubState(menu);
+							menu = new PlanetMenu(FlxColor.GRAY,0.5,this);
+							FlxG.state.openSubState(menu);
 						}
 						default:null;
 					}
