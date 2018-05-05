@@ -1,10 +1,13 @@
 package button;
 
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.graphics.FlxGraphic;
 import flixel.input.mouse.FlxMouseButton.FlxMouseButtonID;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxPoint;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import haxe.Constraints.Function;
 import event.Event;
@@ -22,11 +25,21 @@ class Button extends FlxSprite
 {
 	private var buttons:Array<MouseEventType>;
 	private var buttonSubject:Subject;
-	public function new(width:Int, height:Int, x:Int, y:Int, color:FlxColor,observer:Observer)
+	public function new(width:Int, height:Int, x:Int, y:Int, color:FlxColor,observer:Observer,camera:Null<FlxCamera>=null,?pixelPerfect:Bool=false,?mouseChildren:Bool=false,?image:Null<FlxGraphicAsset>=null,?imgW=0,?imgH=0)
 	{
-		super(x, y);
-		this.makeGraphic(width, height, color);
-		FlxMouseEventManager.add(this, mouseDown, mouseUp, mouseOver, mouseOff, null, null, false, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
+		if (image == null){
+			trace("asdf");
+			super(x, y);
+			this.makeGraphic(width, height, color);
+		}else{
+			trace("qwer");
+			super(x, y);
+			this.loadGraphic(image, false, imgW, imgH);
+		}
+		
+		this.cameras = [camera];
+		
+		FlxMouseEventManager.add(this, mouseDown, mouseUp, mouseOver, mouseOff, mouseChildren, null, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
 		buttons = [];
 		buttonSubject = new Subject(observer);
 	}
@@ -50,11 +63,11 @@ class Button extends FlxSprite
 	}
 	public function mouseOver(button:Button):Void
 	{
-		
+		buttons.push(MouseEventType.MouseOver);
 	}
 	public function mouseOff(button:Button):Void
 	{
-		
+		buttons.push(MouseEventType.MouseOff);
 	}
 	override public function update(elapsed:Float):Void
 	{

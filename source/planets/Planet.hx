@@ -4,6 +4,7 @@ import event.EventType;
 import event.MouseEventType;
 import event.ResourceEvent;
 import event.ResourceEventType;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -31,10 +32,20 @@ class Planet extends Button implements Observer
 	
 	private var resourceSubject:Subject;
 	
-	public function new(x:Int,y:Int,color:FlxColor,state:FlxState,player:Player,resources:Resources)
+	public var size:Int;
+	
+	public function new(x:Int,y:Int,size:Int,type:Int,player:Player,resources:Resources)
 	{
-		primaryState = state;
-		super(100,100,x, y,color,this);
+		this.size = size;
+		
+		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), FlxColor.WHITE, this, FlxG.cameras.list[2]);
+		
+		loadGraphic(AssetPaths.imgPlanets__png, true, 401, 401);
+		offset.x = (401-size)/2;
+		offset.y = offset.x;
+		animation.add("base", [type], 1, false);
+		animation.play("base");
+		setGraphicSize(size, size);
 		
 		owner = player;
 		planetResources = resources;
@@ -72,8 +83,8 @@ class Planet extends Button implements Observer
 					{
 						case MouseEventType.LeftJustClicked:{
 							trace("menu");
-							menu = new PlanetMenu(FlxColor.GRAY, this);
-							primaryState.openSubState(menu);
+							menu = new PlanetMenu(FlxColor.GRAY,0.5,this);
+							FlxG.state.openSubState(menu);
 						}
 						default:null;
 					}

@@ -26,19 +26,22 @@ class PlanetMenu extends Menu implements Observer
 {
 	private var background:Button;
 	private var color:FlxColor;
+	private var alpha:Float;
 	
 	private var myPlanet:Subject;
 	
-	public function new(c:FlxColor,planet:Planet)
+	public function new(color:FlxColor,alpha:Float,planet:Planet)
 	{
 		myPlanet = new Subject(planet);
-		color = c;
-		super(FlxColor.RED);
+		this.color = color;
+		this.alpha = alpha;
+		super(FlxColor.TRANSPARENT);
 	}
 	override public function create()
 	{
 		super.create();
-		background = new Button(FlxG.width, FlxG.height, 0, 0 , color,this);
+		background = new Button(FlxG.width, FlxG.height, 0, 0 , color, this,FlxG.cameras.list[3]);
+		background.alpha = alpha;
 		add(background);
 	}
 	
