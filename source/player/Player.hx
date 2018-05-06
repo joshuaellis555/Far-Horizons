@@ -4,6 +4,7 @@ import event.Event;
 import event.ResourceEvent;
 import event.ResourceEventType;
 import observer.Observer;
+import resources.ResourceTypes;
 import resources.Resources;
 
 /**
@@ -16,7 +17,7 @@ class Player implements Observer
 	
 	public function new() 
 	{
-		playerResources = new Resources(1000, 1000, 1000, 1000, 1000);
+		playerResources = new Resources([1000, 1000, 1000, 1000, 1000]);
 	}
 	public function Gain(resources)
 	{
@@ -64,6 +65,6 @@ class Player implements Observer
 			}
 			default:null;
 		}
-		trace(playerResources);
+		trace(playerResources.getMap());
 	}
 }

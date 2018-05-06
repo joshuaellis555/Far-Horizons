@@ -28,18 +28,16 @@ class Button extends FlxSprite
 	public function new(width:Int, height:Int, x:Int, y:Int, color:FlxColor,observer:Observer,camera:Null<FlxCamera>=null,?pixelPerfect:Bool=false,?mouseChildren:Bool=false,?image:Null<FlxGraphicAsset>=null,?imgW=0,?imgH=0)
 	{
 		if (image == null){
-			trace("asdf");
 			super(x, y);
 			this.makeGraphic(width, height, color);
 		}else{
-			trace("qwer");
 			super(x, y);
 			this.loadGraphic(image, false, imgW, imgH);
 		}
 		
 		this.cameras = [camera];
 		
-		FlxMouseEventManager.add(this, mouseDown, mouseUp, mouseOver, mouseOff, mouseChildren, null, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
+		FlxMouseEventManager.add(this, mouseDown, mouseUp, mouseOver, mouseOff, mouseChildren, true, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
 		buttons = [];
 		buttonSubject = new Subject(observer);
 	}

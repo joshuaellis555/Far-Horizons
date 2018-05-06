@@ -3,6 +3,7 @@ package planets;
 import event.EventType;
 import event.ResourceEvent;
 import event.ResourceEventType;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -15,6 +16,7 @@ import event.MouseEvent;
 import event.MouseEventType;
 import observer.Observer;
 import observer.Subject;
+import resources.ResourceTypes;
 import resources.Resources;
 import templates.Menu;
 
@@ -28,11 +30,17 @@ class PlanetMenu extends Menu implements Observer
 	private var color:FlxColor;
 	private var alpha:Float;
 	
-	private var myPlanet:Subject;
+	private var menuSubject:Subject;
+	private var myPlanet:Planet;
+	
+	public var upgradeIcons:Map<FlxColor, FlxSprite>;
+	
+	private var planetCam:FlxCamera;
 	
 	public function new(color:FlxColor,alpha:Float,planet:Planet)
 	{
-		myPlanet = new Subject(planet);
+		menuSubject = new Subject(planet);
+		myPlanet = planet;
 		this.color = color;
 		this.alpha = alpha;
 		super(FlxColor.TRANSPARENT);
@@ -43,6 +51,19 @@ class PlanetMenu extends Menu implements Observer
 		background = new Button(FlxG.width, FlxG.height, 0, 0 , color, this,FlxG.cameras.list[3]);
 		background.alpha = alpha;
 		add(background);
+		
+		planetCam = new FlxCamera(0,0,FlxG.width,FlxG.height);
+		planetCam.bgColor = FlxColor.TRANSPARENT;
+		planetCam.scroll.set(myPlanet.x+myPlanet.size/2-FlxG.width/2, myPlanet.y+myPlanet.size/2-FlxG.height/2);
+		planetCam.antialiasing = true;
+		
+		FlxG.cameras.add(planetCam);
+		
+		myPlanet.cameras.push(planetCam);
+		for (key in myPlanet.planetResources.types())
+			myPlanet.statsImgs[key].cameras.push(planetCam);
+			
+		
 	}
 	
 	/* INTERFACE observer.Observer */
@@ -58,10 +79,15 @@ class PlanetMenu extends Menu implements Observer
 					{
 						case LeftJustReleased:{
 							trace("pay");
-							myPlanet.notify(new ResourceEvent(new Resources(1,1,1,1,1),ResourceEventType.Gain));
+							menuSubject.notify(new ResourceEvent(new Resources([for (i in 0...ResourceTypes.types.length) 1]),ResourceEventType.Gain));
 						}
 						case RightJustReleased:{
 							trace("close");
+							myPlanet.unlock();
+							myPlanet.cameras.pop();
+							for (key in myPlanet.planetResources.types())
+								myPlanet.statsImgs[key].cameras.pop();
+							FlxG.cameras.remove(planetCam);
 							close();
 						}
 						default:null;
