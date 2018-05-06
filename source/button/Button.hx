@@ -37,7 +37,7 @@ class Button extends FlxSprite
 		
 		this.cameras = [camera];
 		
-		FlxMouseEventManager.add(this, mouseDown, mouseUp, mouseOver, mouseOff, mouseChildren, null, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
+		FlxMouseEventManager.add(this, mouseDown, mouseUp, mouseOver, mouseOff, mouseChildren, true, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
 		buttons = [];
 		buttonSubject = new Subject(observer);
 	}
