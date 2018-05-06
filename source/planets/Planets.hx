@@ -1,5 +1,6 @@
 package planets;
 
+import flixel.FlxG;
 import flixel.FlxState;
 import planets.Planet;
 /**
@@ -9,17 +10,15 @@ import planets.Planet;
 class Planets 
 {
 	public var members:Array<Planet>;
-	private var playState:FlxState;
 	
-	public function new(play) 
+	public function new() 
 	{
 		members = [];
-		playState = play;
 	}
 	public function addPlanet(planet:Planet)
 	{
 		members.push(planet);
-		playState.add(planet);
+		FlxG.state.add(planet);
 	}
 	
 }

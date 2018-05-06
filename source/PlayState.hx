@@ -8,6 +8,7 @@ import event.ResourceEvent;
 import event.ResourceEventType;
 import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
@@ -34,6 +35,8 @@ class PlayState extends FlxState implements Observer
 	
 	var grabbedPos:FlxPoint = new FlxPoint( -1, -1); //For camera scrolling
 	var initialScroll:FlxPoint = new FlxPoint(0, 0); //Ditto ^
+	
+	var img:FlxSprite;
 	
 	override public function create():Void
 	{
@@ -63,20 +66,19 @@ class PlayState extends FlxState implements Observer
 		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,bgCam,AssetPaths.Stars__png, 4096, 2304);
 		add(background);
 		
-		planets = new Planets(this);
+		planets = new Planets();
 		
-		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),300,PlanetType.GREEN,activePlayer, new Resources(100,100,100,100,100));
-		planets.addPlanet(planet);
-		
-		var planet = new Planet(0, 0,200,PlanetType.RED,activePlayer, new Resources(0,0,0,0,0));
-		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, 0,200,PlanetType.PURPLE,activePlayer, new Resources(0,0,0,0,0));
-		planets.addPlanet(planet);
-		var planet = new Planet(0, FlxG.height,200,PlanetType.BLUE,activePlayer, new Resources(0,0,0,0,0));
-		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, FlxG.height,200,PlanetType.GRAY,activePlayer, new Resources(0,0,0,0,0));
+		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),200,PlanetType.GREEN,activePlayer, new Resources([13,2,8,0,7]));
 		planets.addPlanet(planet);
 		
+		var planet = new Planet(0, 0,140,PlanetType.RED,activePlayer, new Resources([11,null,6,2,null]));
+		planets.addPlanet(planet);
+		var planet = new Planet(FlxG.width, 0,140,PlanetType.PURPLE,activePlayer, new Resources([7,14,null,null,null]));
+		planets.addPlanet(planet);
+		var planet = new Planet(0, FlxG.height,140,PlanetType.BLUE,activePlayer, new Resources([7,15,null,4,1]));
+		planets.addPlanet(planet);
+		var planet = new Planet(FlxG.width, FlxG.height,140,PlanetType.GRAY,activePlayer, new Resources([null,null,7,null,null]));
+		planets.addPlanet(planet);
 		
 		mapCam.zoom = 1;
 		bgCam.zoom = (mapCam.zoom + 39) /60;
@@ -88,20 +90,22 @@ class PlayState extends FlxState implements Observer
 		
 		if (FlxG.mouse.wheel != 0)
 		{
-			mapCam.zoom = Math.min(Math.max(0.1, mapCam.zoom + (FlxG.mouse.wheel / 20)), 1);
-			bgCam.zoom = (mapCam.zoom + 39) /60;
+			mapCam.zoom = Math.min(Math.max(0.1, mapCam.zoom + (FlxG.mouse.wheel / Math.abs(FlxG.mouse.wheel) * mapCam.zoom / 4)), 1);
+			bgCam.zoom = (mapCam.zoom + 39) / 60;
+			if (FlxG.mouse.wheel>0){
+				var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(mapCam).subtractPoint(grabbedPos);
+				mapCam.scroll.subtractPoint(mousePosChange);
+				bgCam.scroll.subtract(mousePosChange.x/40,mousePosChange.y/40);
+			}
 		}
 		
-		if (FlxG.mouse.justPressedMiddle){
+		if (!FlxG.mouse.pressedMiddle || FlxG.mouse.justPressedMiddle){
 			grabbedPos = FlxG.mouse.getWorldPosition(mapCam);
-			initialScroll = mapCam.scroll;
-		}
-		if (FlxG.mouse.pressedMiddle){
+		}else{
 			var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(mapCam).subtractPoint(grabbedPos);
 			mapCam.scroll.subtractPoint(mousePosChange);
-			bgCam.scroll.subtract(mousePosChange.x/40,mousePosChange.y/40);
+			bgCam.scroll.subtract(mousePosChange.x / 40, mousePosChange.y / 40);
 		}
-		
 	}
 	
 	/* INTERFACE observer.Observer */
