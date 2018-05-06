@@ -32,6 +32,8 @@ class PlayState extends FlxState implements Observer
 	var mapCam:FlxCamera; //The camera that renders the tilemap being drawn
 	var uiCam:FlxCamera; //The camera that renders the UI elements
 	var bgCam:FlxCamera; //The camera that renders background elements
+	var planetCam:FlxCamera; //The camera that renders the planet in PlanetMenu
+	var menuCam:FlxCamera; //The camera that renders the UI elements in menus
 	
 	var grabbedPos:FlxPoint = new FlxPoint( -1, -1); //For camera scrolling
 	var initialScroll:FlxPoint = new FlxPoint(0, 0); //Ditto ^
@@ -57,11 +59,22 @@ class PlayState extends FlxState implements Observer
 		uiCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		uiCam.antialiasing = true;
 		
+		planetCam = new FlxCamera(0,0,FlxG.width,FlxG.height);
+		planetCam.bgColor = FlxColor.TRANSPARENT;
+		planetCam.antialiasing = true;
+		
+		menuCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		menuCam.bgColor = FlxColor.TRANSPARENT;
+		menuCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
+		menuCam.antialiasing = true;
+		
 		FlxG.camera.antialiasing = true;
 		
 		FlxG.cameras.add(bgCam);
 		FlxG.cameras.add(mapCam);
 		FlxG.cameras.add(uiCam);
+		FlxG.cameras.add(planetCam);
+		FlxG.cameras.add(menuCam);
 		
 		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,bgCam,AssetPaths.Stars__png, 4096, 2304);
 		add(background);
