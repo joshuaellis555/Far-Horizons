@@ -25,23 +25,23 @@ class Button extends FlxSprite
 {
 	private var buttons:Array<MouseEventType>;
 	private var buttonSubject:Subject;
-	public function new(width:Int, height:Int, x:Int, y:Int, color:FlxColor,observer:Observer,camera:Null<FlxCamera>=null,?pixelPerfect:Bool=false,?mouseChildren:Bool=false,?image:Null<FlxGraphicAsset>=null,?imgW=0,?imgH=0)
+	public function new(width:Int, height:Int, x:Int, y:Int, color:FlxColor,observer:Observer,?id:Int=0,?camera:Null<FlxCamera>=null,?pixelPerfect:Bool=false,?mouseChildren:Bool=false,?image:Null<FlxGraphicAsset>=null,?animated:Bool=false,?imgW=0,?imgH=0)
 	{
 		if (image == null){
 			super(x, y);
 			this.makeGraphic(width, height, color);
 		}else{
 			super(x, y);
-			this.loadGraphic(image, false, imgW, imgH);
+			this.loadGraphic(image, animated, imgW, imgH);
 		}
 		
 		this.cameras = [camera];
 		
-		FlxMouseEventManager.add(this, mouseDown, mouseUp, mouseOver, mouseOff, mouseChildren, true, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
+		FlxMouseEventManager.add(this, this.mouseDown, this.mouseUp, this.mouseOver, this.mouseOff, mouseChildren, true, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
 		buttons = [];
-		buttonSubject = new Subject(observer);
+		buttonSubject = new Subject(observer,id);
 	}
-	public function mouseDown(button:Button):Void
+	private function mouseDown(button:Button):Void
 	{
 		if (FlxG.mouse.justPressed){
 			buttons.push(MouseEventType.LeftJustClicked);
@@ -50,7 +50,7 @@ class Button extends FlxSprite
 			buttons.push(MouseEventType.RightJustClicked);
 		}
 	}
-	public function mouseUp(button:Button):Void
+	private function mouseUp(button:Button):Void
 	{
 		if (FlxG.mouse.justReleased){
 			buttons.push(MouseEventType.LeftJustReleased);
@@ -59,18 +59,18 @@ class Button extends FlxSprite
 			buttons.push(MouseEventType.RightJustReleased);
 		}
 	}
-	public function mouseOver(button:Button):Void
+	private function mouseOver(button:Button):Void
 	{
 		buttons.push(MouseEventType.MouseOver);
 	}
-	public function mouseOff(button:Button):Void
+	private function mouseOff(button:Button):Void
 	{
 		buttons.push(MouseEventType.MouseOff);
 	}
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		if (buttons.length>0){
+		if (buttons.length > 0){
 			buttonSubject.notify(new MouseEvent(buttonSubject,buttons));
 			buttons = [];
 		}

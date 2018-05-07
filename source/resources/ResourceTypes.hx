@@ -17,10 +17,8 @@ class ResourceTypes
 	public static var Power(default, never):FlxColor = FlxColor.RED;
 	public static var Happyness(default, never):FlxColor = FlxColor.YELLOW;
 	public static var Culture(default, never):FlxColor = FlxColor.PURPLE;
-	public static var Limes(default, never):FlxColor = FlxColor.LIME;
-	public static var Wood(default, never):FlxColor = FlxColor.BROWN;
 	
 	public static var types(default, never):Array<FlxColor> = [ResourceTypes.Manpower, ResourceTypes.Natural, ResourceTypes.Science, ResourceTypes.Minerals, ResourceTypes.Credits,
-	ResourceTypes.Power,ResourceTypes.Happyness,ResourceTypes.Culture,ResourceTypes.Limes,ResourceTypes.Wood];
+	ResourceTypes.Power,ResourceTypes.Happyness,ResourceTypes.Culture];
 	//public static var rTypes(default, never):Array<FlxColor> = [cast ResourceTypes.Manpower, cast ResourceTypes.Natural, cast ResourceTypes.Science, cast ResourceTypes.Minerals, cast ResourceTypes.Credits];
 }

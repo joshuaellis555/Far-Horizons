@@ -65,6 +65,5 @@ class Player implements Observer
 			}
 			default:null;
 		}
-		trace(playerResources.getMap());
 	}
 }

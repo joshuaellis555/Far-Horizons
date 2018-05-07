@@ -36,7 +36,7 @@ class Planet extends Button implements Observer
 	
 	private var owner:Player;
 	
-	private var resourceSubject:Subject;
+	private var planetSubject:Subject;
 	
 	public var statsImgs:Map<FlxColor, FlxSprite>;
 	private var maxResource = 20;
@@ -65,7 +65,7 @@ class Planet extends Button implements Observer
 		
 		owner = player;
 		planetResources = resources;
-		resourceSubject = new Subject(owner);
+		planetSubject = new Subject(owner);
 		
 		var NofResources = planetResources.length();
 		var rTypes:Array<FlxColor> = planetResources.types();
@@ -147,11 +147,11 @@ class Planet extends Button implements Observer
 	public function setOwner(player:Player)
 	{
 		owner = player;
-		resourceSubject = new Subject(owner);
+		planetSubject = new Subject(owner);
 	}
 	public function upkeep()
 	{
-		resourceSubject.notify(new ResourceEvent(planetResources, ResourceEventType.Gain));
+		planetSubject.notify(new ResourceEvent(planetSubject,planetResources, ResourceEventType.Gain));
 	}
 	public function lock()
 	{
