@@ -15,9 +15,9 @@ class Player implements Observer
 {
 	public var playerResources:Resources;
 	
-	public function new() 
+	public function new(resources:Resources) 
 	{
-		playerResources = new Resources([1000, 1000, 1000, 1000, 1000]);
+		playerResources = resources;
 	}
 	public function Gain(resources)
 	{

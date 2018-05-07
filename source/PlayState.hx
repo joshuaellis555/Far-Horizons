@@ -45,7 +45,7 @@ class PlayState extends FlxState implements Observer
 		trace("play");
 		super.create();
 		
-		activePlayer = new Player();
+		activePlayer = new Player(new Resources([0, 0, 0, 0, 0]));
 		
 		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		mapCam.bgColor = FlxColor.TRANSPARENT;
@@ -76,7 +76,7 @@ class PlayState extends FlxState implements Observer
 		FlxG.cameras.add(planetCam);
 		FlxG.cameras.add(menuCam);
 		
-		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,bgCam,AssetPaths.Stars__png, 4096, 2304);
+		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,99,bgCam,AssetPaths.Stars__png, 4096, 2304);
 		add(background);
 		
 		planets = new Planets();
@@ -94,7 +94,6 @@ class PlayState extends FlxState implements Observer
 		planets.addPlanet(planet);
 		
 		
-		
 		var bar:FlxSprite = new FlxSprite();
 		bar.cameras = [uiCam];
 		bar.makeGraphic(1024, 52, FlxColor.GRAY);
@@ -106,20 +105,28 @@ class PlayState extends FlxState implements Observer
 		
 		for (i in 0...ResourceTypes.types.length)
 		{
-			uiIcons[rTypes[i]] = new Button(128, 52, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[3], false, false, AssetPaths.Icons__jpg, true, 52, 52);
+			uiIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[3], false, false, AssetPaths.Icons__jpg, true, 52, 52);
 			
 			uiIcons[rTypes[i]].antialiasing = true;
 			
 			uiIcons[rTypes[i]].animation.add(Std.string(rTypes[i]), [i], 1, false);
 			uiIcons[rTypes[i]].animation.play(Std.string(rTypes[i]));
 			
-			uiIcons[rTypes[i]].setPosition(i*128, 0);
+			uiIcons[rTypes[i]].setPosition(i * 128, 0);
+			
+			
+			uiIcons[rTypes[i]].width *= 128 / 52;
 			
 			add(uiIcons[rTypes[i]]);
 			
 			uiText[rTypes[i]] = new FlxText(54 + i * 128, 22, 74, Std.string(activePlayer.playerResources.get(rTypes[i])), 22, true);
 			uiText[rTypes[i]].cameras = [uiCam];
 			add(uiText[rTypes[i]]);
+			
+			if (activePlayer.playerResources.get(rTypes[i]) == null){
+				uiIcons[rTypes[i]].color = FlxColor.TRANSPARENT;
+				uiText[rTypes[i]].visible = false;
+			}
 		}
 		
 		mapCam.zoom = 0.7;
@@ -172,8 +179,16 @@ class PlayState extends FlxState implements Observer
 					switch(mouseEvent)
 					{
 						case RightJustReleased:{
-							trace("upkeep");
-							upkeep();
+							if (event.eventSource==99){
+								trace("upkeep");
+								upkeep();
+							}else{
+								trace(event.eventSource);
+							}
+						}
+						case LeftJustReleased:{
+							
+							
 						}
 						default:null;
 					}

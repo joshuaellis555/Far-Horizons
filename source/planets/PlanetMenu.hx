@@ -66,7 +66,7 @@ class PlanetMenu extends Menu implements Observer
 		
 		for (i in 0...ResourceTypes.types.length)
 		{
-			upgradeIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[3], false, false, AssetPaths.Icons__jpg, true, 52, 52);
+			upgradeIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[5], false, false, AssetPaths.Icons__jpg, true, 52, 52);
 			
 			upgradeIcons[rTypes[i]].antialiasing = true;
 			upgradeIcons[rTypes[i]].visible = false;
