@@ -151,6 +151,7 @@ class PlayState extends FlxState implements Observer
 
 	override public function update(elapsed:Float):Void
 	{
+		//trace(FlxG.cameras.list[5].scroll,"playstate1");
 		super.update(elapsed);
 		
 		if (FlxG.mouse.wheel != 0)
@@ -179,6 +180,7 @@ class PlayState extends FlxState implements Observer
 			uiTextIncome[key].text = "+" + Std.string(income.get(key));
 			uiTextResources[key].text = Std.string(activePlayer.resources.get(key));
 		}
+		//trace(FlxG.cameras.list[5].scroll,"playstate");
 	}
 	
 	

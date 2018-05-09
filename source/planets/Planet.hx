@@ -116,6 +116,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	
 	override public function update(elapsed:Float):Void
 	{
+		//trace(FlxG.cameras.list[5].scroll,"planet1");
 		super.update(elapsed);
 		if (showResources){
 			if (popupResources < 10){
@@ -134,6 +135,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 						statsImgs[key].visible = false;
 			}
 		}
+		//trace(FlxG.cameras.list[5].scroll,"planet");
 	}
 	public function getOwner():Player
 	{

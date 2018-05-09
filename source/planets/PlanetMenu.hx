@@ -56,7 +56,7 @@ class PlanetMenu extends Menu implements Observer
 		background.alpha = alpha;
 		add(background);
 		
-		FlxG.cameras.list[5].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width / 2, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
+		FlxG.cameras.list[5].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
 		trace(FlxG.cameras.list[5].scroll);
 		
 		myPlanet.cameras.push(FlxG.cameras.list[5]);
@@ -98,8 +98,8 @@ class PlanetMenu extends Menu implements Observer
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		FlxG.cameras.list[5].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width / 2, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
-		trace(FlxG.cameras.list[5].scroll);
+		//FlxG.cameras.list[5].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width / 2, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
+		//trace(FlxG.cameras.list[5].scroll,"planet menu");
 	}
 	
 	/* INTERFACE observer.Observer */
