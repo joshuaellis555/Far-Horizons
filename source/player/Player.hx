@@ -4,6 +4,9 @@ import event.Event;
 import event.ResourceEvent;
 import event.ResourceEventType;
 import observer.Observer;
+import observer.Subject;
+import groups.Players;
+import resources.ResourceEnabled;
 import resources.ResourceTypes;
 import resources.Resources;
 
@@ -11,24 +14,43 @@ import resources.Resources;
  * ...
  * @author ...
  */
-class Player implements Observer
+class Player implements Observer implements ResourceEnabled
 {
-	public var playerResources:Resources;
+	public var income:Resources = new Resources([0, 0, 0, 0, 0, 0, 0, 0]);
+	private var incomeSources:Map<Int,Resources>=new Map<Int,Resources>();
+	
+	public var resources:Resources;
+	
+	public var playerSubject:Subject;
 	
 	public function new(resources:Resources) 
 	{
-		playerResources = resources;
+		this.resources = resources;
+		
+		playerSubject = new Subject();
+		
+		var players:Players = new Players();
+		players.add(this);
 	}
-	public function Gain(resources)
+	public function updateIncome()
 	{
-		playerResources.add(resources);
-	}
-	public function Lose(resources)
-	{
-		playerResources.remove(resources);
+		income = new Resources([0, 0, 0, 0, 0, 0, 0, 0]);
+		for (key in incomeSources.keys())
+		{
+			income.add(incomeSources[key]);
+		}
+		
 	}
 	
-	
+	public function getID():Int
+	{
+		return playerSubject.getID();
+	}
+	public function setID(newID:Int)
+	{
+		playerSubject.setID(newID);
+	}
+		
 	/* INTERFACE observer.Observer */
 	
 	public function onNotify(event:Event):Void 
@@ -40,25 +62,31 @@ class Player implements Observer
 				{
 					case Gain:{
 						trace("Gain");
-						playerResources.add(resourceEvent.resources);
+						resources.add(resourceEvent.resources);
 					}
 					case Lose:{
 						trace("Lose");
-						if (resourceEvent.returnCall!=null){
-							resourceEvent.returnCall(playerResources.remove(resourceEvent.resources));
+						if (resourceEvent.returnCall != null){
+							var res:Array<Bool> = resources.remove(resourceEvent.resources);
+							trace(resourceEvent.returnCall,res);
+							resourceEvent.returnCall(res);
 						}else{
-							playerResources.remove(resourceEvent.resources);
+							resources.remove(resourceEvent.resources);
 						}
 					}
 					case LoseNoCheck:{
 						trace("LoseNoCheck");
-						playerResources.remove(resourceEvent.resources,false);
+						resources.remove(resourceEvent.resources,false);
 					}
 					case Check:{
 						trace("Check");
 						if (resourceEvent.returnCall!=null){
-							resourceEvent.returnCall(playerResources.check(resourceEvent.resources));
+							resourceEvent.returnCall(resources.check(resourceEvent.resources));
 						}
+					}
+					case Update:{
+						trace("Update");
+						incomeSources[event.eventSource] = resourceEvent.resources;
 					}
 					default:null;
 				}

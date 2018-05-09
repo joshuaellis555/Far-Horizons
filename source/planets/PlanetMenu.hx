@@ -1,6 +1,9 @@
 package planets;
 
+import arbiters.Arbiters;
 import event.EventType;
+import event.MerchantEvent;
+import event.MerchantEventType;
 import event.ResourceEvent;
 import event.ResourceEventType;
 import flixel.FlxCamera;
@@ -39,7 +42,7 @@ class PlanetMenu extends Menu implements Observer
 	
 	public function new(color:FlxColor,alpha:Float,planet:Planet)
 	{
-		menuSubject = new Subject(planet);
+		menuSubject = new Subject([planet,Arbiters.merchant]);
 		myPlanet = planet;
 		this.color = color;
 		this.alpha = alpha;
@@ -48,17 +51,17 @@ class PlanetMenu extends Menu implements Observer
 	override public function create()
 	{
 		super.create();
-		///*
-		background = new Button(FlxG.width, FlxG.height, 0, 0 , color, this, 99, FlxG.cameras.list[3]);
+		trace("menu");
+		background = new Button(FlxG.width, FlxG.height, 0, 0 , color, this, 99, FlxG.cameras.list[4]);
 		background.alpha = alpha;
 		add(background);
-		//*/
 		
-		FlxG.cameras.list[4].scroll.set(myPlanet.x+myPlanet.size/2-FlxG.width/2, myPlanet.y+myPlanet.size/2-FlxG.height/2);
+		FlxG.cameras.list[5].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width / 2, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
+		trace(FlxG.cameras.list[5].scroll);
 		
-		myPlanet.cameras.push(FlxG.cameras.list[4]);
-		for (key in myPlanet.planetResources.types())
-			myPlanet.statsImgs[key].cameras.push(FlxG.cameras.list[4]);
+		myPlanet.cameras.push(FlxG.cameras.list[5]);
+		for (key in myPlanet.resources.types())
+			myPlanet.statsImgs[key].cameras.push(FlxG.cameras.list[5]);
 		
 	// ######### icons ############
 		upgradeIcons = new Map<FlxColor, Button>(); 
@@ -66,7 +69,7 @@ class PlanetMenu extends Menu implements Observer
 		
 		for (i in 0...ResourceTypes.types.length)
 		{
-			upgradeIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[5], false, false, AssetPaths.Icons__jpg, true, 52, 52);
+			upgradeIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[6], false, false, AssetPaths.Icons__png, true, 52, 52);
 			
 			upgradeIcons[rTypes[i]].antialiasing = true;
 			upgradeIcons[rTypes[i]].visible = false;
@@ -76,8 +79,8 @@ class PlanetMenu extends Menu implements Observer
 			upgradeIcons[rTypes[i]].animation.play(Std.string(rTypes[i]));
 		}
 		
-		var NofResources:Int = myPlanet.planetResources.types().length;
-		var pTypes:Array<FlxColor> = myPlanet.planetResources.types();
+		var NofResources:Int = myPlanet.resources.types().length;
+		var pTypes:Array<FlxColor> = myPlanet.resources.types();
 		var screenCenter:FlxPoint = new FlxPoint(FlxG.width / 2, FlxG.height / 2);
 		
 		for (i in 0...NofResources){
@@ -92,8 +95,14 @@ class PlanetMenu extends Menu implements Observer
 		}
 	}
 	
-	/* INTERFACE observer.Observer */
+	override public function update(elapsed:Float):Void
+	{
+		super.update(elapsed);
+		FlxG.cameras.list[5].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width / 2, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
+		trace(FlxG.cameras.list[5].scroll);
+	}
 	
+	/* INTERFACE observer.Observer */
 	public function onNotify(event:Event):Void 
 	{
 		switch(event.eventType){
@@ -104,10 +113,16 @@ class PlanetMenu extends Menu implements Observer
 					switch(mouseEvent)
 					{
 						case LeftJustReleased:{
-							trace("pay");
-							var id:Int = event.eventSource;
-							if (id<ResourceTypes.types.length)
-								menuSubject.notify(new ResourceEvent(menuSubject, new Resources([for (i in 0...ResourceTypes.types.length) i == id ? 1 : null]), ResourceEventType.Gain));
+							trace("upgrade");
+							var type:Int = event.eventSource;
+							if (type < ResourceTypes.types.length){
+								//menuSubject.notify(new ResourceEvent(menuSubject, new Resources([for (i in 0...ResourceTypes.types.length) i == id ? 1 : null]), ResourceEventType.Gain));
+								var upgrade:Resources = new Resources([for (i in 0...ResourceTypes.types.length) i == type ? 1 : null]);
+								var cost:Resources = new Resources([for (i in 0...ResourceTypes.types.length) i == type ? myPlanet.resources.get(ResourceTypes.types[type])+1 : null]);
+								if (menuSubject.notify(new MerchantEvent(menuSubject, MerchantEventType.Charge, [myPlanet.getOwner()], [cost]))[0])
+									menuSubject.notify(new MerchantEvent(menuSubject, MerchantEventType.Pay, [myPlanet], [upgrade]));
+								myPlanet.getOwner().updateIncome();
+							}
 						}
 						case RightJustReleased:{
 							if (event.eventSource == 99)
@@ -115,12 +130,10 @@ class PlanetMenu extends Menu implements Observer
 								trace("close");
 								myPlanet.unlock();
 								myPlanet.cameras.pop();
-								for (key in myPlanet.planetResources.types())
+								for (key in myPlanet.resources.types())
 									myPlanet.statsImgs[key].cameras.pop();
-								/*
-								for (key in ResourceTypes.types)
-									remove(upgradeIcons[key]);
-								*/
+								//myPlanet.updatePlayers();
+								//myPlanet.getOwner().updateIncome();
 								close();
 							}
 						}

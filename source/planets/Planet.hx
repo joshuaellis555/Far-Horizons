@@ -1,25 +1,19 @@
 package planets;
 import button.Button;
-import event.EventType;
+import event.Event;
+import event.MouseEvent;
 import event.MouseEventType;
 import event.ResourceEvent;
 import event.ResourceEventType;
-import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
-import flixel.input.mouse.FlxMouseEventManager;
-import flixel.math.FlxAngle;
-import flixel.math.FlxPoint;
-import flixel.math.FlxVector;
 import flixel.util.FlxColor;
-import event.Event;
-import event.MouseEvent;
-import flixel.util.FlxSpriteUtil;
+import groups.Groups;
 import observer.Observer;
 import observer.Subject;
 import planets.PlanetMenu;
 import player.Player;
+import resources.ResourceEnabled;
 import resources.ResourceTypes;
 import resources.Resources;
 
@@ -27,12 +21,12 @@ import resources.Resources;
  * ...
  * @author 
  */
-class Planet extends Button implements Observer
+class Planet extends Button implements Observer implements ResourceEnabled
 {
 	private var menu:PlanetMenu;
-	private var primaryState:FlxState;
 	
-	public var planetResources:Resources;
+	public var resources:Resources;
+	public var upgradeCosts:Resources;
 	
 	private var owner:Player;
 	
@@ -48,11 +42,15 @@ class Planet extends Button implements Observer
 	
 	private var locked:Bool;
 	
-	public function new(x:Int,y:Int,size:Int,type:Int,player:Player,resources:Resources)
+	public function new(x:Int,y:Int,size:Int,type:Int,player:Player,resources:Resources,costs:Resources)
 	{
 		this.size = size;
 		
 		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), FlxColor.WHITE, this, FlxG.cameras.list[2]);
+		
+		owner = player;
+		this.resources = resources;
+		planetSubject = new Subject([owner]);
 		
 		loadGraphic(AssetPaths.imgPlanets__png, true, 401, 401);
 		setGraphicSize(size, size);
@@ -63,12 +61,8 @@ class Planet extends Button implements Observer
 		width = size;
 		height = size;
 		
-		owner = player;
-		planetResources = resources;
-		planetSubject = new Subject(owner);
-		
-		var NofResources = planetResources.length();
-		var rTypes:Array<FlxColor> = planetResources.types();
+		var NofResources = resources.length();
+		var rTypes:Array<FlxColor> = resources.types();
 		
 		statsImgs = [for (key in  ResourceTypes.types) key => new FlxSprite(x, y)];
 		
@@ -88,23 +82,24 @@ class Planet extends Button implements Observer
 		for (i in 0...NofResources){
 			statsImgs[rTypes[i]].angle = i / NofResources * 360 -135;
 		}
-		for (key in planetResources.types()){
+		for (key in resources.types()){
 			statsImgs[key].animation.play(Std.string(NofResources));
 		}
 		updateStatsImg();
 		
+		Groups.planets.add(this);
 	}//###  new  ###
 	
 	private function updateStatsImg()
 	{
-		if (NofResources != planetResources.types().length){
+		if (NofResources != resources.types().length){
 			
 			for (key in ResourceTypes.types)
 				statsImgs[key].visible = false;
 			
-			NofResources = planetResources.types().length;
+			NofResources = resources.types().length;
 			
-			var rTypes:Array<FlxColor> = planetResources.types();
+			var rTypes:Array<FlxColor> = resources.types();
 			
 			for (i in 0...NofResources){
 				statsImgs[rTypes[i]].angle = i / NofResources * 360 -135;
@@ -113,8 +108,8 @@ class Planet extends Button implements Observer
 			}
 			
 		}
-		for (key in planetResources.types()){
-			statsImgs[key].scale.x = 0.445/300*size* ((planetResources.get(key)>0?planetResources.get(key)+1:0) + maxResource) / maxResource * (popupResources/10);
+		for (key in resources.types()){
+			statsImgs[key].scale.x = 0.445/300*size* ((resources.get(key)>0?resources.get(key)+1:0) + maxResource) / maxResource * (popupResources/10);
 			statsImgs[key].scale.y = statsImgs[key].scale.x;
 		}
 	}
@@ -125,7 +120,7 @@ class Planet extends Button implements Observer
 		if (showResources){
 			if (popupResources < 10){
 				if (popupResources==0)
-					for (key in planetResources.types())
+					for (key in resources.types())
 						statsImgs[key].visible = true;
 				popupResources += 1;
 				updateStatsImg();
@@ -135,7 +130,7 @@ class Planet extends Button implements Observer
 				popupResources -= 1;
 				updateStatsImg();
 				if (popupResources==0)
-					for (key in planetResources.types())
+					for (key in resources.types())
 						statsImgs[key].visible = false;
 			}
 		}
@@ -147,12 +142,31 @@ class Planet extends Button implements Observer
 	public function setOwner(player:Player)
 	{
 		owner = player;
-		planetSubject = new Subject(owner);
+		planetSubject = new Subject([owner]);
 	}
+	
 	public function upkeep()
 	{
-		planetSubject.notify(new ResourceEvent(planetSubject,planetResources, ResourceEventType.Gain));
+		planetSubject.notify(new ResourceEvent(planetSubject,resources, ResourceEventType.Gain));
 	}
+	public function reportIncome()
+	{
+		planetSubject.notify(new ResourceEvent(planetSubject,resources, ResourceEventType.Update));
+	}
+	public function updatePlayers()
+	{
+		Groups.planets.updatePlayers();
+	}
+	
+	public function getID():Int
+	{
+		return planetSubject.getID();
+	}
+	public function setID(newID:Int)
+	{
+		planetSubject.setID(newID);
+	}
+	
 	public function lock()
 	{
 		locked = true;
@@ -184,8 +198,8 @@ class Planet extends Button implements Observer
 							}
 							case MouseEventType.RightJustClicked:{
 								for (key in ResourceTypes.types){
-									if (planetResources.get(key) == null){
-										planetResources.setResource(key, 1);
+									if (resources.get(key) == null){
+										resources.setResource(key, 1);
 										break;
 									}
 								}
@@ -208,27 +222,27 @@ class Planet extends Button implements Observer
 				{
 					case Gain:{
 						trace("Gain");
-						planetResources.add(resourceEvent.resources);
+						resources.add(resourceEvent.resources);
 						updateStatsImg();
 					}
 					case Lose:{
 						trace("Lose");
 						if (resourceEvent.returnCall!=null){
-							resourceEvent.returnCall(planetResources.remove(resourceEvent.resources));
+							resourceEvent.returnCall(resources.remove(resourceEvent.resources));
 						}else{
-							planetResources.remove(resourceEvent.resources);
+							resources.remove(resourceEvent.resources);
 						}
 						updateStatsImg();
 					}
 					case LoseNoCheck:{
 						trace("LoseNoCheck");
-						planetResources.remove(resourceEvent.resources, false);
+						resources.remove(resourceEvent.resources, false);
 						updateStatsImg();
 					}
 					case Check:{
 						trace("Check");
 						if (resourceEvent.returnCall!=null){
-							resourceEvent.returnCall(planetResources.check(resourceEvent.resources));
+							resourceEvent.returnCall(resources.check(resourceEvent.resources));
 						}
 					}
 					default:null;

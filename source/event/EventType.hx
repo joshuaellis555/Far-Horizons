@@ -7,4 +7,5 @@ enum EventType
 {
 	Mouse;
 	Resource;
+	Merchant;
 }

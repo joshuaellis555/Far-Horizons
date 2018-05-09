@@ -1,4 +1,5 @@
 package resources;
+import event.Event;
 import flixel.util.FlxColor;
 import resources.ResourceTypes;
 
@@ -6,9 +7,11 @@ import resources.ResourceTypes;
  * ...
  * @author ...
  */
-class Resources 
+class Resources implements ResourceEnabled
 {
 	private var ResourceMap:Map<FlxColor, Null<Int>>;
+	
+	public var resources:Resources;
 	
 	public function new(resources:Array<Null<Int>>) 
 	{
@@ -20,6 +23,8 @@ class Resources
 		for (i in resources.length...ResourceTypes.types.length){
 			ResourceMap[ResourceTypes.types[i]] = null;
 		}
+		
+		this.resources = this;
 	}
 	
 	public function get(type:FlxColor):Null<Int>
@@ -54,28 +59,38 @@ class Resources
 		if (ResourceMap[type] > 9999) ResourceMap[type] = 9999;
 	}
 	
-	public function remove(resources:Resources,?check:Bool=true):Bool
+	public function remove(resources:Resources,?check:Bool=true,?allowNeg:Bool=false):Array<Bool>
 	{
-		if (check){
+		if (allowNeg){
 			for (type in ResourceTypes.types)
 			{
 				if (resources.get(type) == null) continue;
-				if (ResourceMap[type] == null) return false;
+				if (ResourceMap[type] == null) return [false];
+				ResourceMap[type] -= resources.get(type);
+			}
+		}else if (check){
+			for (type in ResourceTypes.types)
+			{
+				trace(ResourceMap[type] , resources.get(type));
+				if (resources.get(type) == null) continue;
+				if (ResourceMap[type] == null) return [false];
 				
 				if (ResourceMap[type] < resources.get(type))
 				{
-					return false;
+					return [false];
 				}
 			}
 			for (type in ResourceTypes.types)
 			{
+				if (resources.get(type) == null) continue;
+				if (ResourceMap[type] == null) continue;
 				ResourceMap[type] -= resources.get(type);
 			}
 		}else{
 			for (type in ResourceTypes.types)
 			{
 				if (resources.get(type) == null) continue;
-				if (ResourceMap[type] == null) return false;
+				if (ResourceMap[type] == null) return [false];
 				
 				if (ResourceMap[type] < resources.get(type)){
 					ResourceMap[type] = 0;
@@ -84,15 +99,17 @@ class Resources
 				}
 			}
 		}
-		return true;
+		return [true];
 	}
-	public function removeResource(type:FlxColor, value:Int,?check:Bool=true):Bool
+	public function removeResource(type:FlxColor, value:Int,?check:Bool=true,?allowNeg:Bool=false):Array<Bool>
 	{
-		if (ResourceMap[type] == null) return false;
-		if (check){
+		if (ResourceMap[type] == null) return [false];
+		if (allowNeg){
+			ResourceMap[type] -= value;
+		}else if (check){
 			if (ResourceMap[type] < value)
 			{
-				return false;
+				return [false];
 			}
 			ResourceMap[type] -= value;
 		}else{
@@ -102,22 +119,22 @@ class Resources
 				ResourceMap[type] -= value;
 			}
 		}
-		return true;
+		return [true];
 	}
 	
-	public function check(resources:Resources):Bool
+	public function check(resources:Resources):Array<Bool>
 	{
 		for (type in ResourceTypes.types)
 		{
 			if (resources.get(type) == null) continue;
-			if (ResourceMap[type] == null) return false;
+			if (ResourceMap[type] == null) return [false];
 			
 			if (ResourceMap[type] < resources.get(type))
 			{
-				return false;
+				return [false];
 			}
 		}
-		return true;
+		return [true];
 	}
 	
 	public function length():Int
@@ -140,4 +157,5 @@ class Resources
 		return a;
 	}
 
+	public function onNotify(event:Event):Void{}
 }

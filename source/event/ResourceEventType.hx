@@ -9,4 +9,5 @@ enum ResourceEventType
 	Lose;
 	LoseNoCheck;
 	Check;
+	Update;
 }

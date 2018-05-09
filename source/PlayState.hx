@@ -1,24 +1,19 @@
 package;
-
+import arbiters.Merchant;
 import button.Button;
 import event.Event;
-import event.EventType;
 import event.MouseEvent;
-import event.ResourceEvent;
-import event.ResourceEventType;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.FlxGraphic;
+import flixel.FlxState;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import groups.Groups;
 import observer.Observer;
-import observer.Subject;
 import planets.Planet;
-import flixel.FlxState;
 import planets.PlanetType;
-import planets.Planets;
 import player.Player;
 import resources.ResourceTypes;
 import resources.Resources;
@@ -27,72 +22,78 @@ class PlayState extends FlxState implements Observer
 {
 	public var activePlayer:Player;
 	
-	private var planets:Planets;
-	
 	var mapCam:FlxCamera; //The camera that renders the tilemap being drawn
-	var uiCam:FlxCamera; //The camera that renders the UI elements
 	var bgCam:FlxCamera; //The camera that renders background elements
 	var planetCam:FlxCamera; //The camera that renders the planet in PlanetMenu
+	var menuBgCam:FlxCamera; //The camera that renders the bg element in menus
 	var menuCam:FlxCamera; //The camera that renders the UI elements in menus
+	var uiCam:FlxCamera; //The camera that renders the UI elements
 	
 	var grabbedPos:FlxPoint = new FlxPoint( -1, -1); //For camera scrolling
-	var initialScroll:FlxPoint = new FlxPoint(0, 0); //Ditto ^
 	
-	var uiText:Map<FlxColor,FlxText>;
+	var uiTextIncome:Map<FlxColor,FlxText>;
+	var uiTextResources:Map<FlxColor,FlxText>;
+	
+	var uiMouseText:FlxText;
+	var mouseOn:Int=0;
+	
+	var merchant:Merchant = new Merchant();
 	
 	override public function create():Void
 	{
 		trace("play");
 		super.create();
 		
-		activePlayer = new Player(new Resources([0, 0, 0, 0, 0]));
+		this.persistentUpdate = true;
 		
-		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		activePlayer = new Player(new Resources([1, 1, 1, 1, 1]));
+		
+		// ############### Cameras #########################
+		bgCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//1
+		bgCam.antialiasing = true;
+		
+		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//2
 		mapCam.bgColor = FlxColor.TRANSPARENT;
 		mapCam.antialiasing = true;
 		
-		bgCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
-		bgCam.antialiasing = true;
-		
-		uiCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
-		uiCam.bgColor = FlxColor.TRANSPARENT;
-		uiCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
-		uiCam.antialiasing = true;
-		
-		planetCam = new FlxCamera(0,0,FlxG.width,FlxG.height);
+		planetCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//3
 		planetCam.bgColor = FlxColor.TRANSPARENT;
 		planetCam.antialiasing = true;
 		
-		menuCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		menuBgCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//4
+		menuBgCam.bgColor = FlxColor.TRANSPARENT;
+		menuBgCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
+		menuBgCam.antialiasing = true;
+		
+		menuCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//5
 		menuCam.bgColor = FlxColor.TRANSPARENT;
 		menuCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		menuCam.antialiasing = true;
 		
+		uiCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//6
+		uiCam.bgColor = FlxColor.TRANSPARENT;
+		uiCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
+		uiCam.antialiasing = true;
+		
 		FlxG.camera.antialiasing = true;
 		
-		FlxG.cameras.add(bgCam);
-		FlxG.cameras.add(mapCam);
-		FlxG.cameras.add(uiCam);
-		FlxG.cameras.add(planetCam);
-		FlxG.cameras.add(menuCam);
+		FlxG.cameras.add(bgCam);//1
+		FlxG.cameras.add(mapCam);//2
+		FlxG.cameras.add(planetCam);//3
+		FlxG.cameras.add(menuBgCam);//4
+		FlxG.cameras.add(menuCam);//5
+		FlxG.cameras.add(uiCam);//6
+		// ################################################
 		
 		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,99,bgCam,AssetPaths.Stars__png, 4096, 2304);
 		add(background);
 		
-		planets = new Planets();
+		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),200,PlanetType.GREEN,activePlayer, new Resources([13,2,8,0,7]), new Resources([1,1,1,1,1,1,1,1]));
 		
-		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),200,PlanetType.GREEN,activePlayer, new Resources([13,2,8,0,7]));
-		planets.addPlanet(planet);
-		
-		var planet = new Planet(0, 0,140,PlanetType.RED,activePlayer, new Resources([11,null,6,2,null]));
-		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, 0,140,PlanetType.PURPLE,activePlayer, new Resources([7,14,null,null,null]));
-		planets.addPlanet(planet);
-		var planet = new Planet(0, FlxG.height,140,PlanetType.BLUE,activePlayer, new Resources([7,15,null,4,1]));
-		planets.addPlanet(planet);
-		var planet = new Planet(FlxG.width, FlxG.height,140,PlanetType.GRAY,activePlayer, new Resources([null,null,7,null,null]));
-		planets.addPlanet(planet);
-		
+		var planet = new Planet(0, 0,140,PlanetType.RED,activePlayer, new Resources([11,null,6,2,null]), new Resources([1,1,1,1,1,1,1,1]));
+		var planet = new Planet(FlxG.width, 0,140,PlanetType.PURPLE,activePlayer, new Resources([7,14,null,null,null]), new Resources([1,1,1,1,1,1,1,1]));
+		var planet = new Planet(0, FlxG.height,140,PlanetType.BLUE,activePlayer, new Resources([7,15,null,4,1]), new Resources([1,1,1,1,1,1,1,1]));
+		var planet = new Planet(FlxG.width, FlxG.height,140,PlanetType.GRAY,activePlayer, new Resources([null,null,7,null,null]), new Resources([1,1,1,1,1,1,1,1]));
 		
 		var bar:FlxSprite = new FlxSprite();
 		bar.cameras = [uiCam];
@@ -100,12 +101,13 @@ class PlayState extends FlxState implements Observer
 		add(bar);
 		
 		var uiIcons = new Map<FlxColor, Button>(); 
-		uiText = new Map<FlxColor,FlxText>();
+		uiTextIncome = new Map<FlxColor,FlxText>();
+		uiTextResources = new Map<FlxColor,FlxText>();
 		var rTypes:Array<FlxColor> = ResourceTypes.types;
 		
 		for (i in 0...ResourceTypes.types.length)
 		{
-			uiIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[3], false, false, AssetPaths.Icons__jpg, true, 52, 52);
+			uiIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, uiCam, false, false, AssetPaths.Icons__png, true, 52, 52);
 			
 			uiIcons[rTypes[i]].antialiasing = true;
 			
@@ -115,19 +117,33 @@ class PlayState extends FlxState implements Observer
 			uiIcons[rTypes[i]].setPosition(i * 128, 0);
 			
 			
-			uiIcons[rTypes[i]].width *= 128 / 52;
+			uiIcons[rTypes[i]].width = 128;
 			
 			add(uiIcons[rTypes[i]]);
 			
-			uiText[rTypes[i]] = new FlxText(54 + i * 128, 22, 74, Std.string(activePlayer.playerResources.get(rTypes[i])), 22, true);
-			uiText[rTypes[i]].cameras = [uiCam];
-			add(uiText[rTypes[i]]);
+			uiTextIncome[rTypes[i]] = new FlxText(54 + i * 128, 1, 74, Std.string(activePlayer.resources.get(rTypes[i])), 20, true);
+			uiTextIncome[rTypes[i]].cameras = [uiCam];
+			uiTextIncome[rTypes[i]].color = 0x00ff00;
+			add(uiTextIncome[rTypes[i]]);
 			
-			if (activePlayer.playerResources.get(rTypes[i]) == null){
-				uiIcons[rTypes[i]].color = FlxColor.TRANSPARENT;
-				uiText[rTypes[i]].visible = false;
+			uiTextResources[rTypes[i]] = new FlxText(54 + i * 128, 24, 74, Std.string(activePlayer.resources.get(rTypes[i])), 20, true);
+			uiTextResources[rTypes[i]].cameras = [uiCam];
+			add(uiTextResources[rTypes[i]]);
+			
+			if (activePlayer.resources.get(rTypes[i]) == null){
+				uiIcons[rTypes[i]].visible = false;
+				uiTextIncome[rTypes[i]].visible = false;
+				uiTextResources[rTypes[i]].visible = false;
 			}
 		}
+		
+		uiMouseText = new FlxText(0, 0, 300, "", 20);
+		uiMouseText.cameras = [uiCam];
+		uiMouseText.color = 0x00ff00;
+		add(uiMouseText);
+		
+		Groups.planets.updatePlayers();
+		activePlayer.updateIncome();
 		
 		mapCam.zoom = 0.7;
 		bgCam.zoom = (mapCam.zoom + 39) /60;
@@ -155,17 +171,17 @@ class PlayState extends FlxState implements Observer
 			mapCam.scroll.subtractPoint(mousePosChange);
 			bgCam.scroll.subtract(mousePosChange.x / 40, mousePosChange.y / 40);
 		}
+		
+		uiMouseText.setPosition(FlxG.mouse.x, FlxG.mouse.y + 30);
+		
+		var income = activePlayer.income;
+		for (key in income.types()){
+			uiTextIncome[key].text = "+" + Std.string(income.get(key));
+			uiTextResources[key].text = Std.string(activePlayer.resources.get(key));
+		}
 	}
 	
-	private function upkeep()
-	{
-		for (planet in planets.members)
-		{
-			planet.upkeep();
-		}
-		for (key in ResourceTypes.types)
-			uiText[key].text = Std.string(activePlayer.playerResources.get(key));
-	}
+	
 	
 	/* INTERFACE observer.Observer */
 	
@@ -181,14 +197,20 @@ class PlayState extends FlxState implements Observer
 						case RightJustReleased:{
 							if (event.eventSource==99){
 								trace("upkeep");
-								upkeep();
-							}else{
-								trace(event.eventSource);
+								Groups.planets.upkeep();
+								for (key in ResourceTypes.types)
+									uiTextResources[key].text = Std.string(activePlayer.resources.get(key));
 							}
 						}
-						case LeftJustReleased:{
-							
-							
+						case MouseOver:{
+							if (event.eventSource < 8){
+								//uiMouseText.text = "   +" + Std.string(activePlayer.income.get(ResourceTypes.types[event.eventSource]));
+								mouseOn = event.eventSource;
+							}
+						}
+						case MouseOff:{
+							if (mouseOn==event.eventSource)
+								uiMouseText.text = "";
 						}
 						default:null;
 					}

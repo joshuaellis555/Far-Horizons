@@ -34,12 +34,12 @@ class Button extends FlxSprite
 			super(x, y);
 			this.loadGraphic(image, animated, imgW, imgH);
 		}
-		
-		this.cameras = [camera];
+		if (camera!=null)
+			this.cameras = [camera];
 		
 		FlxMouseEventManager.add(this, this.mouseDown, this.mouseUp, this.mouseOver, this.mouseOff, mouseChildren, true, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
 		buttons = [];
-		buttonSubject = new Subject(observer,id);
+		buttonSubject = new Subject([observer],id);
 	}
 	private function mouseDown(button:Button):Void
 	{
