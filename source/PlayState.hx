@@ -23,11 +23,11 @@ class PlayState extends FlxState implements Observer
 	public var activePlayer:Player;
 	
 	var mapCam:FlxCamera; //The camera that renders the tilemap being drawn
-	var bgCam:FlxCamera; //The camera that renders background elements
-	var planetCam:FlxCamera; //The camera that renders the planet in PlanetMenu
-	var menuBgCam:FlxCamera; //The camera that renders the bg element in menus
-	var menuCam:FlxCamera; //The camera that renders the UI elements in menus
 	var uiCam:FlxCamera; //The camera that renders the UI elements
+	var bgCam:FlxCamera; //The camera that renders background elements
+	var menuUiCam:FlxCamera; //The camera that renders the UI elements
+	var planetCam:FlxCamera; //The camera that renders the planet in PlanetMenu
+	var menuCam:FlxCamera; //The camera that renders the UI elements in menus
 	
 	var grabbedPos:FlxPoint = new FlxPoint( -1, -1); //For camera scrolling
 	
@@ -49,40 +49,40 @@ class PlayState extends FlxState implements Observer
 		activePlayer = new Player(new Resources([1, 1, 1, 1, 1]));
 		
 		// ############### Cameras #########################
-		bgCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//1
-		bgCam.antialiasing = true;
-		
-		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//2
+		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		mapCam.bgColor = FlxColor.TRANSPARENT;
 		mapCam.antialiasing = true;
 		
-		planetCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//3
+		bgCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		bgCam.antialiasing = true;
+		
+		menuUiCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		menuUiCam.bgColor = FlxColor.TRANSPARENT;
+		menuUiCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
+		menuUiCam.antialiasing = true;
+		
+		planetCam = new FlxCamera(0,0,FlxG.width,FlxG.height);
 		planetCam.bgColor = FlxColor.TRANSPARENT;
 		planetCam.antialiasing = true;
 		
-		menuBgCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//4
-		menuBgCam.bgColor = FlxColor.TRANSPARENT;
-		menuBgCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
-		menuBgCam.antialiasing = true;
-		
-		menuCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//5
+		menuCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		menuCam.bgColor = FlxColor.TRANSPARENT;
 		menuCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		menuCam.antialiasing = true;
 		
-		uiCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);//6
+		uiCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		uiCam.bgColor = FlxColor.TRANSPARENT;
 		uiCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		uiCam.antialiasing = true;
 		
 		FlxG.camera.antialiasing = true;
 		
-		FlxG.cameras.add(bgCam);//1
-		FlxG.cameras.add(mapCam);//2
-		FlxG.cameras.add(planetCam);//3
-		FlxG.cameras.add(menuBgCam);//4
-		FlxG.cameras.add(menuCam);//5
-		FlxG.cameras.add(uiCam);//6
+		FlxG.cameras.add(bgCam);
+		FlxG.cameras.add(mapCam);
+		FlxG.cameras.add(menuUiCam);
+		FlxG.cameras.add(planetCam);
+		FlxG.cameras.add(menuCam);
+		FlxG.cameras.add(uiCam);
 		// ################################################
 		
 		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,99,bgCam,AssetPaths.Stars__png, 4096, 2304);
@@ -100,7 +100,7 @@ class PlayState extends FlxState implements Observer
 		bar.makeGraphic(1024, 52, FlxColor.GRAY);
 		add(bar);
 		
-		var uiIcons = new Map<FlxColor, Button>(); 
+		var uiIcons = new Map<FlxColor, Button>();
 		uiTextIncome = new Map<FlxColor,FlxText>();
 		uiTextResources = new Map<FlxColor,FlxText>();
 		var rTypes:Array<FlxColor> = ResourceTypes.types;

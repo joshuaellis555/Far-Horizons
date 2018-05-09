@@ -52,16 +52,16 @@ class PlanetMenu extends Menu implements Observer
 	{
 		super.create();
 		trace("menu");
-		background = new Button(FlxG.width, FlxG.height, 0, 0 , color, this, 99, FlxG.cameras.list[4]);
+		background = new Button(FlxG.width, FlxG.height, 0, 0 , color, this, 99, FlxG.cameras.list[3]);
 		background.alpha = alpha;
 		add(background);
 		
-		FlxG.cameras.list[5].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
-		trace(FlxG.cameras.list[5].scroll);
+		FlxG.cameras.list[4].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width/2, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
+		//trace(FlxG.cameras.list[4].scroll);
 		
-		myPlanet.cameras.push(FlxG.cameras.list[5]);
+		myPlanet.cameras.push(FlxG.cameras.list[4]);
 		for (key in myPlanet.resources.types())
-			myPlanet.statsImgs[key].cameras.push(FlxG.cameras.list[5]);
+			myPlanet.statsImgs[key].cameras.push(FlxG.cameras.list[4]);
 		
 	// ######### icons ############
 		upgradeIcons = new Map<FlxColor, Button>(); 
@@ -69,7 +69,7 @@ class PlanetMenu extends Menu implements Observer
 		
 		for (i in 0...ResourceTypes.types.length)
 		{
-			upgradeIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[6], false, false, AssetPaths.Icons__png, true, 52, 52);
+			upgradeIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[5], false, false, AssetPaths.Icons__png, true, 52, 52);
 			
 			upgradeIcons[rTypes[i]].antialiasing = true;
 			upgradeIcons[rTypes[i]].visible = false;
