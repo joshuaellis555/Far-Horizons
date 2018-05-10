@@ -34,12 +34,12 @@ class Button extends FlxSprite
 			super(x, y);
 			this.loadGraphic(image, animated, imgW, imgH);
 		}
-		
-		this.cameras = [camera];
+		if (camera!=null)
+			this.cameras = [camera];
 		
 		FlxMouseEventManager.add(this, this.mouseDown, this.mouseUp, this.mouseOver, this.mouseOff, mouseChildren, true, pixelPerfect, [FlxMouseButtonID.LEFT, FlxMouseButtonID.RIGHT]);
 		buttons = [];
-		buttonSubject = new Subject(observer,id);
+		buttonSubject = new Subject([observer],id);
 	}
 	private function mouseDown(button:Button):Void
 	{
@@ -69,10 +69,12 @@ class Button extends FlxSprite
 	}
 	override public function update(elapsed:Float):Void
 	{
+		//trace(FlxG.cameras.list[5].scroll,"button1");
 		super.update(elapsed);
 		if (buttons.length > 0){
 			buttonSubject.notify(new MouseEvent(buttonSubject,buttons));
 			buttons = [];
 		}
+		//trace(FlxG.cameras.list[5].scroll,"button");
 	}
 }
