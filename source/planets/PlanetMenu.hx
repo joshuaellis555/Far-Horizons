@@ -113,9 +113,9 @@ class PlanetMenu extends Menu implements Observer
 					switch(mouseEvent)
 					{
 						case LeftJustReleased:{
-							trace("upgrade");
 							var type:Int = event.eventSource;
 							if (type < ResourceTypes.types.length){
+								trace("upgrade");
 								//menuSubject.notify(new ResourceEvent(menuSubject, new Resources([for (i in 0...ResourceTypes.types.length) i == id ? 1 : null]), ResourceEventType.Gain));
 								var upgrade:Resources = new Resources([for (i in 0...ResourceTypes.types.length) i == type ? 1 : null]);
 								var cost:Resources = new Resources([for (i in 0...ResourceTypes.types.length) i == type ? myPlanet.resources.get(ResourceTypes.types[type])+1 : null]);
@@ -134,6 +134,7 @@ class PlanetMenu extends Menu implements Observer
 									myPlanet.statsImgs[key].cameras.pop();
 								//myPlanet.updatePlayers();
 								//myPlanet.getOwner().updateIncome();
+								myPlanet.showResources = false;
 								close();
 							}
 						}

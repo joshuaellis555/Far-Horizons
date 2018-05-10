@@ -35,7 +35,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	public var statsImgs:Map<FlxColor, FlxSprite>;
 	private var maxResource = 20;
 	private var popupResources:Int = 0;
-	private var showResources:Bool = false;
+	public var showResources:Bool = false;
 	private var NofResources:Int = 0;
 	
 	public var size:Int;
