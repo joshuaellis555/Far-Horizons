@@ -11,6 +11,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxPoint;
+import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import observer.Observer;
 import observer.Subject;
@@ -19,6 +20,7 @@ import flixel.FlxState;
 import planets.PlanetType;
 import planets.Planets;
 import player.Player;
+import resources.ResourceTypes;
 import resources.Resources;
 
 class PlayState extends FlxState implements Observer
@@ -26,24 +28,24 @@ class PlayState extends FlxState implements Observer
 	public var activePlayer:Player;
 	
 	private var planets:Planets;
-	private var originX:Float = 0;
-	private var originY:Float = 0;
 	
 	var mapCam:FlxCamera; //The camera that renders the tilemap being drawn
 	var uiCam:FlxCamera; //The camera that renders the UI elements
 	var bgCam:FlxCamera; //The camera that renders background elements
+	var planetCam:FlxCamera; //The camera that renders the planet in PlanetMenu
+	var menuCam:FlxCamera; //The camera that renders the UI elements in menus
 	
 	var grabbedPos:FlxPoint = new FlxPoint( -1, -1); //For camera scrolling
 	var initialScroll:FlxPoint = new FlxPoint(0, 0); //Ditto ^
 	
-	var img:FlxSprite;
+	var uiText:Map<FlxColor,FlxText>;
 	
 	override public function create():Void
 	{
 		trace("play");
 		super.create();
 		
-		activePlayer = new Player();
+		activePlayer = new Player(new Resources([0, 0, 0, 0, 0]));
 		
 		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		mapCam.bgColor = FlxColor.TRANSPARENT;
@@ -57,13 +59,24 @@ class PlayState extends FlxState implements Observer
 		uiCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		uiCam.antialiasing = true;
 		
+		planetCam = new FlxCamera(0,0,FlxG.width,FlxG.height);
+		planetCam.bgColor = FlxColor.TRANSPARENT;
+		planetCam.antialiasing = true;
+		
+		menuCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		menuCam.bgColor = FlxColor.TRANSPARENT;
+		menuCam.setScrollBounds(0, FlxG.width, 0, FlxG.height);
+		menuCam.antialiasing = true;
+		
 		FlxG.camera.antialiasing = true;
 		
 		FlxG.cameras.add(bgCam);
 		FlxG.cameras.add(mapCam);
 		FlxG.cameras.add(uiCam);
+		FlxG.cameras.add(planetCam);
+		FlxG.cameras.add(menuCam);
 		
-		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,bgCam,AssetPaths.Stars__png, 4096, 2304);
+		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,99,bgCam,AssetPaths.Stars__png, 4096, 2304);
 		add(background);
 		
 		planets = new Planets();
@@ -80,7 +93,43 @@ class PlayState extends FlxState implements Observer
 		var planet = new Planet(FlxG.width, FlxG.height,140,PlanetType.GRAY,activePlayer, new Resources([null,null,7,null,null]));
 		planets.addPlanet(planet);
 		
-		mapCam.zoom = 1;
+		
+		var bar:FlxSprite = new FlxSprite();
+		bar.cameras = [uiCam];
+		bar.makeGraphic(1024, 52, FlxColor.GRAY);
+		add(bar);
+		
+		var uiIcons = new Map<FlxColor, Button>(); 
+		uiText = new Map<FlxColor,FlxText>();
+		var rTypes:Array<FlxColor> = ResourceTypes.types;
+		
+		for (i in 0...ResourceTypes.types.length)
+		{
+			uiIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, FlxG.cameras.list[3], false, false, AssetPaths.Icons__jpg, true, 52, 52);
+			
+			uiIcons[rTypes[i]].antialiasing = true;
+			
+			uiIcons[rTypes[i]].animation.add(Std.string(rTypes[i]), [i], 1, false);
+			uiIcons[rTypes[i]].animation.play(Std.string(rTypes[i]));
+			
+			uiIcons[rTypes[i]].setPosition(i * 128, 0);
+			
+			
+			uiIcons[rTypes[i]].width *= 128 / 52;
+			
+			add(uiIcons[rTypes[i]]);
+			
+			uiText[rTypes[i]] = new FlxText(54 + i * 128, 22, 74, Std.string(activePlayer.playerResources.get(rTypes[i])), 22, true);
+			uiText[rTypes[i]].cameras = [uiCam];
+			add(uiText[rTypes[i]]);
+			
+			if (activePlayer.playerResources.get(rTypes[i]) == null){
+				uiIcons[rTypes[i]].color = FlxColor.TRANSPARENT;
+				uiText[rTypes[i]].visible = false;
+			}
+		}
+		
+		mapCam.zoom = 0.7;
 		bgCam.zoom = (mapCam.zoom + 39) /60;
 	}
 
@@ -92,7 +141,7 @@ class PlayState extends FlxState implements Observer
 		{
 			mapCam.zoom = Math.min(Math.max(0.1, mapCam.zoom + (FlxG.mouse.wheel / Math.abs(FlxG.mouse.wheel) * mapCam.zoom / 4)), 1);
 			bgCam.zoom = (mapCam.zoom + 39) / 60;
-			if (FlxG.mouse.wheel>0){
+			if (FlxG.mouse.wheel>0 && mapCam.zoom < 1){
 				var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(mapCam).subtractPoint(grabbedPos);
 				mapCam.scroll.subtractPoint(mousePosChange);
 				bgCam.scroll.subtract(mousePosChange.x/40,mousePosChange.y/40);
@@ -108,6 +157,16 @@ class PlayState extends FlxState implements Observer
 		}
 	}
 	
+	private function upkeep()
+	{
+		for (planet in planets.members)
+		{
+			planet.upkeep();
+		}
+		for (key in ResourceTypes.types)
+			uiText[key].text = Std.string(activePlayer.playerResources.get(key));
+	}
+	
 	/* INTERFACE observer.Observer */
 	
 	public function onNotify(event:Event):Void 
@@ -120,11 +179,16 @@ class PlayState extends FlxState implements Observer
 					switch(mouseEvent)
 					{
 						case RightJustReleased:{
-							trace("upkeep");
-							for (planet in planets.members)
-							{
-								planet.upkeep();
+							if (event.eventSource==99){
+								trace("upkeep");
+								upkeep();
+							}else{
+								trace(event.eventSource);
 							}
+						}
+						case LeftJustReleased:{
+							
+							
 						}
 						default:null;
 					}

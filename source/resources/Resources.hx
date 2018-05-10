@@ -45,11 +45,13 @@ class Resources
 		for (type in ResourceTypes.types)
 		{
 			if (ResourceMap[type] != null && resources.get(type) != null) ResourceMap[type] += resources.get(type);
+			if (ResourceMap[type] > 9999) ResourceMap[type] = 9999;
 		}
 	}
 	public function addResource(type:FlxColor, value:Int)
 	{
 		if (ResourceMap[type] != null) ResourceMap[type] += value;
+		if (ResourceMap[type] > 9999) ResourceMap[type] = 9999;
 	}
 	
 	public function remove(resources:Resources,?check:Bool=true):Bool

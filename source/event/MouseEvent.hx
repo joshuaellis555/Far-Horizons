@@ -13,9 +13,9 @@ class MouseEvent extends Event
 {
 	public var mouseEvents:Array<MouseEventType>;
 	
-	public function new(subject:Subject, events:Array<MouseEventType>, ?id:Int=0)
+	public function new(subject:Subject, events:Array<MouseEventType>)
 	{
-		super(id,EventType.Mouse);
+		super(subject.getID(),EventType.Mouse);
 		mouseEvents = events;
 	}
 	

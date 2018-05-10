@@ -13,10 +13,10 @@ class ResourceEvent extends Event
 	public var transactionType:ResourceEventType;
 	public var returnCall:Null<Bool->Bool>;
 	
-	public function new(rresources:Resources, type:ResourceEventType, ?ret:Null<Bool->Bool>=null, ?id:Int=0) 
+	public function new(subject:Subject,resources:Resources, type:ResourceEventType, ?ret:Null<Bool->Bool>=null) 
 	{
-		super(id,EventType.Resource);
-		resources = rresources;
+		super(subject.getID(),EventType.Resource);
+		this.resources = resources;
 		transactionType = type;
 		returnCall = ret;
 	}
