@@ -7,5 +7,4 @@ import resources.Resources;
 interface ResourceEnabled 
 {
 	public var resources:Resources;
-	public function onNotify(event:Event):Void;
 }

@@ -1,5 +1,4 @@
 package;
-import arbiters.Merchant;
 import button.Button;
 import event.Event;
 import event.MouseEvent;
@@ -11,6 +10,7 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import groups.Groups;
+import neko.Random;
 import observer.Observer;
 import planets.Planet;
 import planets.PlanetType;
@@ -35,20 +35,20 @@ class PlayState extends FlxState implements Observer
 	var uiTextResources:Map<FlxColor,FlxText>;
 	
 	var uiMouseText:FlxText;
-	var mouseOn:Int=0;
+	var mouseOn:Int = 0;
 	
-	var merchant:Merchant = new Merchant();
+	var theta:Float = 0;
+	var planetlist:Array<Int> = [0, 1, 2, 3, 4, 5];
 	
 	override public function create():Void
 	{
-		trace("play");
 		super.create();
 		
 		this.persistentUpdate = true;
 		
-		activePlayer = new Player(new Resources([1, 1, 1, 1, 1]));
+		activePlayer = new Player(new Resources([0, 0, 0, 0, 0]));
 		
-		// ############### Cameras #########################
+		// ################### Cameras #######################
 		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		mapCam.bgColor = FlxColor.TRANSPARENT;
 		mapCam.antialiasing = true;
@@ -88,13 +88,9 @@ class PlayState extends FlxState implements Observer
 		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,99,bgCam,AssetPaths.Stars__png, 4096, 2304);
 		add(background);
 		
-		var planet = new Planet(Std.int(FlxG.width/2), Std.int(FlxG.height/2),200,PlanetType.GREEN,activePlayer, new Resources([13,2,8,0,7]), new Resources([1,1,1,1,1,1,1,1]));
-		
-		var planet = new Planet(0, 0,140,PlanetType.RED,activePlayer, new Resources([11,null,6,2,null]), new Resources([1,1,1,1,1,1,1,1]));
-		var planet = new Planet(FlxG.width, 0,140,PlanetType.PURPLE,activePlayer, new Resources([7,14,null,null,null]), new Resources([1,1,1,1,1,1,1,1]));
-		var planet = new Planet(0, FlxG.height,140,PlanetType.BLUE,activePlayer, new Resources([7,15,null,4,1]), new Resources([1,1,1,1,1,1,1,1]));
-		var planet = new Planet(FlxG.width, FlxG.height,140,PlanetType.GRAY,activePlayer, new Resources([null,null,7,null,null]), new Resources([1,1,1,1,1,1,1,1]));
-		
+		makePlanet();
+		makePlanet();
+			
 		var bar:FlxSprite = new FlxSprite();
 		bar.cameras = [uiCam];
 		bar.makeGraphic(1024, 52, FlxColor.GRAY);
@@ -115,7 +111,6 @@ class PlayState extends FlxState implements Observer
 			uiIcons[rTypes[i]].animation.play(Std.string(rTypes[i]));
 			
 			uiIcons[rTypes[i]].setPosition(i * 128, 0);
-			
 			
 			uiIcons[rTypes[i]].width = 128;
 			
@@ -142,17 +137,33 @@ class PlayState extends FlxState implements Observer
 		uiMouseText.color = 0x00ff00;
 		add(uiMouseText);
 		
+		Groups.planets.upkeep();
+		
 		Groups.planets.updatePlayers();
 		activePlayer.updateIncome();
 		
 		mapCam.zoom = 0.7;
-		bgCam.zoom = (mapCam.zoom + 39) /60;
+		bgCam.zoom = (mapCam.zoom + 39) / 60;
+	}
+	
+	private function makePlanet()
+	{
+		var t = 0;
+		if (planetlist.length < 6)
+			planetlist=planetlist.concat([0, 1, 2, 3, 4, 5]);
+		var n = Std.random(6);
+		t = planetlist[n];
+		planetlist.remove(planetlist[n]);
+		Groups.planets.addRandom(Std.int(Math.cos(theta) * (Std.int(theta + Std.random(1000) / 1000) * 60 + 200))+300, Std.int(Math.sin(theta) * (Std.int(theta + Std.random(1000) / 1000) * 60 + 200))+230, 100 + Std.random(50), cast t, activePlayer);
+		theta += 1/Std.int(theta/6.283+1) + Std.random(500) / 1000;
 	}
 
 	override public function update(elapsed:Float):Void
 	{
-		//trace(FlxG.cameras.list[5].scroll,"playstate1");
 		super.update(elapsed);
+		
+		var bounds:Array<Float> = Groups.planets.getCameraBounds();
+		bounds = [bounds[0] + FlxG.width / 2 * mapCam.zoom, bounds[1] - FlxG.width / 2 * mapCam.zoom, bounds[2] + FlxG.height / 2 * mapCam.zoom, bounds[3] - FlxG.height / 2 * mapCam.zoom];
 		
 		if (FlxG.mouse.wheel != 0)
 		{
@@ -161,7 +172,11 @@ class PlayState extends FlxState implements Observer
 			if (FlxG.mouse.wheel>0 && mapCam.zoom < 1){
 				var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(mapCam).subtractPoint(grabbedPos);
 				mapCam.scroll.subtractPoint(mousePosChange);
-				bgCam.scroll.subtract(mousePosChange.x/40,mousePosChange.y/40);
+				if (mapCam.scroll.x < bounds[0]) mapCam.scroll.x = bounds[0];
+				if (mapCam.scroll.x > bounds[1]) mapCam.scroll.x = bounds[1];
+				if (mapCam.scroll.y < bounds[2]) mapCam.scroll.y = bounds[2];
+				if (mapCam.scroll.y > bounds[3]) mapCam.scroll.y = bounds[3];
+				bgCam.scroll.set(mapCam.scroll.x/40,mapCam.scroll.y/40);
 			}
 		}
 		
@@ -170,7 +185,11 @@ class PlayState extends FlxState implements Observer
 		}else{
 			var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(mapCam).subtractPoint(grabbedPos);
 			mapCam.scroll.subtractPoint(mousePosChange);
-			bgCam.scroll.subtract(mousePosChange.x / 40, mousePosChange.y / 40);
+			if (mapCam.scroll.x < bounds[0]) mapCam.scroll.x = bounds[0];
+			if (mapCam.scroll.x > bounds[1]) mapCam.scroll.x = bounds[1];
+			if (mapCam.scroll.y < bounds[2]) mapCam.scroll.y = bounds[2];
+			if (mapCam.scroll.y > bounds[3]) mapCam.scroll.y = bounds[3];
+			bgCam.scroll.set(mapCam.scroll.x/40,mapCam.scroll.y/40);
 		}
 		
 		uiMouseText.setPosition(FlxG.mouse.x, FlxG.mouse.y + 30);
@@ -199,13 +218,16 @@ class PlayState extends FlxState implements Observer
 							if (event.eventSource==99){
 								trace("upkeep");
 								Groups.planets.upkeep();
+								makePlanet();
+								Groups.planets.updatePlayers();
+								activePlayer.updateIncome();
 								for (key in ResourceTypes.types)
 									uiTextResources[key].text = Std.string(activePlayer.resources.get(key));
+								
 							}
 						}
 						case MouseOver:{
 							if (event.eventSource < 8){
-								//uiMouseText.text = "   +" + Std.string(activePlayer.income.get(ResourceTypes.types[event.eventSource]));
 								mouseOn = event.eventSource;
 							}
 						}

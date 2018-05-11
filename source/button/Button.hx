@@ -69,12 +69,10 @@ class Button extends FlxSprite
 	}
 	override public function update(elapsed:Float):Void
 	{
-		//trace(FlxG.cameras.list[5].scroll,"button1");
 		super.update(elapsed);
 		if (buttons.length > 0){
 			buttonSubject.notify(new MouseEvent(buttonSubject,buttons));
 			buttons = [];
 		}
-		//trace(FlxG.cameras.list[5].scroll,"button");
 	}
 }
