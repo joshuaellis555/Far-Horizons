@@ -15,7 +15,6 @@ ApplicationMain.__name__ = ["ApplicationMain"];
 ApplicationMain.config = null;
 ApplicationMain.preloader = null;
 ApplicationMain.create = function() {
-	document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 	var app = new openfl_display_Application();
 	app.create(ApplicationMain.config);
 	var display = new flixel_system_FlxPreloader();
@@ -85,7 +84,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "1637", company : "", file : "Far-Horizons", fps : 60, name : "Far-Horizons", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 576, parameters : "{}", resizable : false, stencilBuffer : true, title : "Far-Horizons", vsync : true, width : 1024, x : null, y : null}]};
+	ApplicationMain.config = { build : "1640", company : "", file : "Far-Horizons", fps : 60, name : "Far-Horizons", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 576, parameters : "{}", resizable : false, stencilBuffer : true, title : "Far-Horizons", vsync : true, width : 1024, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -2031,6 +2030,9 @@ openfl_display_Sprite.prototype = $extend(openfl_display_DisplayObjectContainer.
 });
 var Main = function() {
 	openfl_display_Sprite.call(this);
+	document.oncontextmenu = document.body.oncontextmenu = function() {
+		return false;
+	};
 	this.addChild(new flixel_FlxGame(0,0,PlayState));
 };
 $hxClasses["Main"] = Main;
