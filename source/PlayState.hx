@@ -10,7 +10,6 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import groups.Groups;
-import neko.Random;
 import observer.Observer;
 import planets.Planet;
 import planets.PlanetType;

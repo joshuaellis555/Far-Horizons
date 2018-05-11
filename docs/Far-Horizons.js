@@ -15,6 +15,7 @@ ApplicationMain.__name__ = ["ApplicationMain"];
 ApplicationMain.config = null;
 ApplicationMain.preloader = null;
 ApplicationMain.create = function() {
+	document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 	var app = new openfl_display_Application();
 	app.create(ApplicationMain.config);
 	var display = new flixel_system_FlxPreloader();
@@ -26,13 +27,17 @@ ApplicationMain.create = function() {
 	var types = [];
 	urls.push("assets/data/data-goes-here.txt");
 	types.push("TEXT");
-	urls.push("assets/images/Icons.jpg");
+	urls.push("assets/images/Icons - Copy.png");
+	types.push("IMAGE");
+	urls.push("assets/images/Icons.png");
 	types.push("IMAGE");
 	urls.push("assets/images/images-go-here.txt");
 	types.push("TEXT");
-	urls.push("assets/images/imgPlanets.png");
+	urls.push("assets/images/Planets.png");
 	types.push("IMAGE");
 	urls.push("assets/images/Stars.png");
+	types.push("IMAGE");
+	urls.push("assets/images/uibar.png");
 	types.push("IMAGE");
 	urls.push("assets/images/Wedges.png");
 	types.push("IMAGE");
@@ -80,7 +85,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "911", company : "", file : "Far-Horizons", fps : 60, name : "Far-Horizons", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 576, parameters : "{}", resizable : false, stencilBuffer : true, title : "Far-Horizons", vsync : true, width : 1024, x : null, y : null}]};
+	ApplicationMain.config = { build : "1637", company : "", file : "Far-Horizons", fps : 60, name : "Far-Horizons", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 576, parameters : "{}", resizable : false, stencilBuffer : true, title : "Far-Horizons", vsync : true, width : 1024, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -2152,7 +2157,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this1.h[id] = value;
 	}
-	id = "assets/images/Icons.jpg";
+	id = "assets/images/Icons - Copy.png";
 	var _this2 = this.path;
 	if(__map_reserved[id] != null) {
 		_this2.setReserved(id,id);
@@ -2166,7 +2171,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this3.h[id] = value1;
 	}
-	id = "assets/images/images-go-here.txt";
+	id = "assets/images/Icons.png";
 	var _this4 = this.path;
 	if(__map_reserved[id] != null) {
 		_this4.setReserved(id,id);
@@ -2174,13 +2179,13 @@ var DefaultAssetLibrary = function() {
 		_this4.h[id] = id;
 	}
 	var _this5 = this.type;
-	var value2 = "TEXT";
+	var value2 = "IMAGE";
 	if(__map_reserved[id] != null) {
 		_this5.setReserved(id,value2);
 	} else {
 		_this5.h[id] = value2;
 	}
-	id = "assets/images/imgPlanets.png";
+	id = "assets/images/images-go-here.txt";
 	var _this6 = this.path;
 	if(__map_reserved[id] != null) {
 		_this6.setReserved(id,id);
@@ -2188,13 +2193,13 @@ var DefaultAssetLibrary = function() {
 		_this6.h[id] = id;
 	}
 	var _this7 = this.type;
-	var value3 = "IMAGE";
+	var value3 = "TEXT";
 	if(__map_reserved[id] != null) {
 		_this7.setReserved(id,value3);
 	} else {
 		_this7.h[id] = value3;
 	}
-	id = "assets/images/Stars.png";
+	id = "assets/images/Planets.png";
 	var _this8 = this.path;
 	if(__map_reserved[id] != null) {
 		_this8.setReserved(id,id);
@@ -2208,7 +2213,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this9.h[id] = value4;
 	}
-	id = "assets/images/Wedges.png";
+	id = "assets/images/Stars.png";
 	var _this10 = this.path;
 	if(__map_reserved[id] != null) {
 		_this10.setReserved(id,id);
@@ -2222,7 +2227,7 @@ var DefaultAssetLibrary = function() {
 	} else {
 		_this11.h[id] = value5;
 	}
-	id = "assets/music/music-goes-here.txt";
+	id = "assets/images/uibar.png";
 	var _this12 = this.path;
 	if(__map_reserved[id] != null) {
 		_this12.setReserved(id,id);
@@ -2230,13 +2235,13 @@ var DefaultAssetLibrary = function() {
 		_this12.h[id] = id;
 	}
 	var _this13 = this.type;
-	var value6 = "TEXT";
+	var value6 = "IMAGE";
 	if(__map_reserved[id] != null) {
 		_this13.setReserved(id,value6);
 	} else {
 		_this13.h[id] = value6;
 	}
-	id = "assets/sounds/sounds-go-here.txt";
+	id = "assets/images/Wedges.png";
 	var _this14 = this.path;
 	if(__map_reserved[id] != null) {
 		_this14.setReserved(id,id);
@@ -2244,13 +2249,13 @@ var DefaultAssetLibrary = function() {
 		_this14.h[id] = id;
 	}
 	var _this15 = this.type;
-	var value7 = "TEXT";
+	var value7 = "IMAGE";
 	if(__map_reserved[id] != null) {
 		_this15.setReserved(id,value7);
 	} else {
 		_this15.h[id] = value7;
 	}
-	id = "flixel/sounds/beep.ogg";
+	id = "assets/music/music-goes-here.txt";
 	var _this16 = this.path;
 	if(__map_reserved[id] != null) {
 		_this16.setReserved(id,id);
@@ -2258,13 +2263,13 @@ var DefaultAssetLibrary = function() {
 		_this16.h[id] = id;
 	}
 	var _this17 = this.type;
-	var value8 = "SOUND";
+	var value8 = "TEXT";
 	if(__map_reserved[id] != null) {
 		_this17.setReserved(id,value8);
 	} else {
 		_this17.h[id] = value8;
 	}
-	id = "flixel/sounds/flixel.ogg";
+	id = "assets/sounds/sounds-go-here.txt";
 	var _this18 = this.path;
 	if(__map_reserved[id] != null) {
 		_this18.setReserved(id,id);
@@ -2272,69 +2277,97 @@ var DefaultAssetLibrary = function() {
 		_this18.h[id] = id;
 	}
 	var _this19 = this.type;
-	var value9 = "SOUND";
+	var value9 = "TEXT";
 	if(__map_reserved[id] != null) {
 		_this19.setReserved(id,value9);
 	} else {
 		_this19.h[id] = value9;
 	}
-	id = "flixel/fonts/nokiafc22.ttf";
-	var _this20 = this.className;
-	var value10 = _$_$ASSET_$_$flixel_$fonts_$nokiafc22_$ttf;
+	id = "flixel/sounds/beep.ogg";
+	var _this20 = this.path;
 	if(__map_reserved[id] != null) {
-		_this20.setReserved(id,value10);
+		_this20.setReserved(id,id);
 	} else {
-		_this20.h[id] = value10;
+		_this20.h[id] = id;
 	}
 	var _this21 = this.type;
-	var value11 = "FONT";
+	var value10 = "SOUND";
 	if(__map_reserved[id] != null) {
-		_this21.setReserved(id,value11);
+		_this21.setReserved(id,value10);
 	} else {
-		_this21.h[id] = value11;
+		_this21.h[id] = value10;
 	}
-	id = "flixel/fonts/monsterrat.ttf";
-	var _this22 = this.className;
-	var value12 = _$_$ASSET_$_$flixel_$fonts_$monsterrat_$ttf;
+	id = "flixel/sounds/flixel.ogg";
+	var _this22 = this.path;
 	if(__map_reserved[id] != null) {
-		_this22.setReserved(id,value12);
+		_this22.setReserved(id,id);
 	} else {
-		_this22.h[id] = value12;
+		_this22.h[id] = id;
 	}
 	var _this23 = this.type;
-	var value13 = "FONT";
+	var value11 = "SOUND";
 	if(__map_reserved[id] != null) {
-		_this23.setReserved(id,value13);
+		_this23.setReserved(id,value11);
 	} else {
-		_this23.h[id] = value13;
+		_this23.h[id] = value11;
 	}
-	id = "flixel/images/ui/button.png";
-	var _this24 = this.path;
+	id = "flixel/fonts/nokiafc22.ttf";
+	var _this24 = this.className;
+	var value12 = _$_$ASSET_$_$flixel_$fonts_$nokiafc22_$ttf;
 	if(__map_reserved[id] != null) {
-		_this24.setReserved(id,id);
+		_this24.setReserved(id,value12);
 	} else {
-		_this24.h[id] = id;
+		_this24.h[id] = value12;
 	}
 	var _this25 = this.type;
-	var value14 = "IMAGE";
+	var value13 = "FONT";
 	if(__map_reserved[id] != null) {
-		_this25.setReserved(id,value14);
+		_this25.setReserved(id,value13);
 	} else {
-		_this25.h[id] = value14;
+		_this25.h[id] = value13;
 	}
-	id = "flixel/images/logo/default.png";
-	var _this26 = this.path;
+	id = "flixel/fonts/monsterrat.ttf";
+	var _this26 = this.className;
+	var value14 = _$_$ASSET_$_$flixel_$fonts_$monsterrat_$ttf;
 	if(__map_reserved[id] != null) {
-		_this26.setReserved(id,id);
+		_this26.setReserved(id,value14);
 	} else {
-		_this26.h[id] = id;
+		_this26.h[id] = value14;
 	}
 	var _this27 = this.type;
-	var value15 = "IMAGE";
+	var value15 = "FONT";
 	if(__map_reserved[id] != null) {
 		_this27.setReserved(id,value15);
 	} else {
 		_this27.h[id] = value15;
+	}
+	id = "flixel/images/ui/button.png";
+	var _this28 = this.path;
+	if(__map_reserved[id] != null) {
+		_this28.setReserved(id,id);
+	} else {
+		_this28.h[id] = id;
+	}
+	var _this29 = this.type;
+	var value16 = "IMAGE";
+	if(__map_reserved[id] != null) {
+		_this29.setReserved(id,value16);
+	} else {
+		_this29.h[id] = value16;
+	}
+	id = "flixel/images/logo/default.png";
+	var _this30 = this.path;
+	if(__map_reserved[id] != null) {
+		_this30.setReserved(id,id);
+	} else {
+		_this30.h[id] = id;
+	}
+	var _this31 = this.type;
+	var value17 = "IMAGE";
+	if(__map_reserved[id] != null) {
+		_this31.setReserved(id,value17);
+	} else {
+		_this31.h[id] = value17;
 	}
 	var assetsPrefix = null;
 	if(ApplicationMain.config != null && Object.prototype.hasOwnProperty.call(ApplicationMain.config,"assetsPrefix")) {
@@ -2345,13 +2378,13 @@ var DefaultAssetLibrary = function() {
 		while(k.hasNext()) {
 			var k1 = k.next();
 			var this1 = this.path;
-			var _this28 = this.path;
-			var value16 = assetsPrefix + (__map_reserved[k1] != null ? _this28.getReserved(k1) : _this28.h[k1]);
-			var _this29 = this1;
+			var _this32 = this.path;
+			var value18 = assetsPrefix + (__map_reserved[k1] != null ? _this32.getReserved(k1) : _this32.h[k1]);
+			var _this33 = this1;
 			if(__map_reserved[k1] != null) {
-				_this29.setReserved(k1,value16);
+				_this33.setReserved(k1,value18);
 			} else {
-				_this29.h[k1] = value16;
+				_this33.h[k1] = value18;
 			}
 		}
 	}
@@ -3559,10 +3592,10 @@ observer_Observer.prototype = {
 	__class__: observer_Observer
 };
 var PlayState = function(MaxSize) {
-	this.initialScroll = new flixel_math_FlxPoint(0,0);
+	this.planetlist = [0,1,2,3,4,5];
+	this.theta = 0;
+	this.mouseOn = 0;
 	this.grabbedPos = new flixel_math_FlxPoint(-1,-1);
-	this.originY = 0;
-	this.originX = 0;
 	flixel_FlxState.call(this,MaxSize);
 };
 $hxClasses["PlayState"] = PlayState;
@@ -3571,14 +3604,25 @@ PlayState.__interfaces__ = [observer_Observer];
 PlayState.__super__ = flixel_FlxState;
 PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	create: function() {
-		haxe_Log.trace("play",{ fileName : "PlayState.hx", lineNumber : 43, className : "PlayState", methodName : "create"});
 		flixel_FlxState.prototype.create.call(this);
-		this.activePlayer = new player_Player();
+		this.persistentUpdate = true;
+		this.activePlayer = new player_Player(new resources_Resources([0,0,0,0,0]));
 		this.mapCam = new flixel_FlxCamera(0,0,flixel_FlxG.width,flixel_FlxG.height);
 		this.mapCam.bgColor = 0;
 		this.mapCam.set_antialiasing(true);
 		this.bgCam = new flixel_FlxCamera(0,0,flixel_FlxG.width,flixel_FlxG.height);
 		this.bgCam.set_antialiasing(true);
+		this.menuUiCam = new flixel_FlxCamera(0,0,flixel_FlxG.width,flixel_FlxG.height);
+		this.menuUiCam.bgColor = 0;
+		this.menuUiCam.setScrollBounds(0,flixel_FlxG.width,0,flixel_FlxG.height);
+		this.menuUiCam.set_antialiasing(true);
+		this.planetCam = new flixel_FlxCamera(0,0,flixel_FlxG.width,flixel_FlxG.height);
+		this.planetCam.bgColor = 0;
+		this.planetCam.set_antialiasing(true);
+		this.menuCam = new flixel_FlxCamera(0,0,flixel_FlxG.width,flixel_FlxG.height);
+		this.menuCam.bgColor = 0;
+		this.menuCam.setScrollBounds(0,flixel_FlxG.width,0,flixel_FlxG.height);
+		this.menuCam.set_antialiasing(true);
 		this.uiCam = new flixel_FlxCamera(0,0,flixel_FlxG.width,flixel_FlxG.height);
 		this.uiCam.bgColor = 0;
 		this.uiCam.setScrollBounds(0,flixel_FlxG.width,0,flixel_FlxG.height);
@@ -3586,42 +3630,100 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		flixel_FlxG.camera.set_antialiasing(true);
 		flixel_FlxG.cameras.add(this.bgCam);
 		flixel_FlxG.cameras.add(this.mapCam);
+		flixel_FlxG.cameras.add(this.menuUiCam);
+		flixel_FlxG.cameras.add(this.planetCam);
+		flixel_FlxG.cameras.add(this.menuCam);
 		flixel_FlxG.cameras.add(this.uiCam);
-		var background = new button_Button(flixel_FlxG.width * 4,flixel_FlxG.height * 4,-flixel_FlxG.width * 2 | 0,-flixel_FlxG.height * 2 | 0,-16777216,this,this.bgCam,null,null,"assets/images/Stars.png",4096,2304);
+		var background = new button_Button(flixel_FlxG.width * 4,flixel_FlxG.height * 4,-flixel_FlxG.width * 2 | 0,-flixel_FlxG.height * 2 | 0,-16777216,this,99,this.bgCam,null,null,"assets/images/Stars.png",null,4096,2304);
 		this.add(background);
-		this.planets = new planets_Planets();
-		var planet = new planets_Planet(flixel_FlxG.width / 2 | 0,flixel_FlxG.height / 2 | 0,200,planets_PlanetType.GREEN,this.activePlayer,new resources_Resources([13,2,8,0,7]));
-		this.planets.addPlanet(planet);
-		var planet1 = new planets_Planet(0,0,140,planets_PlanetType.RED,this.activePlayer,new resources_Resources([11,null,6,2,null]));
-		this.planets.addPlanet(planet1);
-		var planet2 = new planets_Planet(flixel_FlxG.width,0,140,planets_PlanetType.PURPLE,this.activePlayer,new resources_Resources([7,14,null,null,null]));
-		this.planets.addPlanet(planet2);
-		var planet3 = new planets_Planet(0,flixel_FlxG.height,140,planets_PlanetType.BLUE,this.activePlayer,new resources_Resources([7,15,null,4,1]));
-		this.planets.addPlanet(planet3);
-		var planet4 = new planets_Planet(flixel_FlxG.width,flixel_FlxG.height,140,planets_PlanetType.GRAY,this.activePlayer,new resources_Resources([null,null,7,null,null]));
-		this.planets.addPlanet(planet4);
-		this.mapCam.set_zoom(1);
+		this.makePlanet();
+		this.makePlanet();
+		var bar = new flixel_FlxSprite();
+		bar.set_cameras([this.uiCam]);
+		bar.makeGraphic(1024,52,-8355712);
+		this.add(bar);
+		var uiIcons = new haxe_ds_IntMap();
+		this.uiTextIncome = new haxe_ds_IntMap();
+		this.uiTextResources = new haxe_ds_IntMap();
+		var rTypes = resources_ResourceTypes.types;
+		var _g1 = 0;
+		var _g = resources_ResourceTypes.types.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var v = new button_Button(0,0,0,0,-1,this,i,this.uiCam,false,false,"assets/images/Icons.png",true,52,52);
+			uiIcons.h[rTypes[i]] = v;
+			uiIcons.h[rTypes[i]].set_antialiasing(true);
+			uiIcons.h[rTypes[i]].animation.add(Std.string(rTypes[i]),[i],1,false);
+			uiIcons.h[rTypes[i]].animation.play(Std.string(rTypes[i]));
+			uiIcons.h[rTypes[i]].setPosition(i * 128,0);
+			uiIcons.h[rTypes[i]].set_width(128);
+			this.add(uiIcons.h[rTypes[i]]);
+			var this1 = this.uiTextIncome;
+			var v1 = new flixel_text_FlxText(54 + i * 128,1,74,Std.string(this.activePlayer.resources.get(rTypes[i])),20,true);
+			this1.h[rTypes[i]] = v1;
+			this.uiTextIncome.h[rTypes[i]].set_cameras([this.uiCam]);
+			this.uiTextIncome.h[rTypes[i]].set_color(65280);
+			this.add(this.uiTextIncome.h[rTypes[i]]);
+			var this2 = this.uiTextResources;
+			var v2 = new flixel_text_FlxText(54 + i * 128,24,74,Std.string(this.activePlayer.resources.get(rTypes[i])),20,true);
+			this2.h[rTypes[i]] = v2;
+			this.uiTextResources.h[rTypes[i]].set_cameras([this.uiCam]);
+			this.add(this.uiTextResources.h[rTypes[i]]);
+			if(this.activePlayer.resources.get(rTypes[i]) == null) {
+				uiIcons.h[rTypes[i]].set_visible(false);
+				this.uiTextIncome.h[rTypes[i]].set_visible(false);
+				this.uiTextResources.h[rTypes[i]].set_visible(false);
+			}
+		}
+		this.uiMouseText = new flixel_text_FlxText(0,0,300,"",20);
+		this.uiMouseText.set_cameras([this.uiCam]);
+		this.uiMouseText.set_color(65280);
+		this.add(this.uiMouseText);
+		groups_Groups.planets.upkeep();
+		groups_Groups.planets.updatePlayers();
+		this.activePlayer.updateIncome();
+		this.mapCam.set_zoom(0.7);
 		this.bgCam.set_zoom((this.mapCam.zoom + 39) / 60);
+	}
+	,makePlanet: function() {
+		var t = 0;
+		if(this.planetlist.length < 6) {
+			this.planetlist = this.planetlist.concat([0,1,2,3,4,5]);
+		}
+		var n = Std.random(6);
+		t = this.planetlist[n];
+		HxOverrides.remove(this.planetlist,this.planetlist[n]);
+		groups_Groups.planets.addRandom((Math.cos(this.theta) * ((this.theta + Std.random(1000) / 1000 | 0) * 60 + 200) | 0) + 300,(Math.sin(this.theta) * ((this.theta + Std.random(1000) / 1000 | 0) * 60 + 200) | 0) + 230,100 + Std.random(50),t,this.activePlayer);
+		this.theta += 1 / (this.theta / 6.283 + 1 | 0) + Std.random(500) / 1000;
 	}
 	,update: function(elapsed) {
 		flixel_FlxState.prototype.update.call(this,elapsed);
+		var bounds = groups_Groups.planets.getCameraBounds();
+		bounds = [bounds[0] + flixel_FlxG.width / 2 * this.mapCam.zoom,bounds[1] - flixel_FlxG.width / 2 * this.mapCam.zoom,bounds[2] + flixel_FlxG.height / 2 * this.mapCam.zoom,bounds[3] - flixel_FlxG.height / 2 * this.mapCam.zoom];
 		if(flixel_FlxG.mouse.wheel != 0) {
 			this.mapCam.set_zoom(Math.min(Math.max(0.1,this.mapCam.zoom + flixel_FlxG.mouse.wheel / Math.abs(flixel_FlxG.mouse.wheel) * this.mapCam.zoom / 4),1));
 			this.bgCam.set_zoom((this.mapCam.zoom + 39) / 60);
-			if(flixel_FlxG.mouse.wheel > 0) {
+			if(flixel_FlxG.mouse.wheel > 0 && this.mapCam.zoom < 1) {
 				var mousePosChange = flixel_FlxG.mouse.getWorldPosition(this.mapCam).subtractPoint(this.grabbedPos);
 				this.mapCam.scroll.subtractPoint(mousePosChange);
-				var _this = this.bgCam.scroll;
-				var Y = mousePosChange.y / 40;
-				var _g = _this;
-				_g.set_x(_g.x - mousePosChange.x / 40);
-				var _g1 = _this;
-				_g1.set_y(_g1.y - Y);
+				if(this.mapCam.scroll.x < bounds[0]) {
+					this.mapCam.scroll.set_x(bounds[0]);
+				}
+				if(this.mapCam.scroll.x > bounds[1]) {
+					this.mapCam.scroll.set_x(bounds[1]);
+				}
+				if(this.mapCam.scroll.y < bounds[2]) {
+					this.mapCam.scroll.set_y(bounds[2]);
+				}
+				if(this.mapCam.scroll.y > bounds[3]) {
+					this.mapCam.scroll.set_y(bounds[3]);
+				}
+				this.bgCam.scroll.set(this.mapCam.scroll.x / 40,this.mapCam.scroll.y / 40);
 			}
 		}
 		var tmp;
-		var _this1 = flixel_FlxG.mouse._middleButton;
-		if(!(!(_this1.current == 1 || _this1.current == 2))) {
+		var _this = flixel_FlxG.mouse._middleButton;
+		if(!(!(_this.current == 1 || _this.current == 2))) {
 			tmp = flixel_FlxG.mouse._middleButton.current == 2;
 		} else {
 			tmp = true;
@@ -3631,12 +3733,29 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		} else {
 			var mousePosChange1 = flixel_FlxG.mouse.getWorldPosition(this.mapCam).subtractPoint(this.grabbedPos);
 			this.mapCam.scroll.subtractPoint(mousePosChange1);
-			var _this2 = this.bgCam.scroll;
-			var Y1 = mousePosChange1.y / 40;
-			var _g2 = _this2;
-			_g2.set_x(_g2.x - mousePosChange1.x / 40);
-			var _g3 = _this2;
-			_g3.set_y(_g3.y - Y1);
+			if(this.mapCam.scroll.x < bounds[0]) {
+				this.mapCam.scroll.set_x(bounds[0]);
+			}
+			if(this.mapCam.scroll.x > bounds[1]) {
+				this.mapCam.scroll.set_x(bounds[1]);
+			}
+			if(this.mapCam.scroll.y < bounds[2]) {
+				this.mapCam.scroll.set_y(bounds[2]);
+			}
+			if(this.mapCam.scroll.y > bounds[3]) {
+				this.mapCam.scroll.set_y(bounds[3]);
+			}
+			this.bgCam.scroll.set(this.mapCam.scroll.x / 40,this.mapCam.scroll.y / 40);
+		}
+		this.uiMouseText.setPosition(flixel_FlxG.mouse.x,flixel_FlxG.mouse.y + 30);
+		var income = this.activePlayer.income;
+		var _g = 0;
+		var _g1 = income.types();
+		while(_g < _g1.length) {
+			var key = _g1[_g];
+			++_g;
+			this.uiTextIncome.h[key].set_text("+" + Std.string(income.get(key)));
+			this.uiTextResources.h[key].set_text(Std.string(this.activePlayer.resources.get(key)));
 		}
 	}
 	,onNotify: function(event) {
@@ -3648,15 +3767,34 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 			while(_g1 < _g11.length) {
 				var mouseEvent = _g11[_g1];
 				++_g1;
-				if(mouseEvent[1] == 3) {
-					haxe_Log.trace("upkeep",{ fileName : "PlayState.hx", lineNumber : 123, className : "PlayState", methodName : "onNotify"});
-					var _g2 = 0;
-					var _g3 = this.planets.members;
-					while(_g2 < _g3.length) {
-						var planet = _g3[_g2];
-						++_g2;
-						planet.upkeep();
+				switch(mouseEvent[1]) {
+				case 3:
+					if(event.eventSource == 99) {
+						haxe_Log.trace("upkeep",{ fileName : "PlayState.hx", lineNumber : 218, className : "PlayState", methodName : "onNotify"});
+						groups_Groups.planets.upkeep();
+						this.makePlanet();
+						groups_Groups.planets.updatePlayers();
+						this.activePlayer.updateIncome();
+						var _g2 = 0;
+						var _g3 = resources_ResourceTypes.types;
+						while(_g2 < _g3.length) {
+							var key = _g3[_g2];
+							++_g2;
+							this.uiTextResources.get(key).set_text(Std.string(this.activePlayer.resources.get(key)));
+						}
 					}
+					break;
+				case 4:
+					if(event.eventSource < 8) {
+						this.mouseOn = event.eventSource;
+					}
+					break;
+				case 5:
+					if(this.mouseOn == event.eventSource) {
+						this.uiMouseText.set_text("");
+					}
+					break;
+				default:
 				}
 			}
 		}
@@ -3799,6 +3937,13 @@ Std.parseInt = function(x) {
 		return null;
 	}
 	return v;
+};
+Std.random = function(x) {
+	if(x <= 0) {
+		return 0;
+	} else {
+		return Math.floor(Math.random() * x);
+	}
 };
 var StringBuf = function() {
 	this.b = "";
@@ -6321,12 +6466,15 @@ flixel_FlxSprite.prototype = $extend(flixel_FlxObject.prototype,{
 	,__class__: flixel_FlxSprite
 	,__properties__: $extend(flixel_FlxObject.prototype.__properties__,{set_clipRect:"set_clipRect",set_color:"set_color",set_blend:"set_blend",set_flipY:"set_flipY",set_flipX:"set_flipX",set_facing:"set_facing",set_alpha:"set_alpha",set_graphic:"set_graphic",set_frames:"set_frames",set_frame:"set_frame",set_pixels:"set_pixels",get_pixels:"get_pixels",set_antialiasing:"set_antialiasing",set_useFramePixels:"set_useFramePixels"})
 });
-var button_Button = function(width,height,x,y,color,observer1,camera,pixelPerfect,mouseChildren,image,imgW,imgH) {
+var button_Button = function(width,height,x,y,color,observer1,id,camera,pixelPerfect,mouseChildren,image,animated,imgW,imgH) {
 	if(imgH == null) {
 		imgH = 0;
 	}
 	if(imgW == null) {
 		imgW = 0;
+	}
+	if(animated == null) {
+		animated = false;
 	}
 	if(mouseChildren == null) {
 		mouseChildren = false;
@@ -6334,17 +6482,22 @@ var button_Button = function(width,height,x,y,color,observer1,camera,pixelPerfec
 	if(pixelPerfect == null) {
 		pixelPerfect = false;
 	}
+	if(id == null) {
+		id = 0;
+	}
 	if(image == null) {
 		flixel_FlxSprite.call(this,x,y);
 		this.makeGraphic(width,height,color);
 	} else {
 		flixel_FlxSprite.call(this,x,y);
-		this.loadGraphic(image,false,imgW,imgH);
+		this.loadGraphic(image,animated,imgW,imgH);
 	}
-	this.set_cameras([camera]);
+	if(camera != null) {
+		this.set_cameras([camera]);
+	}
 	flixel_input_mouse_FlxMouseEventManager.add(this,$bind(this,this.mouseDown),$bind(this,this.mouseUp),$bind(this,this.mouseOver),$bind(this,this.mouseOff),mouseChildren,true,pixelPerfect,[-1,-3]);
 	this.buttons = [];
-	this.buttonSubject = new observer_Subject(observer1);
+	this.buttonSubject = new observer_Subject([observer1],id);
 };
 $hxClasses["button.Button"] = button_Button;
 button_Button.__name__ = ["button","Button"];
@@ -6395,11 +6548,8 @@ event_EventType.Mouse.__enum__ = event_EventType;
 event_EventType.Resource = ["Resource",1];
 event_EventType.Resource.toString = $estr;
 event_EventType.Resource.__enum__ = event_EventType;
-var event_MouseEvent = function(subject,events,id) {
-	if(id == null) {
-		id = 0;
-	}
-	event_Event.call(this,id,event_EventType.Mouse);
+var event_MouseEvent = function(subject,events) {
+	event_Event.call(this,subject.getID(),event_EventType.Mouse);
 	this.mouseEvents = events;
 };
 $hxClasses["event.MouseEvent"] = event_MouseEvent;
@@ -6427,14 +6577,10 @@ event_MouseEventType.MouseOver.__enum__ = event_MouseEventType;
 event_MouseEventType.MouseOff = ["MouseOff",5];
 event_MouseEventType.MouseOff.toString = $estr;
 event_MouseEventType.MouseOff.__enum__ = event_MouseEventType;
-var event_ResourceEvent = function(rresources,type,ret,id) {
-	if(id == null) {
-		id = 0;
-	}
-	event_Event.call(this,id,event_EventType.Resource);
-	this.resources = rresources;
+var event_ResourceEvent = function(subject,resources,type) {
+	event_Event.call(this,subject.getID(),event_EventType.Resource);
+	this.resources = resources;
 	this.transactionType = type;
-	this.returnCall = ret;
 };
 $hxClasses["event.ResourceEvent"] = event_ResourceEvent;
 event_ResourceEvent.__name__ = ["event","ResourceEvent"];
@@ -6442,7 +6588,7 @@ event_ResourceEvent.__super__ = event_Event;
 event_ResourceEvent.prototype = $extend(event_Event.prototype,{
 	__class__: event_ResourceEvent
 });
-var event_ResourceEventType = $hxClasses["event.ResourceEventType"] = { __ename__ : ["event","ResourceEventType"], __constructs__ : ["Gain","Lose","LoseNoCheck","Check"] };
+var event_ResourceEventType = $hxClasses["event.ResourceEventType"] = { __ename__ : ["event","ResourceEventType"], __constructs__ : ["Gain","Lose","LoseNoCheck","Update"] };
 event_ResourceEventType.Gain = ["Gain",0];
 event_ResourceEventType.Gain.toString = $estr;
 event_ResourceEventType.Gain.__enum__ = event_ResourceEventType;
@@ -6452,9 +6598,9 @@ event_ResourceEventType.Lose.__enum__ = event_ResourceEventType;
 event_ResourceEventType.LoseNoCheck = ["LoseNoCheck",2];
 event_ResourceEventType.LoseNoCheck.toString = $estr;
 event_ResourceEventType.LoseNoCheck.__enum__ = event_ResourceEventType;
-event_ResourceEventType.Check = ["Check",3];
-event_ResourceEventType.Check.toString = $estr;
-event_ResourceEventType.Check.__enum__ = event_ResourceEventType;
+event_ResourceEventType.Update = ["Update",3];
+event_ResourceEventType.Update.toString = $estr;
+event_ResourceEventType.Update.__enum__ = event_ResourceEventType;
 var flixel_IFlxBasic = function() { };
 $hxClasses["flixel.IFlxBasic"] = flixel_IFlxBasic;
 flixel_IFlxBasic.__name__ = ["flixel","IFlxBasic"];
@@ -12210,6 +12356,937 @@ flixel_graphics_FlxGraphic.prototype = {
 	}
 	,__class__: flixel_graphics_FlxGraphic
 	,__properties__: {get_atlasFrames:"get_atlasFrames",get_imageFrame:"get_imageFrame",set_useCount:"set_useCount",get_useCount:"get_useCount",get_tilesheet:"get_tilesheet",get_canBeDumped:"get_canBeDumped",set_destroyOnNoUse:"set_destroyOnNoUse",get_destroyOnNoUse:"get_destroyOnNoUse",set_bitmap:"set_bitmap"}
+};
+var flixel_graphics_atlas_FlxAtlas = function(name,powerOfTwo,border,rotate,minSize,maxSize) {
+	if(rotate == null) {
+		rotate = false;
+	}
+	if(border == null) {
+		border = 1;
+	}
+	if(powerOfTwo == null) {
+		powerOfTwo = false;
+	}
+	this.powerOfTwo = false;
+	this.allowRotation = false;
+	this.maxHeight = 1024;
+	this.maxWidth = 1024;
+	this.minHeight = 128;
+	this.minWidth = 128;
+	this.border = 1;
+	this.persist = false;
+	this.nodes = new haxe_ds_StringMap();
+	this.name = name;
+	this.set_powerOfTwo(powerOfTwo);
+	this.border = border;
+	if(minSize != null) {
+		minSize = minSize;
+	} else {
+		minSize = flixel_graphics_atlas_FlxAtlas.defaultMinSize;
+	}
+	if(maxSize != null) {
+		maxSize = maxSize;
+	} else {
+		maxSize = flixel_graphics_atlas_FlxAtlas.defaultMaxSize;
+	}
+	this.set_minWidth(minSize.x | 0);
+	this.set_minHeight(minSize.y | 0);
+	this.set_maxWidth(maxSize.x > minSize.x ? maxSize.x | 0 : this.minWidth);
+	this.set_maxHeight(maxSize.y > minSize.x ? maxSize.y | 0 : this.minHeight);
+	this.allowRotation = rotate;
+	this.initRoot();
+	flixel_FlxG.signals.preStateCreate.add($bind(this,this.onClear));
+};
+$hxClasses["flixel.graphics.atlas.FlxAtlas"] = flixel_graphics_atlas_FlxAtlas;
+flixel_graphics_atlas_FlxAtlas.__name__ = ["flixel","graphics","atlas","FlxAtlas"];
+flixel_graphics_atlas_FlxAtlas.__interfaces__ = [flixel_util_IFlxDestroyable];
+flixel_graphics_atlas_FlxAtlas.prototype = {
+	initRoot: function() {
+		var rootWidth = this.minWidth;
+		var rootHeight = this.minHeight;
+		if(this.powerOfTwo) {
+			rootWidth = this.getNextPowerOfTwo(rootWidth);
+			rootHeight = this.getNextPowerOfTwo(rootHeight);
+		}
+		var _this = flixel_math_FlxRect._pool.get();
+		_this.x = 0;
+		_this.y = 0;
+		_this.width = rootWidth;
+		_this.height = rootHeight;
+		var rect = _this;
+		rect._inPool = false;
+		this.root = new flixel_graphics_atlas_FlxNode(rect,this);
+	}
+	,addNode: function(Graphic,Key) {
+		var key = flixel_system_FlxAssets.resolveKey(Graphic,Key);
+		if(key == null) {
+			return null;
+		}
+		if(this.hasNodeWithName(key)) {
+			var _this = this.nodes;
+			if(__map_reserved[key] != null) {
+				return _this.getReserved(key);
+			} else {
+				return _this.h[key];
+			}
+		}
+		var data = flixel_system_FlxAssets.resolveBitmapData(Graphic);
+		if(data == null) {
+			return null;
+		}
+		if(this.root.left == null) {
+			return this.insertFirstNodeInRoot(data,key);
+		}
+		if(this.root.right == null) {
+			return this.expand(data,key);
+		}
+		var inserted = this.tryInsert(data,key);
+		if(inserted != null) {
+			return inserted;
+		}
+		this.wrapRoot();
+		return this.expand(data,key);
+	}
+	,wrapRoot: function() {
+		var temp = this.root;
+		var Width = temp.rect.width | 0;
+		var Height = temp.rect.height | 0;
+		var _this = flixel_math_FlxRect._pool.get();
+		_this.x = 0;
+		_this.y = 0;
+		_this.width = Width;
+		_this.height = Height;
+		var rect = _this;
+		rect._inPool = false;
+		this.root = new flixel_graphics_atlas_FlxNode(rect,this);
+		this.root.left = temp;
+	}
+	,tryInsert: function(data,key) {
+		var insertWidth = data.width + this.border;
+		var insertHeight = data.height + this.border;
+		var rotateNode = false;
+		var nodeToInsert = this.findNodeToInsert(insertWidth,insertHeight);
+		if(this.allowRotation) {
+			var nodeToInsertWithRotation = this.findNodeToInsert(insertHeight,insertWidth);
+			if(nodeToInsertWithRotation != null) {
+				var nodeWithRotationArea = (nodeToInsertWithRotation.rect.width | 0) * (nodeToInsertWithRotation.rect.height | 0);
+				if(nodeToInsert == null || nodeToInsert != null && (nodeToInsert.rect.width | 0) * (nodeToInsert.rect.height | 0) > nodeWithRotationArea) {
+					nodeToInsert = nodeToInsertWithRotation;
+					rotateNode = true;
+					var temp = insertWidth;
+					insertWidth = insertHeight;
+					insertHeight = temp;
+				}
+			}
+		}
+		if(nodeToInsert != null) {
+			var horizontally = this.needToDivideHorizontally(nodeToInsert,insertWidth,insertHeight);
+			return this.divideNode(nodeToInsert,insertWidth,insertHeight,horizontally,data,key,rotateNode);
+		}
+		return null;
+	}
+	,needToDivideHorizontally: function(nodeToDivide,insertWidth,insertHeight) {
+		var dw = (nodeToDivide.rect.width | 0) - insertWidth;
+		var dh = (nodeToDivide.rect.height | 0) - insertHeight;
+		return dw > dh;
+	}
+	,divideNode: function(nodeToDivide,insertWidth,insertHeight,divideHorizontally,firstGrandChildData,firstGrandChildKey,firstGrandChildRotated) {
+		if(firstGrandChildRotated == null) {
+			firstGrandChildRotated = false;
+		}
+		if(nodeToDivide != null) {
+			var firstChild = null;
+			var secondChild = null;
+			var firstGrandChild = null;
+			var secondGrandChild = null;
+			var firstGrandChildFilled = firstGrandChildKey != null;
+			if(divideHorizontally) {
+				var X = nodeToDivide.rect.x | 0;
+				var Y = nodeToDivide.rect.y | 0;
+				var Height = nodeToDivide.rect.height | 0;
+				var _this = flixel_math_FlxRect._pool.get();
+				_this.x = X;
+				_this.y = Y;
+				_this.width = insertWidth;
+				_this.height = Height;
+				var rect = _this;
+				rect._inPool = false;
+				firstChild = new flixel_graphics_atlas_FlxNode(rect,this);
+				if((nodeToDivide.rect.width | 0) - insertWidth > 0) {
+					var X1 = (nodeToDivide.rect.x | 0) + insertWidth;
+					var Y1 = nodeToDivide.rect.y | 0;
+					var Width = (nodeToDivide.rect.width | 0) - insertWidth;
+					var Height1 = nodeToDivide.rect.height | 0;
+					var _this1 = flixel_math_FlxRect._pool.get();
+					_this1.x = X1;
+					_this1.y = Y1;
+					_this1.width = Width;
+					_this1.height = Height1;
+					var rect1 = _this1;
+					rect1._inPool = false;
+					secondChild = new flixel_graphics_atlas_FlxNode(rect1,this);
+				}
+				var X2 = firstChild.rect.x | 0;
+				var Y2 = firstChild.rect.y | 0;
+				var _this2 = flixel_math_FlxRect._pool.get();
+				_this2.x = X2;
+				_this2.y = Y2;
+				_this2.width = insertWidth;
+				_this2.height = insertHeight;
+				var rect2 = _this2;
+				rect2._inPool = false;
+				firstGrandChild = new flixel_graphics_atlas_FlxNode(rect2,this,firstGrandChildFilled,firstGrandChildKey,firstGrandChildRotated);
+				if((firstChild.rect.height | 0) - insertHeight > 0) {
+					var X3 = firstChild.rect.x | 0;
+					var Y3 = (firstChild.rect.y | 0) + insertHeight;
+					var Height2 = (firstChild.rect.height | 0) - insertHeight;
+					var _this3 = flixel_math_FlxRect._pool.get();
+					_this3.x = X3;
+					_this3.y = Y3;
+					_this3.width = insertWidth;
+					_this3.height = Height2;
+					var rect3 = _this3;
+					rect3._inPool = false;
+					secondGrandChild = new flixel_graphics_atlas_FlxNode(rect3,this);
+				}
+			} else {
+				var X4 = nodeToDivide.rect.x | 0;
+				var Y4 = nodeToDivide.rect.y | 0;
+				var Width1 = nodeToDivide.rect.width | 0;
+				var _this4 = flixel_math_FlxRect._pool.get();
+				_this4.x = X4;
+				_this4.y = Y4;
+				_this4.width = Width1;
+				_this4.height = insertHeight;
+				var rect4 = _this4;
+				rect4._inPool = false;
+				firstChild = new flixel_graphics_atlas_FlxNode(rect4,this);
+				if((nodeToDivide.rect.height | 0) - insertHeight > 0) {
+					var X5 = nodeToDivide.rect.x | 0;
+					var Y5 = (nodeToDivide.rect.y | 0) + insertHeight;
+					var Width2 = nodeToDivide.rect.width | 0;
+					var Height3 = (nodeToDivide.rect.height | 0) - insertHeight;
+					var _this5 = flixel_math_FlxRect._pool.get();
+					_this5.x = X5;
+					_this5.y = Y5;
+					_this5.width = Width2;
+					_this5.height = Height3;
+					var rect5 = _this5;
+					rect5._inPool = false;
+					secondChild = new flixel_graphics_atlas_FlxNode(rect5,this);
+				}
+				var X6 = firstChild.rect.x | 0;
+				var Y6 = firstChild.rect.y | 0;
+				var _this6 = flixel_math_FlxRect._pool.get();
+				_this6.x = X6;
+				_this6.y = Y6;
+				_this6.width = insertWidth;
+				_this6.height = insertHeight;
+				var rect6 = _this6;
+				rect6._inPool = false;
+				firstGrandChild = new flixel_graphics_atlas_FlxNode(rect6,this,firstGrandChildFilled,firstGrandChildKey,firstGrandChildRotated);
+				if((firstChild.rect.width | 0) - insertWidth > 0) {
+					var X7 = (firstChild.rect.x | 0) + insertWidth;
+					var Y7 = firstChild.rect.y | 0;
+					var Width3 = (firstChild.rect.width | 0) - insertWidth;
+					var _this7 = flixel_math_FlxRect._pool.get();
+					_this7.x = X7;
+					_this7.y = Y7;
+					_this7.width = Width3;
+					_this7.height = insertHeight;
+					var rect7 = _this7;
+					rect7._inPool = false;
+					secondGrandChild = new flixel_graphics_atlas_FlxNode(rect7,this);
+				}
+			}
+			firstChild.left = firstGrandChild;
+			firstChild.right = secondGrandChild;
+			nodeToDivide.left = firstChild;
+			nodeToDivide.right = secondChild;
+			if(firstGrandChildKey != null && firstGrandChildData != null) {
+				this.expandBitmapData();
+				if(firstGrandChildRotated) {
+					flixel_graphics_atlas_FlxAtlas.matrix.identity();
+					flixel_graphics_atlas_FlxAtlas.matrix.rotate(Math.PI / 2);
+					flixel_graphics_atlas_FlxAtlas.matrix.translate(firstGrandChildData.height + (firstGrandChild.rect.x | 0),firstGrandChild.rect.y | 0);
+					this.bitmapData.draw(firstGrandChildData,flixel_graphics_atlas_FlxAtlas.matrix);
+				} else {
+					flixel_graphics_atlas_FlxAtlas.point.setTo(firstGrandChild.rect.x | 0,firstGrandChild.rect.y | 0);
+					this.bitmapData.copyPixels(firstGrandChildData,firstGrandChildData.rect,flixel_graphics_atlas_FlxAtlas.point);
+				}
+				this.addNodeToAtlasFrames(firstGrandChild);
+				var _this8 = this.nodes;
+				if(__map_reserved[firstGrandChildKey] != null) {
+					_this8.setReserved(firstGrandChildKey,firstGrandChild);
+				} else {
+					_this8.h[firstGrandChildKey] = firstGrandChild;
+				}
+			}
+			return firstGrandChild;
+		}
+		return null;
+	}
+	,insertFirstNodeInRoot: function(data,key) {
+		if(this.root.left == null) {
+			var insertWidth = data.width + this.border;
+			var insertHeight = data.height + this.border;
+			var rootWidth = insertWidth;
+			var rootHeight = insertHeight;
+			if(this.powerOfTwo) {
+				rootWidth = this.getNextPowerOfTwo(rootWidth);
+				rootHeight = this.getNextPowerOfTwo(rootHeight);
+			}
+			if(this.minWidth > rootWidth) {
+				rootWidth = this.minWidth;
+			} else {
+				rootWidth = rootWidth;
+			}
+			if(this.minHeight > rootHeight) {
+				rootHeight = this.minHeight;
+			} else {
+				rootHeight = rootHeight;
+			}
+			if(this.powerOfTwo) {
+				rootWidth = this.getNextPowerOfTwo(rootWidth);
+				rootHeight = this.getNextPowerOfTwo(rootHeight);
+			}
+			if(this.maxWidth > 0 && rootWidth > this.maxWidth || this.maxHeight > 0 && rootHeight > this.maxHeight) {
+				return null;
+			}
+			this.root.set_width(rootWidth);
+			this.root.set_height(rootHeight);
+			var horizontally = this.needToDivideHorizontally(this.root,insertWidth,insertHeight);
+			return this.divideNode(this.root,insertWidth,insertHeight,horizontally,data,key);
+		}
+		return null;
+	}
+	,expand: function(data,key) {
+		if(this.root.right == null) {
+			var insertWidth = data.width + this.border;
+			var insertHeight = data.height + this.border;
+			var addRightWidth = (this.root.rect.width | 0) + insertWidth;
+			var addRightHeight = Math.max(this.root.rect.height | 0,insertHeight) | 0;
+			var addBottomWidth = Math.max(this.root.rect.width | 0,insertWidth) | 0;
+			var addBottomHeight = (this.root.rect.height | 0) + insertHeight;
+			var addRightWidthRotate = addRightWidth;
+			var addRightHeightRotate = addRightHeight;
+			var addBottomWidthRotate = addBottomWidth;
+			var addBottomHeightRotate = addBottomHeight;
+			if(this.allowRotation) {
+				addRightWidthRotate = (this.root.rect.width | 0) + insertHeight;
+				addRightHeightRotate = Math.max(this.root.rect.height | 0,insertWidth) | 0;
+				addBottomWidthRotate = Math.max(this.root.rect.width | 0,insertHeight) | 0;
+				addBottomHeightRotate = (this.root.rect.height | 0) + insertWidth;
+			}
+			if(this.powerOfTwo) {
+				addRightWidth = this.getNextPowerOfTwo(addRightWidth);
+				addRightWidthRotate = addRightWidth;
+				addRightHeight = this.getNextPowerOfTwo(addRightHeight);
+				addRightHeightRotate = addRightHeight;
+				addBottomWidth = this.getNextPowerOfTwo(addBottomWidth);
+				addBottomWidthRotate = addBottomWidth;
+				addBottomHeight = this.getNextPowerOfTwo(addBottomHeight);
+				addBottomHeightRotate = addBottomHeight;
+				if(this.allowRotation) {
+					addRightWidthRotate = this.getNextPowerOfTwo(addRightWidthRotate);
+					addRightHeightRotate = this.getNextPowerOfTwo(addRightHeightRotate);
+					addBottomWidthRotate = this.getNextPowerOfTwo(addBottomWidthRotate);
+					addBottomHeightRotate = this.getNextPowerOfTwo(addBottomHeightRotate);
+				}
+			}
+			var canExpandRight = true;
+			var canExpandBottom = true;
+			var canExpandRightRotate = this.allowRotation;
+			var canExpandBottomRotate = this.allowRotation;
+			if(this.maxWidth > 0 && addRightWidth > this.maxWidth || this.maxHeight > 0 && addRightHeight > this.maxHeight) {
+				canExpandRight = false;
+			}
+			if(this.maxWidth > 0 && addBottomWidth > this.maxWidth || this.maxHeight > 0 && addBottomHeight > this.maxHeight) {
+				canExpandBottom = false;
+			}
+			if(this.maxWidth > 0 && addRightWidthRotate > this.maxWidth || this.maxHeight > 0 && addRightHeightRotate > this.maxHeight) {
+				canExpandRightRotate = false;
+			}
+			if(this.maxWidth > 0 && addBottomWidthRotate > this.maxWidth || this.maxHeight > 0 && addBottomHeightRotate > this.maxHeight) {
+				canExpandBottomRotate = false;
+			}
+			if(!canExpandRight && !canExpandBottom && !canExpandRightRotate && !canExpandBottomRotate) {
+				return null;
+			}
+			var addRightArea = addRightWidth * addRightHeight;
+			var addBottomArea = addBottomWidth * addBottomHeight;
+			var addRightAreaRotate = addRightWidthRotate * addRightHeightRotate;
+			var addBottomAreaRotate = addBottomWidthRotate * addBottomHeightRotate;
+			var rotateRight = false;
+			var rotateBottom = false;
+			var rotateNode = false;
+			if(canExpandRight && canExpandRightRotate && addRightArea > addRightAreaRotate || !canExpandRight && canExpandRightRotate) {
+				addRightArea = addBottomAreaRotate;
+				addRightWidth = addRightWidthRotate;
+				addRightHeight = addRightHeightRotate;
+				canExpandRight = true;
+				rotateRight = true;
+			}
+			if(canExpandBottom && canExpandBottomRotate && addBottomArea > addBottomAreaRotate || !canExpandBottom && canExpandBottomRotate) {
+				addBottomArea = addBottomAreaRotate;
+				addBottomWidth = addBottomWidthRotate;
+				addBottomHeight = addBottomHeightRotate;
+				canExpandBottom = true;
+				rotateBottom = true;
+			}
+			if(!canExpandRight && canExpandBottom) {
+				addRightArea = addBottomArea + 1;
+				rotateNode = rotateRight;
+			} else if(canExpandRight && !canExpandBottom) {
+				addBottomArea = addRightArea + 1;
+				rotateNode = rotateBottom;
+			}
+			var dataNode = null;
+			var temp = this.root;
+			var insertNodeWidth = insertWidth;
+			var insertNodeHeight = insertHeight;
+			if(addBottomArea >= addRightArea) {
+				if(rotateRight) {
+					insertNodeWidth = insertHeight;
+					insertNodeHeight = insertWidth;
+				}
+				this.expandRoot((temp.rect.width | 0) + insertNodeWidth,Math.max(temp.rect.height | 0,insertNodeHeight),true);
+				dataNode = this.divideNode(this.root.right,insertNodeWidth,insertNodeHeight,true,data,key,rotateRight);
+				this.expandRoot(addRightWidth,addRightHeight,false,true);
+			} else {
+				if(rotateBottom) {
+					insertNodeWidth = insertHeight;
+					insertNodeHeight = insertWidth;
+				}
+				this.expandRoot(Math.max(temp.rect.width | 0,insertNodeWidth),(temp.rect.height | 0) + insertNodeHeight,false);
+				dataNode = this.divideNode(this.root.right,insertNodeWidth,insertNodeHeight,true,data,key,rotateBottom);
+				this.expandRoot(addBottomWidth,addBottomHeight,false,true);
+			}
+			return dataNode;
+		}
+		return null;
+	}
+	,expandRoot: function(newWidth,newHeight,divideHorizontally,decideHowToDivide) {
+		if(decideHowToDivide == null) {
+			decideHowToDivide = false;
+		}
+		if(newWidth > (this.root.rect.width | 0) || newHeight > (this.root.rect.height | 0)) {
+			var temp = this.root;
+			var _this = flixel_math_FlxRect._pool.get();
+			_this.x = 0;
+			_this.y = 0;
+			_this.width = newWidth;
+			_this.height = newHeight;
+			var rect = _this;
+			rect._inPool = false;
+			this.root = new flixel_graphics_atlas_FlxNode(rect,this);
+			if(decideHowToDivide) {
+				divideHorizontally = this.needToDivideHorizontally(this.root,temp.rect.width | 0,temp.rect.height | 0);
+			} else {
+				divideHorizontally = divideHorizontally;
+			}
+			this.divideNode(this.root,temp.rect.width | 0,temp.rect.height | 0,divideHorizontally);
+			this.root.left.left = temp;
+		}
+	}
+	,expandBitmapData: function() {
+		if(this.bitmapData != null && this.bitmapData.width == (this.root.rect.width | 0) && this.bitmapData.height == (this.root.rect.height | 0)) {
+			return;
+		}
+		var newBitmapData = new openfl_display_BitmapData(this.root.rect.width | 0,this.root.rect.height | 0,true,0);
+		if(this.bitmapData != null) {
+			flixel_graphics_atlas_FlxAtlas.point.setTo(0,0);
+			newBitmapData.copyPixels(this.bitmapData,this.bitmapData.rect,flixel_graphics_atlas_FlxAtlas.point);
+		}
+		this.set_bitmapData(flixel_util_FlxDestroyUtil.dispose(this.bitmapData));
+		this.set_bitmapData(newBitmapData);
+	}
+	,getNextPowerOfTwo: function(number) {
+		var n = number | 0;
+		if(n > 0 && (n & n - 1) == 0) {
+			return n;
+		}
+		var result = 1;
+		while(result < n) result <<= 1;
+		return result;
+	}
+	,addNodeWithSpacesAndBorders: function(Graphic,Key,tileSize,tileSpacing,tileBorder,region) {
+		var key = flixel_system_FlxAssets.resolveKey(Graphic,Key);
+		if(key == null) {
+			return null;
+		}
+		key = flixel_FlxG.bitmap.getKeyWithSpacesAndBorders(key,tileSize,tileSpacing,tileBorder,region);
+		if(this.hasNodeWithName(key)) {
+			var _this = this.nodes;
+			return (__map_reserved[key] != null ? _this.getReserved(key) : _this.h[key]).getTileFrames(tileSize,tileSpacing,tileBorder);
+		}
+		var data = flixel_system_FlxAssets.resolveBitmapData(Graphic);
+		if(data == null) {
+			return null;
+		}
+		var nodeData = flixel_util_FlxBitmapDataUtil.addSpacesAndBorders(data,tileSize,tileSpacing,tileBorder,region);
+		var node = this.addNode(nodeData,key);
+		if(node == null) {
+			return null;
+		}
+		if(tileBorder != null) {
+			var Y = 2 * tileBorder.y;
+			var _g = tileSize;
+			_g.set_x(_g.x + 2 * tileBorder.x);
+			var _g1 = tileSize;
+			_g1.set_y(_g1.y + Y);
+		}
+		return node.getTileFrames(tileSize,tileSpacing,tileBorder);
+	}
+	,getAtlasFrames: function() {
+		var graph = this.get_graphic();
+		var atlasFrames = graph.get_atlasFrames();
+		if(graph.get_atlasFrames() == null) {
+			atlasFrames = new flixel_graphics_frames_FlxAtlasFrames(graph);
+		}
+		var _this = this.nodes;
+		var node = new haxe_ds__$StringMap_StringMapIterator(_this,_this.arrayKeys());
+		while(node.hasNext()) {
+			var node1 = node.next();
+			this.addNodeToAtlasFrames(node1);
+		}
+		return atlasFrames;
+	}
+	,addNodeToAtlasFrames: function(node) {
+		if(this._graphic == null || this._graphic.get_atlasFrames() == null || node == null) {
+			return;
+		}
+		var atlasFrames = this._graphic.get_atlasFrames();
+		var tmp;
+		if(node.filled) {
+			var key = node.key;
+			var _this = atlasFrames.framesHash;
+			tmp = !(__map_reserved[key] != null ? _this.existsReserved(key) : _this.h.hasOwnProperty(key));
+		} else {
+			tmp = false;
+		}
+		if(tmp) {
+			var X = node.rect.x | 0;
+			var Y = node.rect.y | 0;
+			var Width = (node.rect.width | 0) - this.border;
+			var Height = (node.rect.height | 0) - this.border;
+			var _this1 = flixel_math_FlxRect._pool.get();
+			_this1.x = X;
+			_this1.y = Y;
+			_this1.width = Width;
+			_this1.height = Height;
+			var rect = _this1;
+			rect._inPool = false;
+			var frame = rect;
+			var sourceSize;
+			if(node.rotated) {
+				var X1 = (node.rect.height | 0) - this.border;
+				var Y1 = (node.rect.width | 0) - this.border;
+				var point = flixel_math_FlxPoint._pool.get().set(X1,Y1);
+				point._inPool = false;
+				sourceSize = point;
+			} else {
+				var X2 = (node.rect.width | 0) - this.border;
+				var Y2 = (node.rect.height | 0) - this.border;
+				var point1 = flixel_math_FlxPoint._pool.get().set(X2,Y2);
+				point1._inPool = false;
+				sourceSize = point1;
+			}
+			var point2 = flixel_math_FlxPoint._pool.get().set(0,0);
+			point2._inPool = false;
+			var offset = point2;
+			var angle = node.rotated ? -90 : 0;
+			atlasFrames.addAtlasFrame(frame,sourceSize,offset,node.key,angle);
+		}
+	}
+	,hasNodeWithName: function(nodeName) {
+		var _this = this.nodes;
+		if(__map_reserved[nodeName] != null) {
+			return _this.existsReserved(nodeName);
+		} else {
+			return _this.h.hasOwnProperty(nodeName);
+		}
+	}
+	,getNode: function(key) {
+		var _this = this.nodes;
+		if(__map_reserved[key] != null) {
+			return _this.getReserved(key);
+		} else {
+			return _this.h[key];
+		}
+	}
+	,addNodes: function(bitmaps,keys) {
+		var numKeys = keys.length;
+		var numBitmaps = bitmaps.length;
+		if(numBitmaps != numKeys) {
+			return null;
+		}
+		this._tempStorage = [];
+		var _g1 = 0;
+		var _g = numBitmaps;
+		while(_g1 < _g) {
+			var i = _g1++;
+			this._tempStorage.push({ bmd : bitmaps[i], keyStr : keys[i]});
+		}
+		this.addFromAtlasObjects(this._tempStorage);
+		return this;
+	}
+	,addFromAtlasObjects: function(objects) {
+		objects.sort($bind(this,this.bitmapSorter));
+		var numBitmaps = objects.length;
+		var _g1 = 0;
+		var _g = numBitmaps;
+		while(_g1 < _g) {
+			var i = _g1++;
+			this.addNode(objects[i].bmd,objects[i].keyStr);
+		}
+		this._tempStorage = null;
+	}
+	,bitmapSorter: function(obj1,obj2) {
+		if(this.allowRotation) {
+			var area1 = obj1.bmd.width * obj1.bmd.height;
+			var area2 = obj2.bmd.width * obj2.bmd.height;
+			return area2 - area1;
+		}
+		if(obj2.bmd.width == obj1.bmd.width) {
+			return obj2.bmd.height - obj1.bmd.height;
+		}
+		return obj2.bmd.width - obj1.bmd.width;
+	}
+	,createQueue: function() {
+		this._tempStorage = [];
+		return this;
+	}
+	,addToQueue: function(data,key) {
+		if(this._tempStorage == null) {
+			this._tempStorage = [];
+		}
+		this._tempStorage.push({ bmd : data, keyStr : key});
+		return this;
+	}
+	,generateFromQueue: function() {
+		if(this._tempStorage != null) {
+			this.addFromAtlasObjects(this._tempStorage);
+		}
+		return this;
+	}
+	,onClear: function(_) {
+		if(!this.persist || this._graphic != null && this._graphic.get_useCount() <= 0) {
+			this.destroy();
+		}
+	}
+	,destroy: function() {
+		this._tempStorage = null;
+		this.deleteSubtree(this.root);
+		this.root = null;
+		flixel_FlxG.bitmap.removeByKey(this.name);
+		this.set_bitmapData(null);
+		this.nodes = null;
+		this._graphic = null;
+		flixel_FlxG.signals.preStateCreate.remove($bind(this,this.onClear));
+	}
+	,clear: function() {
+		this.deleteSubtree(this.root);
+		this.initRoot();
+		flixel_FlxG.bitmap.removeByKey(this.name);
+		this.set_bitmapData(null);
+		this.nodes = new haxe_ds_StringMap();
+		this._graphic = null;
+	}
+	,getLibGdxData: function() {
+		var data = "\n";
+		data += this.name + "\n";
+		data += "format: RGBA8888\n";
+		data += "filter: Linear,Linear\n";
+		data += "repeat: none\n";
+		var _this = this.nodes;
+		var node = new haxe_ds__$StringMap_StringMapIterator(_this,_this.arrayKeys());
+		while(node.hasNext()) {
+			var node1 = node.next();
+			data += node1.key + "\n";
+			data += "  rotate: " + (node1.rotated == null ? "null" : "" + node1.rotated) + "\n";
+			data += "  xy: " + (node1.rect.x | 0) + ", " + (node1.rect.y | 0) + "\n";
+			if(this.allowRotation) {
+				data += "size: " + (node1.rect.height | 0) + ", " + (node1.rect.width | 0) + "\n";
+				data += "orig: " + (node1.rect.height | 0) + ", " + (node1.rect.width | 0) + "\n";
+			} else {
+				data += "size: " + (node1.rect.width | 0) + ", " + (node1.rect.height | 0) + "\n";
+				data += "orig: " + (node1.rect.width | 0) + ", " + (node1.rect.height | 0) + "\n";
+			}
+			data += "  offset: 0, 0\n";
+			data += "  index: -1\n";
+		}
+		return data;
+	}
+	,deleteSubtree: function(node) {
+		if(node != null) {
+			if(node.left != null) {
+				this.deleteSubtree(node.left);
+			}
+			if(node.right != null) {
+				this.deleteSubtree(node.right);
+			}
+			node.key = null;
+			node.left = null;
+			node.right = null;
+			node.rect = null;
+			node.atlas = null;
+		}
+	}
+	,findNodeToInsert: function(insertWidth,insertHeight) {
+		var stack = [];
+		var current = this.root;
+		var emptyNodes = [];
+		var canPlaceRight = false;
+		var canPlaceLeft = false;
+		var looping = true;
+		var result = null;
+		var minArea = this.maxWidth * this.maxHeight + 1;
+		var nodeArea;
+		while(looping) {
+			if(!current.filled && current.left == null && current.right == null && (current.rect.width >= insertWidth && current.rect.height >= insertHeight)) {
+				nodeArea = (current.rect.width | 0) * (current.rect.height | 0);
+				if(nodeArea < minArea) {
+					minArea = nodeArea;
+					result = current;
+				}
+			}
+			if(current.right != null) {
+				var _this = current.right;
+				if(_this.rect.width >= insertWidth) {
+					canPlaceRight = _this.rect.height >= insertHeight;
+				} else {
+					canPlaceRight = false;
+				}
+			} else {
+				canPlaceRight = false;
+			}
+			if(current.left != null) {
+				var _this1 = current.left;
+				if(_this1.rect.width >= insertWidth) {
+					canPlaceLeft = _this1.rect.height >= insertHeight;
+				} else {
+					canPlaceLeft = false;
+				}
+			} else {
+				canPlaceLeft = false;
+			}
+			if(canPlaceRight && canPlaceLeft) {
+				stack.push(current.right);
+				current = current.left;
+			} else if(canPlaceLeft) {
+				current = current.left;
+			} else if(canPlaceRight) {
+				current = current.right;
+			} else if(stack.length > 0) {
+				current = stack.pop();
+			} else {
+				looping = false;
+			}
+		}
+		return result;
+	}
+	,set_bitmapData: function(value) {
+		if(value != null && this._graphic != null) {
+			this._graphic.set_bitmap(value);
+		}
+		return this.bitmapData = value;
+	}
+	,get_graphic: function() {
+		if(this._graphic != null) {
+			return this._graphic;
+		}
+		this._graphic = flixel_FlxG.bitmap.add(this.bitmapData,false,this.name);
+		this._graphic.persist = this.persist;
+		return this._graphic;
+	}
+	,set_persist: function(value) {
+		if(this._graphic != null) {
+			this._graphic.persist = value;
+		}
+		return this.persist = value;
+	}
+	,set_minWidth: function(value) {
+		if(value <= this.maxWidth) {
+			this.minWidth = value;
+			if(value > this.get_width()) {
+				this.set_width(value);
+			}
+		}
+		return this.minWidth;
+	}
+	,set_minHeight: function(value) {
+		if(value <= this.maxHeight) {
+			this.minHeight = value;
+			if(value > this.get_height()) {
+				this.set_height(value);
+			}
+		}
+		return this.minHeight;
+	}
+	,get_width: function() {
+		if(this.root != null) {
+			return this.root.rect.width | 0;
+		}
+		return 0;
+	}
+	,set_width: function(value) {
+		if(value > this.get_width()) {
+			if(this.powerOfTwo) {
+				value = this.getNextPowerOfTwo(value);
+			}
+			if(value <= this.maxWidth) {
+				if(this.root != null && (this.root.rect.width | 0) < value) {
+					this.expandRoot(value,this.root.rect.height | 0,this.needToDivideHorizontally(this.root,this.root.rect.width | 0,this.root.rect.height | 0));
+				}
+			}
+		}
+		return value;
+	}
+	,get_height: function() {
+		if(this.root != null) {
+			return this.root.rect.height | 0;
+		}
+		return 0;
+	}
+	,set_height: function(value) {
+		if(value > this.get_height()) {
+			if(this.powerOfTwo) {
+				value = this.getNextPowerOfTwo(value);
+			}
+			if(value <= this.maxHeight) {
+				if(this.root != null && (this.root.rect.height | 0) < value) {
+					this.expandRoot(this.root.rect.width | 0,value,this.needToDivideHorizontally(this.root,this.root.rect.width | 0,this.root.rect.height | 0));
+				}
+			}
+		}
+		return value;
+	}
+	,set_maxWidth: function(value) {
+		if(value >= this.minWidth && (this.root == null || value >= this.get_width())) {
+			this.maxWidth = value;
+		}
+		return this.maxWidth;
+	}
+	,set_maxHeight: function(value) {
+		if(value >= this.minHeight && (this.root == null || value >= this.get_height())) {
+			this.maxHeight = value;
+		}
+		return this.maxHeight;
+	}
+	,set_powerOfTwo: function(value) {
+		if(value != this.powerOfTwo && value && this.root != null) {
+			var nextWidth = this.getNextPowerOfTwo(this.root.rect.width | 0);
+			var nextHeight = this.getNextPowerOfTwo(this.root.rect.height | 0);
+			if(nextWidth != (this.root.rect.width | 0) || nextHeight != (this.root.rect.height | 0)) {
+				if(this.maxWidth > 0 && nextWidth > this.maxWidth || this.maxHeight > 0 && nextHeight > this.maxHeight) {
+					return false;
+				}
+				var temp = this.root;
+				var _this = flixel_math_FlxRect._pool.get();
+				_this.x = 0;
+				_this.y = 0;
+				_this.width = nextWidth;
+				_this.height = nextHeight;
+				var rect = _this;
+				rect._inPool = false;
+				this.root = new flixel_graphics_atlas_FlxNode(rect,this);
+				if(temp.left != null) {
+					this.divideNode(this.root,temp.rect.width | 0,temp.rect.height | 0,this.needToDivideHorizontally(this.root,temp.rect.width | 0,temp.rect.height | 0));
+					this.root.left.left = temp;
+				}
+			}
+		}
+		return this.powerOfTwo = value;
+	}
+	,__class__: flixel_graphics_atlas_FlxAtlas
+	,__properties__: {set_powerOfTwo:"set_powerOfTwo",set_maxHeight:"set_maxHeight",set_maxWidth:"set_maxWidth",set_minHeight:"set_minHeight",set_minWidth:"set_minWidth",set_height:"set_height",get_height:"get_height",set_width:"set_width",get_width:"get_width",set_persist:"set_persist",get_graphic:"get_graphic",set_bitmapData:"set_bitmapData"}
+};
+var flixel_graphics_atlas_FlxNode = function(rect,atlas,filled,key,rotated) {
+	if(rotated == null) {
+		rotated = false;
+	}
+	if(key == null) {
+		key = "";
+	}
+	if(filled == null) {
+		filled = false;
+	}
+	this.filled = filled;
+	this.left = null;
+	this.right = null;
+	this.rect = rect;
+	this.key = key;
+	this.atlas = atlas;
+	this.rotated = rotated;
+};
+$hxClasses["flixel.graphics.atlas.FlxNode"] = flixel_graphics_atlas_FlxNode;
+flixel_graphics_atlas_FlxNode.__name__ = ["flixel","graphics","atlas","FlxNode"];
+flixel_graphics_atlas_FlxNode.__interfaces__ = [flixel_util_IFlxDestroyable];
+flixel_graphics_atlas_FlxNode.prototype = {
+	destroy: function() {
+		this.key = null;
+		this.left = null;
+		this.right = null;
+		this.rect = null;
+		this.atlas = null;
+	}
+	,canPlace: function(width,height) {
+		if(this.rect.width >= width) {
+			return this.rect.height >= height;
+		} else {
+			return false;
+		}
+	}
+	,getTileFrames: function(tileSize,tileSpacing,tileBorder) {
+		flixel_FlxG.bitmap.add(this.atlas.bitmapData,false,this.atlas.name);
+		var frame = this.atlas.getAtlasFrames().framesHash.get(this.key);
+		if(frame != null) {
+			var tileFrames = flixel_graphics_frames_FlxTileFrames.fromFrame(frame,tileSize,tileSpacing);
+			if(tileBorder != null) {
+				tileFrames = tileFrames.addBorder(tileBorder);
+			}
+			return tileFrames;
+		}
+		return null;
+	}
+	,getImageFrame: function() {
+		flixel_FlxG.bitmap.add(this.atlas.bitmapData,false,this.atlas.name);
+		var frame = this.atlas.getAtlasFrames().framesHash.get(this.key);
+		if(frame != null) {
+			return flixel_graphics_frames_FlxImageFrame.fromFrame(frame);
+		}
+		return null;
+	}
+	,get_isEmpty: function() {
+		if(!this.filled && this.left == null) {
+			return this.right == null;
+		} else {
+			return false;
+		}
+	}
+	,get_x: function() {
+		return this.rect.x | 0;
+	}
+	,get_y: function() {
+		return this.rect.y | 0;
+	}
+	,get_width: function() {
+		return this.rect.width | 0;
+	}
+	,set_width: function(value) {
+		this.rect.width = value;
+		return value;
+	}
+	,get_height: function() {
+		return this.rect.height | 0;
+	}
+	,set_height: function(value) {
+		this.rect.height = value;
+		return value;
+	}
+	,__class__: flixel_graphics_atlas_FlxNode
+	,__properties__: {get_isEmpty:"get_isEmpty",set_height:"set_height",get_height:"get_height",set_width:"set_width",get_width:"get_width",get_y:"get_y",get_x:"get_x"}
 };
 var flixel_graphics_frames_FlxFramesCollection = function(parent,type,border) {
 	this.parent = parent;
@@ -27494,6 +28571,764 @@ flixel_system_ui_FlxSystemButton.prototype = $extend(openfl_display_Sprite.proto
 	,__class__: flixel_system_ui_FlxSystemButton
 	,__properties__: $extend(openfl_display_Sprite.prototype.__properties__,{set_toggled:"set_toggled"})
 });
+var flixel_text_FlxText = function(X,Y,FieldWidth,Text,Size,EmbeddedFont) {
+	if(EmbeddedFont == null) {
+		EmbeddedFont = true;
+	}
+	if(Size == null) {
+		Size = 8;
+	}
+	if(FieldWidth == null) {
+		FieldWidth = 0;
+	}
+	if(Y == null) {
+		Y = 0;
+	}
+	if(X == null) {
+		X = 0;
+	}
+	this._hasBorderAlpha = false;
+	this._regen = true;
+	this._formatRanges = [];
+	this.borderQuality = 1;
+	this.borderSize = 1;
+	this.borderColor = 0;
+	this.borderStyle = flixel_text_FlxTextBorderStyle.NONE;
+	this.text = "";
+	flixel_FlxSprite.call(this,X,Y);
+	if(Text == null || Text == "") {
+		this.set_text("");
+		Text = " ";
+	} else {
+		this.set_text(Text);
+	}
+	this.textField = new openfl_text_TextField();
+	this.textField.set_selectable(false);
+	this.textField.set_multiline(true);
+	this.textField.set_wordWrap(true);
+	this._defaultFormat = new openfl_text_TextFormat(null,Size,16777215);
+	this.set_font(flixel_system_FlxAssets.FONT_DEFAULT);
+	this._formatAdjusted = new openfl_text_TextFormat();
+	this.textField.set_defaultTextFormat(this._defaultFormat);
+	this.textField.set_text(Text);
+	this.set_fieldWidth(FieldWidth);
+	this.textField.set_embedFonts(EmbeddedFont);
+	this.textField.set_height(Text.length <= 0 ? 1 : 10);
+	this.set_allowCollisions(0);
+	this.set_moves(false);
+	this.drawFrame();
+	var point = flixel_math_FlxPoint._pool.get().set(1,1);
+	point._inPool = false;
+	this.shadowOffset = point;
+};
+$hxClasses["flixel.text.FlxText"] = flixel_text_FlxText;
+flixel_text_FlxText.__name__ = ["flixel","text","FlxText"];
+flixel_text_FlxText.__super__ = flixel_FlxSprite;
+flixel_text_FlxText.prototype = $extend(flixel_FlxSprite.prototype,{
+	destroy: function() {
+		this.textField = null;
+		this._font = null;
+		this._defaultFormat = null;
+		this._formatAdjusted = null;
+		this.shadowOffset = flixel_util_FlxDestroyUtil.put(this.shadowOffset);
+		flixel_FlxSprite.prototype.destroy.call(this);
+	}
+	,drawFrame: function(Force) {
+		if(Force == null) {
+			Force = false;
+		}
+		this._regen = this._regen || Force;
+		flixel_FlxSprite.prototype.drawFrame.call(this,this._regen);
+	}
+	,stampOnAtlas: function(atlas) {
+		this.regenGraphic();
+		var node = atlas.addNode(this.graphic.bitmap,this.graphic.key);
+		var result = node != null;
+		if(node != null) {
+			this.set_frames(node.getImageFrame());
+		}
+		return result;
+	}
+	,applyMarkup: function(input,rules) {
+		if(rules == null || rules.length == 0) {
+			return this;
+		}
+		this.clearFormats();
+		var rangeStarts = [];
+		var rangeEnds = [];
+		var rulesToApply = [];
+		var i = 0;
+		var _g = 0;
+		while(_g < rules.length) {
+			var rule = rules[_g];
+			++_g;
+			if(rule.marker == null || rule.format == null) {
+				continue;
+			}
+			var start = false;
+			var markerLength = rule.marker.length;
+			if(input.indexOf(rule.marker) == -1) {
+				continue;
+			}
+			var _g2 = 0;
+			var _g1 = input.length;
+			while(_g2 < _g1) {
+				var charIndex = _g2++;
+				if(haxe_Utf8.compare(HxOverrides.substr(input,charIndex,markerLength),rule.marker) != 0) {
+					continue;
+				}
+				if(start) {
+					start = false;
+					rangeEnds.push(charIndex);
+				} else {
+					start = true;
+					rangeStarts.push(charIndex);
+					rulesToApply.push(rule);
+				}
+			}
+			if(start) {
+				rangeEnds.push(-1);
+			}
+			++i;
+		}
+		var _g3 = 0;
+		while(_g3 < rules.length) {
+			var rule1 = rules[_g3];
+			++_g3;
+			input = StringTools.replace(input,rule1.marker,"");
+		}
+		var _g11 = 0;
+		var _g4 = rangeStarts.length;
+		while(_g11 < _g4) {
+			var i1 = _g11++;
+			var delIndex = rangeStarts[i1];
+			var markerLength1 = rulesToApply[i1].marker.length;
+			var _g31 = 0;
+			var _g21 = rangeStarts.length;
+			while(_g31 < _g21) {
+				var j = _g31++;
+				if(rangeStarts[j] > delIndex) {
+					rangeStarts[j] -= markerLength1;
+				}
+				if(rangeEnds[j] > delIndex) {
+					rangeEnds[j] -= markerLength1;
+				}
+			}
+			delIndex = rangeEnds[i1];
+			var _g32 = 0;
+			var _g22 = rangeStarts.length;
+			while(_g32 < _g22) {
+				var j1 = _g32++;
+				if(rangeStarts[j1] > delIndex) {
+					rangeStarts[j1] -= markerLength1;
+				}
+				if(rangeEnds[j1] > delIndex) {
+					rangeEnds[j1] -= markerLength1;
+				}
+			}
+		}
+		this.set_text(input);
+		var _g12 = 0;
+		var _g5 = rangeStarts.length;
+		while(_g12 < _g5) {
+			var i2 = _g12++;
+			this.addFormat(rulesToApply[i2].format,rangeStarts[i2],rangeEnds[i2]);
+		}
+		return this;
+	}
+	,addFormat: function(Format,Start,End) {
+		if(End == null) {
+			End = -1;
+		}
+		if(Start == null) {
+			Start = -1;
+		}
+		this._formatRanges.push(new flixel_text__$FlxText_FlxTextFormatRange(Format,Start,End));
+		this._formatRanges.sort(function(left,right) {
+			if(left.range.start < right.range.start) {
+				return -1;
+			} else {
+				return 1;
+			}
+		});
+		this._regen = true;
+		return this;
+	}
+	,removeFormat: function(Format,Start,End) {
+		var _g = 0;
+		var _g1 = this._formatRanges;
+		while(_g < _g1.length) {
+			var formatRange = _g1[_g];
+			++_g;
+			if(formatRange.format != Format) {
+				continue;
+			}
+			if(Start != null && End != null && (Start > formatRange.range.end || End < formatRange.range.start)) {
+				continue;
+			}
+			HxOverrides.remove(this._formatRanges,formatRange);
+		}
+		this._regen = true;
+		return this;
+	}
+	,clearFormats: function() {
+		this._formatRanges = [];
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return this;
+	}
+	,setFormat: function(Font,Size,Color,Alignment,BorderStyle,BorderColor,EmbeddedFont) {
+		if(EmbeddedFont == null) {
+			EmbeddedFont = true;
+		}
+		if(BorderColor == null) {
+			BorderColor = 0;
+		}
+		if(Color == null) {
+			Color = -1;
+		}
+		if(Size == null) {
+			Size = 8;
+		}
+		if(BorderStyle == null) {
+			BorderStyle = flixel_text_FlxTextBorderStyle.NONE;
+		} else {
+			BorderStyle = BorderStyle;
+		}
+		if(EmbeddedFont) {
+			this.set_font(Font);
+		} else if(Font != null) {
+			this.set_systemFont(Font);
+		}
+		this.set_size(Size);
+		this.set_color(Color);
+		if(Alignment != null) {
+			this.set_alignment(Alignment);
+		}
+		this.set_borderStyle(BorderStyle);
+		this.set_borderColor(BorderColor);
+		this.set_borderSize(1);
+		this.set_borderQuality(1);
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return this;
+	}
+	,setBorderStyle: function(Style,Color,Size,Quality) {
+		if(Quality == null) {
+			Quality = 1;
+		}
+		if(Size == null) {
+			Size = 1;
+		}
+		if(Color == null) {
+			Color = 0;
+		}
+		this.set_borderStyle(Style);
+		this.set_borderColor(Color);
+		this.set_borderSize(Size);
+		this.set_borderQuality(Quality);
+		return this;
+	}
+	,set_fieldWidth: function(value) {
+		if(this.textField == null) {
+			return value;
+		}
+		if(value <= 0) {
+			this.set_wordWrap(false);
+			this.set_autoSize(true);
+		} else {
+			this.set_autoSize(false);
+			this.set_wordWrap(true);
+			this.textField.set_width(value);
+		}
+		this._regen = true;
+		return value;
+	}
+	,get_fieldWidth: function() {
+		if(this.textField != null) {
+			return this.textField.get_width();
+		} else {
+			return 0;
+		}
+	}
+	,set_autoSize: function(value) {
+		if(this.textField != null) {
+			this.textField.set_autoSize(value ? 1 : 2);
+			this._regen = true;
+		}
+		return value;
+	}
+	,get_autoSize: function() {
+		if(this.textField != null) {
+			return this.textField.get_autoSize() != 2;
+		} else {
+			return false;
+		}
+	}
+	,set_text: function(Text) {
+		this.text = Text;
+		if(this.textField != null) {
+			var ot = this.textField.get_text();
+			this.textField.set_text(Text);
+			this._regen = this.textField.get_text() != ot || this._regen;
+		}
+		return Text;
+	}
+	,get_size: function() {
+		return this._defaultFormat.size | 0;
+	}
+	,set_size: function(Size) {
+		this._defaultFormat.size = Size;
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return Size;
+	}
+	,set_color: function(Color) {
+		if(this._defaultFormat.color == (Color & 16777215)) {
+			return Color;
+		}
+		this._defaultFormat.color = Color & 16777215;
+		this.color = Color;
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return Color;
+	}
+	,get_font: function() {
+		return this._font;
+	}
+	,set_font: function(Font) {
+		this.textField.set_embedFonts(true);
+		if(Font != null) {
+			var newFontName = Font;
+			if(openfl_Assets.exists(Font,"FONT")) {
+				newFontName = openfl_Assets.getFont(Font).name;
+			}
+			this._defaultFormat.font = newFontName;
+		} else {
+			this._defaultFormat.font = flixel_system_FlxAssets.FONT_DEFAULT;
+		}
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return this._font = this._defaultFormat.font;
+	}
+	,get_embedded: function() {
+		return this.textField.set_embedFonts(true);
+	}
+	,get_systemFont: function() {
+		return this._defaultFormat.font;
+	}
+	,set_systemFont: function(Font) {
+		this.textField.set_embedFonts(false);
+		this._defaultFormat.font = Font;
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return Font;
+	}
+	,get_bold: function() {
+		return this._defaultFormat.bold;
+	}
+	,set_bold: function(value) {
+		if(this._defaultFormat.bold != value) {
+			this._defaultFormat.bold = value;
+			this.textField.set_defaultTextFormat(this._defaultFormat);
+			this.textField.setTextFormat(this._defaultFormat);
+			this._regen = true;
+		}
+		return value;
+	}
+	,get_italic: function() {
+		return this._defaultFormat.italic;
+	}
+	,set_italic: function(value) {
+		if(this._defaultFormat.italic != value) {
+			this._defaultFormat.italic = value;
+			this.textField.set_defaultTextFormat(this._defaultFormat);
+			this.textField.setTextFormat(this._defaultFormat);
+			this._regen = true;
+		}
+		return value;
+	}
+	,get_wordWrap: function() {
+		return this.textField.get_wordWrap();
+	}
+	,set_wordWrap: function(value) {
+		if(this.textField.get_wordWrap() != value) {
+			this.textField.set_wordWrap(value);
+			this._regen = true;
+		}
+		return value;
+	}
+	,get_alignment: function() {
+		return flixel_text__$FlxText_FlxTextAlign_$Impl_$.fromOpenFL(this._defaultFormat.align);
+	}
+	,set_alignment: function(Alignment) {
+		this._defaultFormat.align = flixel_text__$FlxText_FlxTextAlign_$Impl_$.toOpenFL(Alignment);
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+		return Alignment;
+	}
+	,set_borderStyle: function(style) {
+		if(style != this.borderStyle) {
+			this._regen = true;
+		}
+		return this.borderStyle = style;
+	}
+	,set_borderColor: function(Color) {
+		if(this.borderColor != Color && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
+			this._regen = true;
+		}
+		this._hasBorderAlpha = (Color >> 24 & 255) / 255 < 1;
+		return this.borderColor = Color;
+	}
+	,set_borderSize: function(Value) {
+		if(Value != this.borderSize && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
+			this._regen = true;
+		}
+		return this.borderSize = Value;
+	}
+	,set_borderQuality: function(Value) {
+		var lowerBound = Value < 0 ? 0 : Value;
+		if(lowerBound > 1) {
+			Value = 1;
+		} else {
+			Value = lowerBound;
+		}
+		if(Value != this.borderQuality && this.borderStyle != flixel_text_FlxTextBorderStyle.NONE) {
+			this._regen = true;
+		}
+		return this.borderQuality = Value;
+	}
+	,set_graphic: function(Value) {
+		var oldGraphic = this.graphic;
+		var graph = flixel_FlxSprite.prototype.set_graphic.call(this,Value);
+		flixel_FlxG.bitmap.removeIfNoUse(oldGraphic);
+		return graph;
+	}
+	,get_width: function() {
+		this.regenGraphic();
+		return flixel_FlxSprite.prototype.get_width.call(this);
+	}
+	,get_height: function() {
+		this.regenGraphic();
+		return flixel_FlxSprite.prototype.get_height.call(this);
+	}
+	,updateColorTransform: function() {
+		if(this.colorTransform == null) {
+			this.colorTransform = new openfl_geom_ColorTransform();
+		}
+		if(this.alpha != 1) {
+			this.colorTransform.alphaMultiplier = this.alpha;
+			this.useColorTransform = true;
+		} else {
+			this.colorTransform.alphaMultiplier = 1;
+			this.useColorTransform = false;
+		}
+		this.dirty = true;
+	}
+	,regenGraphic: function() {
+		if(this.textField == null || !this._regen) {
+			return;
+		}
+		var oldWidth = 0;
+		var oldHeight = 4;
+		if(this.graphic != null) {
+			oldWidth = this.graphic.width;
+			oldHeight = this.graphic.height;
+		}
+		var newWidth = this.textField.get_width();
+		var newHeight = this.textField.get_textHeight() + 4;
+		if(this.textField.get_textHeight() == 0) {
+			newHeight = oldHeight;
+		}
+		if(oldWidth != newWidth || oldHeight != newHeight) {
+			this.set_height(newHeight);
+			var key = flixel_FlxG.bitmap.getUniqueKey("text");
+			this.makeGraphic(newWidth | 0,newHeight | 0,0,false,key);
+			if(this._hasBorderAlpha) {
+				this._borderPixels = this.graphic.bitmap.clone();
+			}
+			this.frameHeight = this.get_height() | 0;
+			this.textField.set_height(this.get_height() * 1.2);
+			this._flashRect.x = 0;
+			this._flashRect.y = 0;
+			this._flashRect.width = newWidth;
+			this._flashRect.height = newHeight;
+		} else {
+			this.graphic.bitmap.fillRect(this._flashRect,0);
+			if(this._hasBorderAlpha) {
+				if(this._borderPixels == null) {
+					this._borderPixels = new openfl_display_BitmapData(this.frameWidth,this.frameHeight,true);
+				} else {
+					this._borderPixels.fillRect(this._flashRect,0);
+				}
+			}
+		}
+		if(this.textField != null && this.textField.get_text() != null && this.textField.get_text().length > 0) {
+			this.copyTextFormat(this._defaultFormat,this._formatAdjusted);
+			this._matrix.identity();
+			this.applyBorderStyle();
+			if(!(!this._hasBorderAlpha)) {
+				if(this._borderColorTransform == null) {
+					this._borderColorTransform = new openfl_geom_ColorTransform();
+				}
+				this._borderColorTransform.alphaMultiplier = (this.borderColor >> 24 & 255) / 255;
+				this._borderPixels.colorTransform(this._borderPixels.rect,this._borderColorTransform);
+				this.graphic.bitmap.draw(this._borderPixels);
+			}
+			this.applyFormats(this._formatAdjusted,false);
+			this.drawTextFieldTo(this.graphic.bitmap);
+		}
+		this._regen = false;
+		this.set_frame(this.frame);
+	}
+	,drawTextFieldTo: function(graphic) {
+		graphic.draw(this.textField,this._matrix);
+	}
+	,draw: function() {
+		this.regenGraphic();
+		flixel_FlxSprite.prototype.draw.call(this);
+	}
+	,calcFrame: function(RunOnCpp) {
+		if(RunOnCpp == null) {
+			RunOnCpp = false;
+		}
+		if(this.textField == null) {
+			return;
+		}
+		if(flixel_FlxG.renderTile && !RunOnCpp) {
+			return;
+		}
+		this.regenGraphic();
+		flixel_FlxSprite.prototype.calcFrame.call(this,RunOnCpp);
+	}
+	,applyBorderStyle: function() {
+		var iterations = this.borderSize * this.borderQuality | 0;
+		if(iterations <= 0) {
+			iterations = 1;
+		}
+		var delta = this.borderSize / iterations;
+		var _g = this.borderStyle;
+		switch(_g[1]) {
+		case 0:
+			break;
+		case 1:
+			this.applyFormats(this._formatAdjusted,true);
+			var _g1 = 0;
+			var _g2 = iterations;
+			while(_g1 < _g2) {
+				var i = _g1++;
+				var graphic = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(delta,delta);
+				this.drawTextFieldTo(graphic);
+			}
+			this._matrix.translate(-this.shadowOffset.x * this.borderSize,-this.shadowOffset.y * this.borderSize);
+			break;
+		case 2:
+			this.applyFormats(this._formatAdjusted,true);
+			var curDelta = delta;
+			var _g11 = 0;
+			var _g3 = iterations;
+			while(_g11 < _g3) {
+				var i1 = _g11++;
+				var graphic1 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta,-curDelta);
+				this.drawTextFieldTo(graphic1);
+				var graphic2 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(curDelta,0);
+				this.drawTextFieldTo(graphic2);
+				var graphic3 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(curDelta,0);
+				this.drawTextFieldTo(graphic3);
+				var graphic4 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(0,curDelta);
+				this.drawTextFieldTo(graphic4);
+				var graphic5 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(0,curDelta);
+				this.drawTextFieldTo(graphic5);
+				var graphic6 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta,0);
+				this.drawTextFieldTo(graphic6);
+				var graphic7 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta,0);
+				this.drawTextFieldTo(graphic7);
+				var graphic8 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(0,-curDelta);
+				this.drawTextFieldTo(graphic8);
+				this._matrix.translate(curDelta,0);
+				curDelta += delta;
+			}
+			break;
+		case 3:
+			this.applyFormats(this._formatAdjusted,true);
+			var curDelta1 = delta;
+			var _g12 = 0;
+			var _g4 = iterations;
+			while(_g12 < _g4) {
+				var i2 = _g12++;
+				var graphic9 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta1,-curDelta1);
+				this.drawTextFieldTo(graphic9);
+				var graphic10 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(curDelta1 * 2,0);
+				this.drawTextFieldTo(graphic10);
+				var graphic11 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(0,curDelta1 * 2);
+				this.drawTextFieldTo(graphic11);
+				var graphic12 = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+				this._matrix.translate(-curDelta1 * 2,0);
+				this.drawTextFieldTo(graphic12);
+				this._matrix.translate(curDelta1,-curDelta1);
+				curDelta1 += delta;
+			}
+			break;
+		}
+	}
+	,applyBorderTransparency: function() {
+		if(!this._hasBorderAlpha) {
+			return;
+		}
+		if(this._borderColorTransform == null) {
+			this._borderColorTransform = new openfl_geom_ColorTransform();
+		}
+		this._borderColorTransform.alphaMultiplier = (this.borderColor >> 24 & 255) / 255;
+		this._borderPixels.colorTransform(this._borderPixels.rect,this._borderColorTransform);
+		this.graphic.bitmap.draw(this._borderPixels);
+	}
+	,copyTextWithOffset: function(x,y) {
+		var graphic = this._hasBorderAlpha ? this._borderPixels : this.graphic.bitmap;
+		this._matrix.translate(x,y);
+		this.drawTextFieldTo(graphic);
+	}
+	,applyFormats: function(FormatAdjusted,UseBorderColor) {
+		if(UseBorderColor == null) {
+			UseBorderColor = false;
+		}
+		this.copyTextFormat(this._defaultFormat,FormatAdjusted,false);
+		FormatAdjusted.color = UseBorderColor ? this.borderColor & 16777215 : this._defaultFormat.color;
+		this.textField.setTextFormat(FormatAdjusted);
+		var _g = 0;
+		var _g1 = this._formatRanges;
+		while(_g < _g1.length) {
+			var formatRange = _g1[_g];
+			++_g;
+			if(this.textField.get_text().length - 1 < formatRange.range.start) {
+				break;
+			} else {
+				var textFormat = formatRange.format.format;
+				this.copyTextFormat(textFormat,FormatAdjusted,false);
+				FormatAdjusted.color = UseBorderColor ? formatRange.format.borderColor & 16777215 : textFormat.color;
+			}
+			this.textField.setTextFormat(FormatAdjusted,formatRange.range.start,Math.min(formatRange.range.end,this.textField.get_text().length) | 0);
+		}
+	}
+	,copyTextFormat: function(from,to,withAlign) {
+		if(withAlign == null) {
+			withAlign = true;
+		}
+		to.font = from.font;
+		to.bold = from.bold;
+		to.italic = from.italic;
+		to.size = from.size;
+		to.color = from.color;
+		if(withAlign) {
+			to.align = from.align;
+		}
+	}
+	,dtfCopy: function() {
+		var dtf = this.textField.get_defaultTextFormat();
+		return new openfl_text_TextFormat(dtf.font,dtf.size,dtf.color,dtf.bold,dtf.italic,dtf.underline,dtf.url,dtf.target,dtf.align);
+	}
+	,updateDefaultFormat: function() {
+		this.textField.set_defaultTextFormat(this._defaultFormat);
+		this.textField.setTextFormat(this._defaultFormat);
+		this._regen = true;
+	}
+	,set_frames: function(Frames) {
+		flixel_FlxSprite.prototype.set_frames.call(this,Frames);
+		this._regen = false;
+		return Frames;
+	}
+	,__class__: flixel_text_FlxText
+	,__properties__: $extend(flixel_FlxSprite.prototype.__properties__,{set_autoSize:"set_autoSize",get_autoSize:"get_autoSize",set_fieldWidth:"set_fieldWidth",get_fieldWidth:"get_fieldWidth",set_borderQuality:"set_borderQuality",set_borderSize:"set_borderSize",set_borderColor:"set_borderColor",set_borderStyle:"set_borderStyle",set_alignment:"set_alignment",get_alignment:"get_alignment",set_wordWrap:"set_wordWrap",get_wordWrap:"get_wordWrap",set_italic:"set_italic",get_italic:"get_italic",set_bold:"set_bold",get_bold:"get_bold",set_systemFont:"set_systemFont",get_systemFont:"get_systemFont",get_embedded:"get_embedded",set_font:"set_font",get_font:"get_font",set_size:"set_size",get_size:"get_size",set_text:"set_text"})
+});
+var flixel_text_FlxTextFormat = function(FontColor,Bold,Italic,BorderColor) {
+	this.format = new openfl_text_TextFormat(null,null,FontColor,Bold,Italic);
+	this.borderColor = BorderColor == null ? 0 : BorderColor;
+};
+$hxClasses["flixel.text.FlxTextFormat"] = flixel_text_FlxTextFormat;
+flixel_text_FlxTextFormat.__name__ = ["flixel","text","FlxTextFormat"];
+flixel_text_FlxTextFormat.prototype = {
+	__class__: flixel_text_FlxTextFormat
+};
+var flixel_text__$FlxText_FlxTextFormatRange = function(format,start,end) {
+	this.range = new flixel_util_helpers_FlxRange(start,end);
+	this.format = format;
+};
+$hxClasses["flixel.text._FlxText.FlxTextFormatRange"] = flixel_text__$FlxText_FlxTextFormatRange;
+flixel_text__$FlxText_FlxTextFormatRange.__name__ = ["flixel","text","_FlxText","FlxTextFormatRange"];
+flixel_text__$FlxText_FlxTextFormatRange.prototype = {
+	__class__: flixel_text__$FlxText_FlxTextFormatRange
+};
+var flixel_text_FlxTextFormatMarkerPair = function(format,marker) {
+	this.format = format;
+	this.marker = marker;
+};
+$hxClasses["flixel.text.FlxTextFormatMarkerPair"] = flixel_text_FlxTextFormatMarkerPair;
+flixel_text_FlxTextFormatMarkerPair.__name__ = ["flixel","text","FlxTextFormatMarkerPair"];
+flixel_text_FlxTextFormatMarkerPair.prototype = {
+	__class__: flixel_text_FlxTextFormatMarkerPair
+};
+var flixel_text_FlxTextBorderStyle = $hxClasses["flixel.text.FlxTextBorderStyle"] = { __ename__ : ["flixel","text","FlxTextBorderStyle"], __constructs__ : ["NONE","SHADOW","OUTLINE","OUTLINE_FAST"] };
+flixel_text_FlxTextBorderStyle.NONE = ["NONE",0];
+flixel_text_FlxTextBorderStyle.NONE.toString = $estr;
+flixel_text_FlxTextBorderStyle.NONE.__enum__ = flixel_text_FlxTextBorderStyle;
+flixel_text_FlxTextBorderStyle.SHADOW = ["SHADOW",1];
+flixel_text_FlxTextBorderStyle.SHADOW.toString = $estr;
+flixel_text_FlxTextBorderStyle.SHADOW.__enum__ = flixel_text_FlxTextBorderStyle;
+flixel_text_FlxTextBorderStyle.OUTLINE = ["OUTLINE",2];
+flixel_text_FlxTextBorderStyle.OUTLINE.toString = $estr;
+flixel_text_FlxTextBorderStyle.OUTLINE.__enum__ = flixel_text_FlxTextBorderStyle;
+flixel_text_FlxTextBorderStyle.OUTLINE_FAST = ["OUTLINE_FAST",3];
+flixel_text_FlxTextBorderStyle.OUTLINE_FAST.toString = $estr;
+flixel_text_FlxTextBorderStyle.OUTLINE_FAST.__enum__ = flixel_text_FlxTextBorderStyle;
+var flixel_text__$FlxText_FlxTextAlign_$Impl_$ = {};
+$hxClasses["flixel.text._FlxText.FlxTextAlign_Impl_"] = flixel_text__$FlxText_FlxTextAlign_$Impl_$;
+flixel_text__$FlxText_FlxTextAlign_$Impl_$.__name__ = ["flixel","text","_FlxText","FlxTextAlign_Impl_"];
+flixel_text__$FlxText_FlxTextAlign_$Impl_$.fromOpenFL = function(align) {
+	switch(align) {
+	case 0:
+		return "center";
+	case 2:
+		return "justify";
+	case 3:
+		return "left";
+	case 4:
+		return "right";
+	default:
+		return "left";
+	}
+};
+flixel_text__$FlxText_FlxTextAlign_$Impl_$.toOpenFL = function(align) {
+	switch(align) {
+	case "center":
+		return 0;
+	case "justify":
+		return 2;
+	case "left":
+		return 3;
+	case "right":
+		return 4;
+	default:
+		return 3;
+	}
+};
 var flixel_tile_FlxBaseTilemap = function() {
 	this._collideIndex = 0;
 	this._drawIndex = 0;
@@ -34766,6 +36601,188 @@ flixel_util_FlxVerticalAlign.CENTER.__enum__ = flixel_util_FlxVerticalAlign;
 flixel_util_FlxVerticalAlign.BOTTOM = ["BOTTOM",2];
 flixel_util_FlxVerticalAlign.BOTTOM.toString = $estr;
 flixel_util_FlxVerticalAlign.BOTTOM.__enum__ = flixel_util_FlxVerticalAlign;
+var flixel_util_helpers_FlxRange = function(start,end) {
+	this.active = true;
+	this.start = start;
+	this.end = end == null ? start : end;
+};
+$hxClasses["flixel.util.helpers.FlxRange"] = flixel_util_helpers_FlxRange;
+flixel_util_helpers_FlxRange.__name__ = ["flixel","util","helpers","FlxRange"];
+flixel_util_helpers_FlxRange.prototype = {
+	set: function(start,end) {
+		this.start = start;
+		this.end = end == null ? start : end;
+		return this;
+	}
+	,equals: function(OtherFlxRange) {
+		if(this.start == OtherFlxRange.start) {
+			return this.end == OtherFlxRange.end;
+		} else {
+			return false;
+		}
+	}
+	,toString: function() {
+		var value = this.start;
+		var _this = flixel_util_LabelValuePair._pool.get();
+		_this.label = "start";
+		_this.value = value;
+		var value1 = this.end;
+		var _this1 = flixel_util_LabelValuePair._pool.get();
+		_this1.label = "end";
+		_this1.value = value1;
+		return flixel_util_FlxStringUtil.getDebugString([_this,_this1]);
+	}
+	,__class__: flixel_util_helpers_FlxRange
+};
+var groups_Planets = function() {
+};
+$hxClasses["groups.Planets"] = groups_Planets;
+groups_Planets.__name__ = ["groups","Planets"];
+groups_Planets.prototype = {
+	add: function(planet) {
+		planet.setID(groups_Planets.pID);
+		groups_Planets.pID++;
+		groups_Planets.members.push(planet);
+		flixel_FlxG.game._state.add(planet);
+		if(groups_Planets.minScrollX > planet.x - flixel_FlxG.width / 1) {
+			groups_Planets.minScrollX = planet.x - flixel_FlxG.width / 1;
+		}
+		if(groups_Planets.maxScrollX < planet.x + flixel_FlxG.width / 2.5) {
+			groups_Planets.maxScrollX = planet.x + flixel_FlxG.width / 2.5;
+		}
+		if(groups_Planets.minScrollY > planet.y - flixel_FlxG.height / 1) {
+			groups_Planets.minScrollY = planet.y - flixel_FlxG.height / 1;
+		}
+		if(groups_Planets.maxScrollY < planet.y + flixel_FlxG.height / 2.5) {
+			groups_Planets.maxScrollY = planet.y + flixel_FlxG.height / 2.5;
+		}
+	}
+	,getCameraBounds: function() {
+		return [groups_Planets.minScrollX,groups_Planets.maxScrollX,groups_Planets.minScrollY,groups_Planets.maxScrollY];
+	}
+	,upgrade: function(planet,type) {
+		var cost = planet.getUpgradeCost(type);
+		if(planet.getOwner().resources.remove(cost)) {
+			switch(type) {
+			case resources_ResourceTypes.Credits:
+				planet.resources.add(new resources_Resources([0,0,0,0,1]));
+				break;
+			case resources_ResourceTypes.Minerals:
+				planet.resources.add(new resources_Resources([0,-1,0,1,0]));
+				if(planet.resources.get(resources_ResourceTypes.Natural) == 0) {
+					planet.resources.setResource(resources_ResourceTypes.Natural,null);
+				}
+				break;
+			case resources_ResourceTypes.Natural:
+				planet.resources.add(new resources_Resources([0,1,0,0,0]));
+				break;
+			case resources_ResourceTypes.Productivity:
+				planet.resources.add(new resources_Resources([1,0,0,0,0]));
+				break;
+			case resources_ResourceTypes.Science:
+				planet.resources.add(new resources_Resources([0,0,1,0,0]));
+				break;
+			default:
+			}
+		}
+		planet.updateStatsImg();
+		planet.getOwner().updateIncome();
+	}
+	,addRandom: function(x,y,size,type,player) {
+		var resources1 = new resources_Resources([]);
+		switch(type) {
+		case planets_PlanetType.BLUE:
+			resources1 = new resources_Resources([this.vhigh(),this.low(),this.vlow(),this.med(),this.med()]);
+			break;
+		case planets_PlanetType.GRAY:
+			resources1 = new resources_Resources([this.med(),this.vlow(),this.vlow(),this.vhigh(),this.med()]);
+			break;
+		case planets_PlanetType.GREEN:
+			resources1 = new resources_Resources([this.low(),this.vhigh(),this.med(),this.low(),this.low()]);
+			break;
+		case planets_PlanetType.ORANGE:
+			resources1 = new resources_Resources([this.high(),this.low(),this.low(),this.med(),this.vhigh()]);
+			break;
+		case planets_PlanetType.PURPLE:
+			resources1 = new resources_Resources([this.high() + 2,this.med() + 2,this.med() + 2,this.med() + 2,this.high() + 2]);
+			break;
+		case planets_PlanetType.WHITE:
+			resources1 = new resources_Resources([this.med(),this.low(),this.high(),this.med(),this.med()]);
+			break;
+		default:
+			haxe_Log.trace("default",{ fileName : "Planets.hx", lineNumber : 93, className : "groups.Planets", methodName : "addRandom", customParams : [type]});
+		}
+		var _g = 0;
+		while(_g < 4) {
+			var j = _g++;
+			if(resources1.get(resources_ResourceTypes.types[j]) < 1) {
+				resources1.setResource(resources_ResourceTypes.types[j],null);
+			}
+		}
+		if(resources1.get(resources_ResourceTypes.Credits) < 1) {
+			resources1.setResource(resources_ResourceTypes.Credits,1);
+		}
+		var planet = new planets_Planet(x,y,size,type,player,resources1);
+		return planet;
+	}
+	,vhigh: function() {
+		return Std.random(12) + 7;
+	}
+	,high: function() {
+		return Std.random(9) + 3;
+	}
+	,med: function() {
+		return Std.random(7) - 1;
+	}
+	,low: function() {
+		return Std.random(6) - 2;
+	}
+	,vlow: function() {
+		return Std.random(5) - 3;
+	}
+	,all: function() {
+		return groups_Planets.members;
+	}
+	,upkeep: function() {
+		var _g = 0;
+		var _g1 = groups_Planets.members;
+		while(_g < _g1.length) {
+			var planet = _g1[_g];
+			++_g;
+			planet.upkeep();
+			planet.grow();
+			planet.updateStatsImg();
+		}
+	}
+	,updatePlayers: function() {
+		var _g = 0;
+		var _g1 = groups_Planets.members;
+		while(_g < _g1.length) {
+			var planet = _g1[_g];
+			++_g;
+			planet.reportIncome();
+		}
+	}
+	,__class__: groups_Planets
+};
+var groups_Players = function() {
+};
+$hxClasses["groups.Players"] = groups_Players;
+groups_Players.__name__ = ["groups","Players"];
+groups_Players.prototype = {
+	add: function(player) {
+		player.setID(groups_Players.pID);
+		groups_Players.pID++;
+		groups_Players.members.push(player);
+	}
+	,all: function() {
+		return groups_Players.members;
+	}
+	,__class__: groups_Players
+};
+var groups_Groups = function() { };
+$hxClasses["groups.Groups"] = groups_Groups;
+groups_Groups.__name__ = ["groups","Groups"];
 var haxe_StackItem = $hxClasses["haxe.StackItem"] = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunction","Module","FilePos","Method","LocalFunction"] };
 haxe_StackItem.CFunction = ["CFunction",0];
 haxe_StackItem.CFunction.toString = $estr;
@@ -35670,6 +37687,18 @@ haxe__$Unserializer_NullResolver.prototype = {
 	}
 	,__class__: haxe__$Unserializer_NullResolver
 };
+var haxe_Utf8 = function() { };
+$hxClasses["haxe.Utf8"] = haxe_Utf8;
+haxe_Utf8.__name__ = ["haxe","Utf8"];
+haxe_Utf8.compare = function(a,b) {
+	if(a > b) {
+		return 1;
+	} else if(a == b) {
+		return 0;
+	} else {
+		return -1;
+	}
+};
 var haxe_crypto_Base64 = function() { };
 $hxClasses["haxe.crypto.Base64"] = haxe_crypto_Base64;
 haxe_crypto_Base64.__name__ = ["haxe","crypto","Base64"];
@@ -36200,6 +38229,13 @@ haxe_ds_BalancedTree.prototype = {
 	,compare: function(k1,k2) {
 		return Reflect.compare(k1,k2);
 	}
+	,toString: function() {
+		if(this.root == null) {
+			return "{}";
+		} else {
+			return "{" + this.root.toString() + "}";
+		}
+	}
 	,__class__: haxe_ds_BalancedTree
 };
 var haxe_ds_TreeNode = function(l,k,v,r,h) {
@@ -36237,7 +38273,10 @@ var haxe_ds_TreeNode = function(l,k,v,r,h) {
 $hxClasses["haxe.ds.TreeNode"] = haxe_ds_TreeNode;
 haxe_ds_TreeNode.__name__ = ["haxe","ds","TreeNode"];
 haxe_ds_TreeNode.prototype = {
-	__class__: haxe_ds_TreeNode
+	toString: function() {
+		return (this.left == null ? "" : this.left.toString() + ", ") + ("" + Std.string(this.key) + "=" + Std.string(this.value)) + (this.right == null ? "" : ", " + this.right.toString());
+	}
+	,__class__: haxe_ds_TreeNode
 };
 var haxe_ds_EnumValueMap = function() {
 	haxe_ds_BalancedTree.call(this);
@@ -36377,6 +38416,23 @@ haxe_ds_ObjectMap.prototype = {
 		}
 		return HxOverrides.iter(a);
 	}
+	,toString: function() {
+		var s_b = "";
+		s_b += "{";
+		var it = this.keys();
+		var i = it;
+		while(i.hasNext()) {
+			var i1 = i.next();
+			s_b += Std.string(Std.string(i1));
+			s_b += " => ";
+			s_b += Std.string(Std.string(this.h[i1.__id__]));
+			if(it.hasNext()) {
+				s_b += ", ";
+			}
+		}
+		s_b += "}";
+		return s_b;
+	}
 	,__class__: haxe_ds_ObjectMap
 };
 var haxe_ds__$StringMap_StringMapIterator = function(map,keys) {
@@ -36481,6 +38537,25 @@ haxe_ds_StringMap.prototype = {
 			}
 		}
 		return out;
+	}
+	,toString: function() {
+		var s_b = "";
+		s_b += "{";
+		var keys = this.arrayKeys();
+		var _g1 = 0;
+		var _g = keys.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var k = keys[i];
+			s_b += k == null ? "null" : "" + k;
+			s_b += " => ";
+			s_b += Std.string(Std.string(__map_reserved[k] != null ? this.getReserved(k) : this.h[k]));
+			if(i < keys.length - 1) {
+				s_b += ", ";
+			}
+		}
+		s_b += "}";
+		return s_b;
 	}
 	,__class__: haxe_ds_StringMap
 };
@@ -50734,12 +52809,16 @@ lime_utils__$UInt8Array_UInt8Array_$Impl_$.toString = function(this1) {
 		return null;
 	}
 };
-var observer_Subject = function(observer1,setID) {
+var observer_Subject = function(observers,setID) {
 	if(setID == null) {
 		setID = 0;
 	}
 	this.subjectID = setID;
-	this.observers = [observer1];
+	if(observers == null) {
+		this.observers = [];
+	} else {
+		this.observers = observers;
+	}
 };
 $hxClasses["observer.Subject"] = observer_Subject;
 observer_Subject.__name__ = ["observer","Subject"];
@@ -73389,14 +75468,28 @@ haxe_lang_Iterable.__name__ = ["haxe","lang","Iterable"];
 haxe_lang_Iterable.prototype = {
 	__class__: haxe_lang_Iterable
 };
+var resources_ResourceEnabled = function() { };
+$hxClasses["resources.ResourceEnabled"] = resources_ResourceEnabled;
+resources_ResourceEnabled.__name__ = ["resources","ResourceEnabled"];
+resources_ResourceEnabled.prototype = {
+	__class__: resources_ResourceEnabled
+};
 var planets_Planet = function(x,y,size,type,player,resources1) {
+	this.costText = new haxe_ds_IntMap();
 	this.NofResources = 0;
+	this.mouseOverIDs = [];
 	this.showResources = false;
 	this.popupResources = 0;
 	this.maxResource = 20;
+	this.statsImgs = new haxe_ds_IntMap();
+	this.growth = 0;
 	this.size = size;
-	button_Button.call(this,size,size,x - size / 2 | 0,y - size / 2 | 0,-1,this,flixel_FlxG.cameras.list[2]);
-	this.loadGraphic("assets/images/imgPlanets.png",true,401,401);
+	this.type = type;
+	this.resources = resources1;
+	this.owner = player;
+	this.planetSubject = new observer_Subject([this.owner]);
+	button_Button.call(this,size,size,x - size / 2 | 0,y - size / 2 | 0,-1,this,0,flixel_FlxG.cameras.list[2],false,true);
+	this.loadGraphic("assets/images/Planets.png",true,401,401);
 	this.setGraphicSize(size,size);
 	this.offset.set_x((401 - size) / 2);
 	this.offset.set_y(this.offset.x);
@@ -73404,63 +75497,85 @@ var planets_Planet = function(x,y,size,type,player,resources1) {
 	this.animation.play("base");
 	this.set_width(size);
 	this.set_height(size);
-	this.owner = player;
-	this.planetResources = resources1;
-	this.resourceSubject = new observer_Subject(this.owner);
-	var NofResources = this.planetResources.length();
-	var rTypes = this.planetResources.types();
-	var _g = new haxe_ds_IntMap();
+	var NofResources = resources1.length();
+	var rTypes = resources_ResourceTypes.types;
 	var _g1 = 0;
-	var _g2 = resources_ResourceTypes.types;
-	while(_g1 < _g2.length) {
-		var key = _g2[_g1];
-		++_g1;
-		var value = new flixel_FlxSprite(x,y);
-		_g.h[key] = value;
-	}
-	this.statsImgs = _g;
-	var _g11 = 0;
-	var _g21 = resources_ResourceTypes.types;
-	while(_g11 < _g21.length) {
-		var key1 = _g21[_g11];
-		++_g11;
-		this.statsImgs.h[key1].loadGraphic("assets/images/Wedges.png",true,300,300);
-		this.statsImgs.h[key1].set_camera(flixel_FlxG.cameras.list[2]);
-		this.statsImgs.h[key1].set_color(key1);
-		this.statsImgs.h[key1].origin.set_x(0);
-		this.statsImgs.h[key1].origin.set_y(0);
-		this.statsImgs.h[key1].set_antialiasing(true);
-		this.statsImgs.h[key1].set_visible(false);
-		flixel_FlxG.game._state.add(this.statsImgs.h[key1]);
-		var _g4 = 0;
-		var _g3 = resources_ResourceTypes.types.length;
-		while(_g4 < _g3) {
-			var i = _g4++;
-			this.statsImgs.h[key1].animation.add(Std.string(i + 1),[i + 1],1,false);
+	var _g = resources_ResourceTypes.types.length;
+	while(_g1 < _g) {
+		var i = _g1++;
+		var this1 = this.statsImgs;
+		var v = new button_Button(125,125,x,y,-1,this,i,null,true,true);
+		this1.h[rTypes[i]] = v;
+		this.statsImgs.h[rTypes[i]].loadGraphic("assets/images/Wedges.png",true,125,125);
+		this.statsImgs.h[rTypes[i]].set_camera(flixel_FlxG.cameras.list[2]);
+		this.statsImgs.h[rTypes[i]].set_color(rTypes[i]);
+		this.statsImgs.h[rTypes[i]].origin.set_x(0);
+		this.statsImgs.h[rTypes[i]].origin.set_y(0);
+		this.statsImgs.h[rTypes[i]].set_antialiasing(true);
+		flixel_FlxG.game._state.add(this.statsImgs.h[rTypes[i]]);
+		haxe_Log.trace(resources_ResourceTypes.types.length,{ fileName : "Planet.hx", lineNumber : 83, className : "planets.Planet", methodName : "new"});
+		var _g3 = 0;
+		var _g2 = resources_ResourceTypes.types.length;
+		while(_g3 < _g2) {
+			var j = _g3++;
+			haxe_Log.trace(j,{ fileName : "Planet.hx", lineNumber : 85, className : "planets.Planet", methodName : "new", customParams : ["j"]});
+			this.statsImgs.h[rTypes[i]].animation.add(Std.string(j + 1),[j + 1],1,false);
 		}
+		var this2 = this.costText;
+		var v1 = new flixel_text_FlxText(54 + i * 128,50,74,null,20,true);
+		this2.h[rTypes[i]] = v1;
+		this.costText.h[rTypes[i]].set_color(-65536);
+		this.costText.h[rTypes[i]].set_cameras([flixel_FlxG.cameras.list[6]]);
+		flixel_FlxG.game._state.add(this.costText.h[rTypes[i]]);
 	}
-	var _g22 = 0;
-	var _g12 = NofResources;
-	while(_g22 < _g12) {
-		var i1 = _g22++;
+	var _g11 = 0;
+	var _g4 = NofResources;
+	while(_g11 < _g4) {
+		var i1 = _g11++;
 		this.statsImgs.h[rTypes[i1]].set_angle(i1 / NofResources * 360 - 135);
 	}
-	var _g13 = 0;
-	var _g23 = this.planetResources.types();
-	while(_g13 < _g23.length) {
-		var key2 = _g23[_g13];
-		++_g13;
-		this.statsImgs.h[key2].animation.play(NofResources == null ? "null" : "" + NofResources);
+	var _g5 = 0;
+	var _g12 = resources1.types();
+	while(_g5 < _g12.length) {
+		var key = _g12[_g5];
+		++_g5;
+		this.statsImgs.h[key].animation.play(NofResources == null ? "null" : "" + NofResources);
 	}
 	this.updateStatsImg();
+	groups_Groups.planets.add(this);
+	this.buttonSubject.setID(this.getID());
 };
 $hxClasses["planets.Planet"] = planets_Planet;
 planets_Planet.__name__ = ["planets","Planet"];
-planets_Planet.__interfaces__ = [observer_Observer];
+planets_Planet.__interfaces__ = [resources_ResourceEnabled,observer_Observer];
 planets_Planet.__super__ = button_Button;
 planets_Planet.prototype = $extend(button_Button.prototype,{
-	updateStatsImg: function() {
-		if(this.NofResources != this.planetResources.types().length) {
+	update: function(elapsed) {
+		button_Button.prototype.update.call(this,elapsed);
+		if(!this.locked) {
+			if(this.showResources) {
+				if(this.popupResources < 10) {
+					this.popupResources += 1;
+					this.updateStatsImg();
+				}
+			} else if(this.popupResources > 0) {
+				this.popupResources -= 1;
+				this.updateStatsImg();
+			}
+		}
+		if(this.mouseOverIDs.length == 0) {
+			this.showResources = false;
+			var _g = 0;
+			var _g1 = this.resources.types();
+			while(_g < _g1.length) {
+				var key = _g1[_g];
+				++_g;
+				this.costText.h[key].set_text("");
+			}
+		}
+	}
+	,updateStatsImg: function() {
+		if(this.NofResources != this.resources.types().length) {
 			var _g = 0;
 			var _g1 = resources_ResourceTypes.types;
 			while(_g < _g1.length) {
@@ -73468,8 +75583,8 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 				++_g;
 				this.statsImgs.h[key].set_visible(false);
 			}
-			this.NofResources = this.planetResources.types().length;
-			var rTypes = this.planetResources.types();
+			this.NofResources = this.resources.types().length;
+			var rTypes = this.resources.types();
 			var _g11 = 0;
 			var _g2 = this.NofResources;
 			while(_g11 < _g2) {
@@ -73480,53 +75595,92 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 			}
 		}
 		var _g3 = 0;
-		var _g12 = this.planetResources.types();
+		var _g12 = this.resources.types();
 		while(_g3 < _g12.length) {
 			var key1 = _g12[_g3];
 			++_g3;
-			this.statsImgs.h[key1].scale.set_x(0.0014833333333333332 * this.size * ((this.planetResources.get(key1) > 0 ? this.planetResources.get(key1) + 1 : 0) + this.maxResource) / this.maxResource * (this.popupResources / 10));
+			this.statsImgs.h[key1].scale.set_x(0.0035600000000000002 * this.size * ((this.resources.get(key1) > 0 ? this.resources.get(key1) + 1 : 0) + this.maxResource) / this.maxResource * (this.popupResources / 10));
 			this.statsImgs.h[key1].scale.set_y(this.statsImgs.h[key1].scale.x);
 		}
 	}
-	,update: function(elapsed) {
-		button_Button.prototype.update.call(this,elapsed);
-		if(this.showResources) {
-			if(this.popupResources < 10) {
-				if(this.popupResources == 0) {
-					var _g = 0;
-					var _g1 = this.planetResources.types();
-					while(_g < _g1.length) {
-						var key = _g1[_g];
-						++_g;
-						this.statsImgs.h[key].set_visible(true);
-					}
-				}
-				this.popupResources += 1;
-				this.updateStatsImg();
-			}
-		} else if(this.popupResources > 0) {
-			this.popupResources -= 1;
-			this.updateStatsImg();
-			if(this.popupResources == 0) {
-				var _g2 = 0;
-				var _g11 = this.planetResources.types();
-				while(_g2 < _g11.length) {
-					var key1 = _g11[_g2];
-					++_g2;
-					this.statsImgs.h[key1].set_visible(false);
-				}
-			}
+	,getUpgradeCost: function(type) {
+		var cost;
+		switch(type) {
+		case resources_ResourceTypes.Credits:
+			cost = this.resources.retMultiply([null,null,null,.5,1]);
+			break;
+		case resources_ResourceTypes.Minerals:
+			cost = this.resources.retMultiply([.5,null,null,1,null]);
+			break;
+		case resources_ResourceTypes.Natural:
+			cost = this.resources.retMultiply([null,1,null,null,.5]);
+			break;
+		case resources_ResourceTypes.Productivity:
+			cost = this.resources.retMultiply([1,.5,.5,null,null]);
+			break;
+		case resources_ResourceTypes.Science:
+			cost = this.resources.retMultiply([.5,null,1,null,.5]);
+			break;
+		default:
+			cost = null;
 		}
+		return cost;
+	}
+	,upgrade: function(type) {
+		groups_Groups.planets.upgrade(this,type);
+	}
+	,grow: function(growBy) {
+		if(growBy == null) {
+			if(this.resources.get(resources_ResourceTypes.Natural) == null) {
+				this.growth += 1;
+			} else {
+				this.growth += 1 + this.resources.get(resources_ResourceTypes.Natural) * 2 / this.population();
+			}
+			haxe_Log.trace(this.growth,{ fileName : "Planet.hx", lineNumber : 193, className : "planets.Planet", methodName : "grow"});
+			while(this.growth >= 1) {
+				this.resources.addResource(this.resources.types()[Std.random(this.resources.length())],1);
+				this.growth -= 1;
+			}
+		} else {
+			while(growBy >= 1) {
+				this.resources.addResource(this.resources.types()[Std.random(this.resources.length())],1);
+				--growBy;
+			}
+			this.growth += growBy;
+		}
+	}
+	,population: function() {
+		var i = 0;
+		var _g = 0;
+		var _g1 = this.resources.types();
+		while(_g < _g1.length) {
+			var type = _g1[_g];
+			++_g;
+			i += this.resources.get(type);
+		}
+		return i;
 	}
 	,getOwner: function() {
 		return this.owner;
 	}
 	,setOwner: function(player) {
 		this.owner = player;
-		this.resourceSubject = new observer_Subject(this.owner);
+		this.planetSubject = new observer_Subject([this.owner]);
 	}
 	,upkeep: function() {
-		this.resourceSubject.notify(new event_ResourceEvent(this.planetResources,event_ResourceEventType.Gain));
+		this.planetSubject.notify(new event_ResourceEvent(this.planetSubject,this.resources,event_ResourceEventType.Gain));
+	}
+	,reportIncome: function() {
+		this.planetSubject.notify(new event_ResourceEvent(this.planetSubject,this.resources,event_ResourceEventType.Update));
+	}
+	,updatePlayers: function() {
+		groups_Groups.planets.updatePlayers();
+	}
+	,getID: function() {
+		return this.planetSubject.getID();
+	}
+	,setID: function(newID) {
+		this.planetSubject.setID(newID);
 	}
 	,lock: function() {
 		this.locked = true;
@@ -73546,32 +75700,50 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 				++_g1;
 				if(!this.locked) {
 					switch(mouseEvent[1]) {
-					case 0:
-						haxe_Log.trace("menu",{ fileName : "Planet.hx", lineNumber : 178, className : "planets.Planet", methodName : "onNotify"});
-						this.lock();
-						this.menu = new planets_PlanetMenu(-16777216,0.6,this);
-						this.popupResources = 10;
-						this.updateStatsImg();
-						flixel_FlxG.game._state.openSubState(this.menu);
-						break;
-					case 1:
-						var _g2 = 0;
-						var _g3 = resources_ResourceTypes.types;
-						while(_g2 < _g3.length) {
-							var key = _g3[_g2];
-							++_g2;
-							if(this.planetResources.get(key) == null) {
-								this.planetResources.setResource(key,1);
-								break;
+					case 2:
+						if(this.buttonSubject.getID() == event.eventSource) {
+							this.mouseOverIDs = [];
+							var _g2 = 0;
+							var _g3 = resources_ResourceTypes.types;
+							while(_g2 < _g3.length) {
+								var key = _g3[_g2];
+								++_g2;
+								this.costText.get(key).set_text("");
 							}
+							this.lock();
+							this.popupResources = 10;
+							this.updateStatsImg();
+							flixel_FlxG.game._state.openSubState(new planets_PlanetMenu(-16777216,0.6,this));
 						}
-						this.updateStatsImg();
+						break;
+					case 3:
 						break;
 					case 4:
+						HxOverrides.remove(this.mouseOverIDs,event.eventSource);
+						this.mouseOverIDs.push(event.eventSource);
+						haxe_Log.trace(this.mouseOverIDs,{ fileName : "Planet.hx", lineNumber : 284, className : "planets.Planet", methodName : "onNotify"});
 						this.showResources = true;
+						haxe_Log.trace(event.eventSource,{ fileName : "Planet.hx", lineNumber : 286, className : "planets.Planet", methodName : "onNotify"});
+						if(event.eventSource < resources_ResourceTypes.types.length) {
+							haxe_Log.trace(this.type,{ fileName : "Planet.hx", lineNumber : 289, className : "planets.Planet", methodName : "onNotify", customParams : [resources_ResourceTypes.types[this.type]]});
+							var cost = this.getUpgradeCost(resources_ResourceTypes.types[event.eventSource]);
+							haxe_Log.trace(cost.getMap().toString(),{ fileName : "Planet.hx", lineNumber : 291, className : "planets.Planet", methodName : "onNotify"});
+							var _g21 = 0;
+							var _g31 = resources_ResourceTypes.types;
+							while(_g21 < _g31.length) {
+								var key1 = _g31[_g21];
+								++_g21;
+								if(cost.get(key1) != null) {
+									this.costText.get(key1).set_text("-" + Std.string(cost.get(key1)));
+								} else {
+									this.costText.get(key1).set_text("");
+								}
+							}
+						}
 						break;
 					case 5:
-						this.showResources = false;
+						HxOverrides.remove(this.mouseOverIDs,event.eventSource);
+						haxe_Log.trace(this.mouseOverIDs,{ fileName : "Planet.hx", lineNumber : 301, className : "planets.Planet", methodName : "onNotify"});
 						break;
 					default:
 					}
@@ -73583,30 +75755,18 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 			var _g4 = resourceEvent.transactionType;
 			switch(_g4[1]) {
 			case 0:
-				haxe_Log.trace("Gain",{ fileName : "Planet.hx", lineNumber : 210, className : "planets.Planet", methodName : "onNotify"});
-				this.planetResources.add(resourceEvent.resources);
+				this.resources.add(resourceEvent.resources);
 				this.updateStatsImg();
 				break;
 			case 1:
-				haxe_Log.trace("Lose",{ fileName : "Planet.hx", lineNumber : 215, className : "planets.Planet", methodName : "onNotify"});
-				if(resourceEvent.returnCall != null) {
-					resourceEvent.returnCall(this.planetResources.remove(resourceEvent.resources));
-				} else {
-					this.planetResources.remove(resourceEvent.resources);
-				}
+				this.resources.remove(resourceEvent.resources);
 				this.updateStatsImg();
 				break;
 			case 2:
-				haxe_Log.trace("LoseNoCheck",{ fileName : "Planet.hx", lineNumber : 224, className : "planets.Planet", methodName : "onNotify"});
-				this.planetResources.remove(resourceEvent.resources,false);
+				this.resources.remove(resourceEvent.resources,false);
 				this.updateStatsImg();
 				break;
-			case 3:
-				haxe_Log.trace("Check",{ fileName : "Planet.hx", lineNumber : 229, className : "planets.Planet", methodName : "onNotify"});
-				if(resourceEvent.returnCall != null) {
-					resourceEvent.returnCall(this.planetResources.check(resourceEvent.resources));
-				}
-				break;
+			default:
 			}
 			break;
 		}
@@ -73623,7 +75783,8 @@ templates_Menu.prototype = $extend(flixel_FlxSubState.prototype,{
 	__class__: templates_Menu
 });
 var planets_PlanetMenu = function(color,alpha,planet) {
-	this.menuSubject = new observer_Subject(planet);
+	this.costText = new haxe_ds_IntMap();
+	this.menuSubject = new observer_Subject([planet]);
 	this.myPlanet = planet;
 	this.color = color;
 	this.alpha = alpha;
@@ -73636,27 +75797,61 @@ planets_PlanetMenu.__super__ = templates_Menu;
 planets_PlanetMenu.prototype = $extend(templates_Menu.prototype,{
 	create: function() {
 		templates_Menu.prototype.create.call(this);
-		this.background = new button_Button(flixel_FlxG.width,flixel_FlxG.height,0,0,this.color,this,flixel_FlxG.cameras.list[3]);
+		this.background = new button_Button(flixel_FlxG.width,flixel_FlxG.height,0,0,this.color,this,99,flixel_FlxG.cameras.list[3]);
 		this.background.set_alpha(this.alpha);
 		this.add(this.background);
-		this.planetCam = new flixel_FlxCamera(0,0,flixel_FlxG.width,flixel_FlxG.height);
-		this.planetCam.bgColor = 0;
-		this.planetCam.scroll.set(this.myPlanet.x + this.myPlanet.size / 2 - flixel_FlxG.width / 2,this.myPlanet.y + this.myPlanet.size / 2 - flixel_FlxG.height / 2);
-		this.planetCam.set_antialiasing(true);
-		flixel_FlxG.cameras.add(this.planetCam);
-		this.myPlanet.get_cameras().push(this.planetCam);
+		flixel_FlxG.cameras.list[4].scroll.set(this.myPlanet.x + this.myPlanet.size / 2 - flixel_FlxG.width / 2,this.myPlanet.y + this.myPlanet.size / 2 - flixel_FlxG.height / 2);
+		this.myPlanet.get_cameras().push(flixel_FlxG.cameras.list[4]);
 		var _g = 0;
-		var _g1 = this.myPlanet.planetResources.types();
+		var _g1 = this.myPlanet.resources.types();
 		while(_g < _g1.length) {
 			var key = _g1[_g];
 			++_g;
-			this.myPlanet.statsImgs.h[key].get_cameras().push(this.planetCam);
+			this.myPlanet.statsImgs.h[key].get_cameras().push(flixel_FlxG.cameras.list[4]);
+		}
+		this.upgradeIcons = new haxe_ds_IntMap();
+		var rTypes = resources_ResourceTypes.types;
+		var _g11 = 0;
+		var _g2 = resources_ResourceTypes.types.length;
+		while(_g11 < _g2) {
+			var i = _g11++;
+			var this1 = this.upgradeIcons;
+			var v = new button_Button(0,0,0,0,-1,this,i,flixel_FlxG.cameras.list[5],false,false,"assets/images/Icons.png",true,52,52);
+			this1.h[rTypes[i]] = v;
+			this.upgradeIcons.h[rTypes[i]].set_antialiasing(true);
+			this.upgradeIcons.h[rTypes[i]].set_visible(false);
+			this.upgradeIcons.h[rTypes[i]].animation.add(Std.string(rTypes[i]),[i],1,false);
+			this.upgradeIcons.h[rTypes[i]].animation.play(Std.string(rTypes[i]));
+			var this2 = this.costText;
+			var v1 = new flixel_text_FlxText(54 + i * 128,50,74,null,20,true);
+			this2.h[rTypes[i]] = v1;
+			this.costText.h[rTypes[i]].set_color(-65536);
+			this.costText.h[rTypes[i]].set_cameras([flixel_FlxG.cameras.list[6]]);
+			this.add(this.costText.h[rTypes[i]]);
+		}
+		var NofResources = this.myPlanet.resources.types().length;
+		var pTypes = this.myPlanet.resources.types();
+		var screenCenter = new flixel_math_FlxPoint(flixel_FlxG.width / 2,flixel_FlxG.height / 2);
+		var _g12 = 0;
+		var _g3 = NofResources;
+		while(_g12 < _g3) {
+			var i1 = _g12++;
+			var iconPosition = new flixel_math_FlxPoint(screenCenter.x,screenCenter.y);
+			var _g4 = iconPosition;
+			_g4.set_x(_g4.x);
+			var _g5 = iconPosition;
+			_g5.set_y(_g5.y + 190);
+			iconPosition.rotate(screenCenter,i1 / NofResources * 360 + 180);
+			this.upgradeIcons.h[pTypes[i1]].setPosition(iconPosition.x - 26,iconPosition.y - 26);
+			this.upgradeIcons.h[pTypes[i1]].set_visible(true);
+			this.upgradeIcons.h[pTypes[i1]].updateHitbox();
+			this.add(this.upgradeIcons.h[pTypes[i1]]);
 		}
 	}
-	,onNotify: function(event1) {
-		var _g = event1.eventType;
+	,onNotify: function(event) {
+		var _g = event.eventType;
 		if(_g[1] == 0) {
-			var m = event1;
+			var m = event;
 			var _g1 = 0;
 			var _g11 = m.mouseEvents;
 			while(_g1 < _g11.length) {
@@ -73664,30 +75859,88 @@ planets_PlanetMenu.prototype = $extend(templates_Menu.prototype,{
 				++_g1;
 				switch(mouseEvent[1]) {
 				case 2:
-					haxe_Log.trace("pay",{ fileName : "PlanetMenu.hx", lineNumber : 81, className : "planets.PlanetMenu", methodName : "onNotify"});
-					var tmp = this.menuSubject;
-					var _g2 = [];
-					var _g4 = 0;
-					var _g3 = resources_ResourceTypes.types.length;
-					while(_g4 < _g3) {
-						var i = _g4++;
-						_g2.push(1);
+					var type = event.eventSource;
+					if(type < resources_ResourceTypes.types.length) {
+						if(resources_ResourceTypes.types[type] == resources_ResourceTypes.Minerals && this.myPlanet.resources.get(resources_ResourceTypes.Natural) == 1) {
+							this.myPlanet.upgrade(resources_ResourceTypes.types[type]);
+							if(this.myPlanet.resources.get(resources_ResourceTypes.Natural) == null) {
+								this.upgradeIcons.get(resources_ResourceTypes.Natural).set_visible(false);
+								var NofResources = this.myPlanet.resources.types().length;
+								var pTypes = this.myPlanet.resources.types();
+								var screenCenter = new flixel_math_FlxPoint(flixel_FlxG.width / 2,flixel_FlxG.height / 2);
+								var _g3 = 0;
+								var _g2 = NofResources;
+								while(_g3 < _g2) {
+									var i = _g3++;
+									var iconPosition = new flixel_math_FlxPoint(screenCenter.x,screenCenter.y);
+									var _g4 = iconPosition;
+									_g4.set_x(_g4.x);
+									var _g5 = iconPosition;
+									_g5.set_y(_g5.y + 190);
+									iconPosition.rotate(screenCenter,i / NofResources * 360 + 180);
+									this.upgradeIcons.get(pTypes[i]).setPosition(iconPosition.x - 26,iconPosition.y - 26);
+									this.upgradeIcons.get(pTypes[i]).updateHitbox();
+								}
+							}
+						} else {
+							this.myPlanet.upgrade(resources_ResourceTypes.types[type]);
+						}
+						var cost = this.myPlanet.getUpgradeCost(resources_ResourceTypes.types[event.eventSource]);
+						var _g21 = 0;
+						var _g31 = resources_ResourceTypes.types;
+						while(_g21 < _g31.length) {
+							var key = _g31[_g21];
+							++_g21;
+							if(cost.get(key) != null) {
+								this.costText.get(key).set_text("-" + Std.string(cost.get(key)));
+							} else {
+								this.costText.get(key).set_text("");
+							}
+						}
 					}
-					tmp.notify(new event_ResourceEvent(new resources_Resources(_g2),event_ResourceEventType.Gain));
 					break;
 				case 3:
-					haxe_Log.trace("close",{ fileName : "PlanetMenu.hx", lineNumber : 85, className : "planets.PlanetMenu", methodName : "onNotify"});
-					this.myPlanet.unlock();
-					this.myPlanet.get_cameras().pop();
-					var _g21 = 0;
-					var _g31 = this.myPlanet.planetResources.types();
-					while(_g21 < _g31.length) {
-						var key = _g31[_g21];
-						++_g21;
-						this.myPlanet.statsImgs.get(key).get_cameras().pop();
+					if(event.eventSource == 99) {
+						this.myPlanet.unlock();
+						this.myPlanet.get_cameras().pop();
+						var _g22 = 0;
+						var _g32 = this.myPlanet.resources.types();
+						while(_g22 < _g32.length) {
+							var key1 = _g32[_g22];
+							++_g22;
+							this.myPlanet.statsImgs.get(key1).get_cameras().pop();
+						}
+						this.myPlanet.showResources = false;
+						this.close();
 					}
-					flixel_FlxG.cameras.remove(this.planetCam);
-					this.close();
+					break;
+				case 4:
+					if(event.eventSource < resources_ResourceTypes.types.length) {
+						haxe_Log.trace(this.myPlanet.type,{ fileName : "PlanetMenu.hx", lineNumber : 158, className : "planets.PlanetMenu", methodName : "onNotify", customParams : [resources_ResourceTypes.types[this.myPlanet.type]]});
+						var cost1 = this.myPlanet.getUpgradeCost(resources_ResourceTypes.types[event.eventSource]);
+						var _g23 = 0;
+						var _g33 = resources_ResourceTypes.types;
+						while(_g23 < _g33.length) {
+							var key2 = _g33[_g23];
+							++_g23;
+							if(cost1.get(key2) != null) {
+								this.costText.get(key2).set_text("-" + Std.string(cost1.get(key2)));
+							} else {
+								this.costText.get(key2).set_text("");
+							}
+						}
+					}
+					break;
+				case 5:
+					if(event.eventSource < resources_ResourceTypes.types.length) {
+						var _g24 = 0;
+						var _g34 = resources_ResourceTypes.types;
+						while(_g24 < _g34.length) {
+							var key3 = _g34[_g24];
+							++_g24;
+							this.costText.get(key3).set_text("");
+						}
+					}
 					break;
 				default:
 				}
@@ -73699,30 +75952,31 @@ planets_PlanetMenu.prototype = $extend(templates_Menu.prototype,{
 var planets_PlanetType = function() { };
 $hxClasses["planets.PlanetType"] = planets_PlanetType;
 planets_PlanetType.__name__ = ["planets","PlanetType"];
-var planets_Planets = function() {
-	this.members = [];
-};
-$hxClasses["planets.Planets"] = planets_Planets;
-planets_Planets.__name__ = ["planets","Planets"];
-planets_Planets.prototype = {
-	addPlanet: function(planet) {
-		this.members.push(planet);
-		flixel_FlxG.game._state.add(planet);
-	}
-	,__class__: planets_Planets
-};
-var player_Player = function() {
-	this.playerResources = new resources_Resources([1000,1000,1000,1000,1000]);
+var player_Player = function(resources1) {
+	this.incomeSources = new haxe_ds_IntMap();
+	this.income = new resources_Resources([0,0,0,0,0,0,0,0]);
+	this.resources = resources1;
+	this.playerSubject = new observer_Subject();
+	var players = new groups_Players();
+	players.add(this);
 };
 $hxClasses["player.Player"] = player_Player;
 player_Player.__name__ = ["player","Player"];
-player_Player.__interfaces__ = [observer_Observer];
+player_Player.__interfaces__ = [resources_ResourceEnabled,observer_Observer];
 player_Player.prototype = {
-	Gain: function(resources) {
-		this.playerResources.add(resources);
+	updateIncome: function() {
+		this.income = new resources_Resources([0,0,0,0,0,0,0,0]);
+		var key = this.incomeSources.keys();
+		while(key.hasNext()) {
+			var key1 = key.next();
+			this.income.add(this.incomeSources.h[key1]);
+		}
 	}
-	,Lose: function(resources) {
-		this.playerResources.remove(resources);
+	,getID: function() {
+		return this.playerSubject.getID();
+	}
+	,setID: function(newID) {
+		this.playerSubject.setID(newID);
 	}
 	,onNotify: function(event) {
 		var _g = event.eventType;
@@ -73731,30 +75985,20 @@ player_Player.prototype = {
 			var _g1 = resourceEvent.transactionType;
 			switch(_g1[1]) {
 			case 0:
-				haxe_Log.trace("Gain",{ fileName : "Player.hx", lineNumber : 42, className : "player.Player", methodName : "onNotify"});
-				this.playerResources.add(resourceEvent.resources);
+				this.resources.add(resourceEvent.resources);
 				break;
 			case 1:
-				haxe_Log.trace("Lose",{ fileName : "Player.hx", lineNumber : 46, className : "player.Player", methodName : "onNotify"});
-				if(resourceEvent.returnCall != null) {
-					resourceEvent.returnCall(this.playerResources.remove(resourceEvent.resources));
-				} else {
-					this.playerResources.remove(resourceEvent.resources);
-				}
+				this.resources.remove(resourceEvent.resources);
 				break;
 			case 2:
-				haxe_Log.trace("LoseNoCheck",{ fileName : "Player.hx", lineNumber : 54, className : "player.Player", methodName : "onNotify"});
-				this.playerResources.remove(resourceEvent.resources,false);
+				this.resources.remove(resourceEvent.resources,false);
 				break;
 			case 3:
-				haxe_Log.trace("Check",{ fileName : "Player.hx", lineNumber : 58, className : "player.Player", methodName : "onNotify"});
-				if(resourceEvent.returnCall != null) {
-					resourceEvent.returnCall(this.playerResources.check(resourceEvent.resources));
-				}
+				var v = resourceEvent.resources;
+				this.incomeSources.set(event.eventSource,v);
 				break;
 			}
 		}
-		haxe_Log.trace(this.playerResources.getMap().toString(),{ fileName : "Player.hx", lineNumber : 68, className : "player.Player", methodName : "onNotify"});
 	}
 	,__class__: player_Player
 };
@@ -73778,9 +76022,11 @@ var resources_Resources = function(resources1) {
 		var i1 = _g11++;
 		this.ResourceMap.h[resources_ResourceTypes.types[i1]] = null;
 	}
+	this.resources = this;
 };
 $hxClasses["resources.Resources"] = resources_Resources;
 resources_Resources.__name__ = ["resources","Resources"];
+resources_Resources.__interfaces__ = [resources_ResourceEnabled];
 resources_Resources.prototype = {
 	get: function(type) {
 		return this.ResourceMap.h[type];
@@ -73806,6 +76052,12 @@ resources_Resources.prototype = {
 				var v = _g3.h[_g2] + resources1.get(type);
 				_g3.h[_g2] = v;
 			}
+			if(this.ResourceMap.h[type] > 9999) {
+				this.ResourceMap.h[type] = 9999;
+			}
+			if(this.ResourceMap.h[type] < 0) {
+				this.ResourceMap.h[type] = 0;
+			}
 		}
 	}
 	,addResource: function(type,value) {
@@ -73815,12 +76067,60 @@ resources_Resources.prototype = {
 			var v = _g1.h[_g] + value;
 			_g1.h[_g] = v;
 		}
+		if(this.ResourceMap.h[type] > 9999) {
+			this.ResourceMap.h[type] = 9999;
+		}
+		if(this.ResourceMap.h[type] < 0) {
+			this.ResourceMap.h[type] = 0;
+		}
 	}
-	,remove: function(resources1,check) {
+	,multiply: function(multiplyer) {
+		var _g1 = 0;
+		var _g = resources_ResourceTypes.types.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			if(this.ResourceMap.h[resources_ResourceTypes.types[i]] != null && multiplyer[i] != null) {
+				var v = this.ResourceMap.h[resources_ResourceTypes.types[i]] * multiplyer[i] | 0;
+				this.ResourceMap.h[resources_ResourceTypes.types[i]] = v;
+			}
+			if(this.ResourceMap.h[resources_ResourceTypes.types[i]] > 9999) {
+				this.ResourceMap.h[resources_ResourceTypes.types[i]] = 9999;
+			}
+			if(this.ResourceMap.h[resources_ResourceTypes.types[i]] < -9999) {
+				this.ResourceMap.h[resources_ResourceTypes.types[i]] = -9999;
+			}
+		}
+	}
+	,retMultiply: function(multiplyer) {
+		var c = this.copy();
+		var _g1 = 0;
+		var _g = resources_ResourceTypes.types.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			if(c.get(resources_ResourceTypes.types[i]) != null && multiplyer[i] != null) {
+				c.setResource(resources_ResourceTypes.types[i],c.get(resources_ResourceTypes.types[i]) * multiplyer[i] | 0);
+			}
+			if(multiplyer[i] == null) {
+				c.setResource(resources_ResourceTypes.types[i],null);
+			} else {
+				if(c.get(resources_ResourceTypes.types[i]) > 9999) {
+					c.setResource(resources_ResourceTypes.types[i],9999);
+				}
+				if(c.get(resources_ResourceTypes.types[i]) < -9999) {
+					c.setResource(resources_ResourceTypes.types[i],-9999);
+				}
+			}
+		}
+		return c;
+	}
+	,remove: function(resources1,check,allowNeg) {
+		if(allowNeg == null) {
+			allowNeg = false;
+		}
 		if(check == null) {
 			check = true;
 		}
-		if(check) {
+		if(allowNeg) {
 			var _g = 0;
 			var _g1 = resources_ResourceTypes.types;
 			while(_g < _g1.length) {
@@ -73830,68 +76130,99 @@ resources_Resources.prototype = {
 					continue;
 				}
 				if(this.ResourceMap.h[type] == null) {
-					return false;
+					return null;
 				}
-				if(this.ResourceMap.h[type] < resources1.get(type)) {
-					return false;
-				}
-			}
-			var _g2 = 0;
-			var _g11 = resources_ResourceTypes.types;
-			while(_g2 < _g11.length) {
-				var type1 = _g11[_g2];
-				++_g2;
-				var _g21 = type1;
+				var _g2 = type;
 				var _g3 = this.ResourceMap;
-				var v = _g3.h[_g21] - resources1.get(type1);
-				_g3.h[_g21] = v;
+				var v = _g3.h[_g2] - resources1.get(type);
+				_g3.h[_g2] = v;
 			}
-		} else {
+		} else if(check) {
 			var _g4 = 0;
-			var _g12 = resources_ResourceTypes.types;
-			while(_g4 < _g12.length) {
-				var type2 = _g12[_g4];
+			var _g11 = resources_ResourceTypes.types;
+			while(_g4 < _g11.length) {
+				var type1 = _g11[_g4];
 				++_g4;
+				if(resources1.get(type1) == null) {
+					continue;
+				}
+				if(this.ResourceMap.h[type1] == null) {
+					return null;
+				}
+				if(this.ResourceMap.h[type1] < resources1.get(type1)) {
+					return false;
+				}
+			}
+			var _g5 = 0;
+			var _g12 = resources_ResourceTypes.types;
+			while(_g5 < _g12.length) {
+				var type2 = _g12[_g5];
+				++_g5;
 				if(resources1.get(type2) == null) {
 					continue;
 				}
 				if(this.ResourceMap.h[type2] == null) {
-					return false;
+					continue;
 				}
-				if(this.ResourceMap.h[type2] < resources1.get(type2)) {
-					this.ResourceMap.h[type2] = 0;
+				var _g21 = type2;
+				var _g31 = this.ResourceMap;
+				var v1 = _g31.h[_g21] - resources1.get(type2);
+				_g31.h[_g21] = v1;
+			}
+		} else {
+			var _g6 = 0;
+			var _g13 = resources_ResourceTypes.types;
+			while(_g6 < _g13.length) {
+				var type3 = _g13[_g6];
+				++_g6;
+				if(resources1.get(type3) == null) {
+					continue;
+				}
+				if(this.ResourceMap.h[type3] == null) {
+					return null;
+				}
+				if(this.ResourceMap.h[type3] < resources1.get(type3)) {
+					this.ResourceMap.h[type3] = 0;
 				} else {
-					var _g22 = type2;
-					var _g31 = this.ResourceMap;
-					var v1 = _g31.h[_g22] - resources1.get(type2);
-					_g31.h[_g22] = v1;
+					var _g22 = type3;
+					var _g32 = this.ResourceMap;
+					var v2 = _g32.h[_g22] - resources1.get(type3);
+					_g32.h[_g22] = v2;
 				}
 			}
 		}
 		return true;
 	}
-	,removeResource: function(type,value,check) {
+	,removeResource: function(type,value,check,allowNeg) {
+		if(allowNeg == null) {
+			allowNeg = false;
+		}
 		if(check == null) {
 			check = true;
 		}
 		if(this.ResourceMap.h[type] == null) {
-			return false;
+			return null;
 		}
-		if(check) {
-			if(this.ResourceMap.h[type] < value) {
-				return false;
-			}
+		if(allowNeg) {
 			var _g = type;
 			var _g1 = this.ResourceMap;
 			var v = _g1.h[_g] - value;
 			_g1.h[_g] = v;
-		} else if(this.ResourceMap.h[type] < value) {
-			this.ResourceMap.h[type] = 0;
-		} else {
+		} else if(check) {
+			if(this.ResourceMap.h[type] < value) {
+				return false;
+			}
 			var _g2 = type;
 			var _g11 = this.ResourceMap;
 			var v1 = _g11.h[_g2] - value;
 			_g11.h[_g2] = v1;
+		} else if(this.ResourceMap.h[type] < value) {
+			this.ResourceMap.h[type] = 0;
+		} else {
+			var _g3 = type;
+			var _g12 = this.ResourceMap;
+			var v2 = _g12.h[_g3] - value;
+			_g12.h[_g3] = v2;
 		}
 		return true;
 	}
@@ -73905,7 +76236,7 @@ resources_Resources.prototype = {
 				continue;
 			}
 			if(this.ResourceMap.h[type] == null) {
-				return false;
+				return null;
 			}
 			if(this.ResourceMap.h[type] < resources1.get(type)) {
 				return false;
@@ -73936,6 +76267,17 @@ resources_Resources.prototype = {
 			}
 		}
 		return a;
+	}
+	,copy: function() {
+		var c = new resources_Resources([0,0,0,0,0]);
+		var _g = 0;
+		var _g1 = resources_ResourceTypes.types;
+		while(_g < _g1.length) {
+			var key = _g1[_g];
+			++_g;
+			c.setResource(key,this.ResourceMap.h[key]);
+		}
+		return c;
 	}
 	,__class__: resources_Resources
 };
@@ -73999,10 +76341,12 @@ openfl_display_DisplayObject.__worldRenderDirty = 0;
 openfl_display_DisplayObject.__worldTransformDirty = 0;
 openfl_display_DisplayObject.__cacheAsBitmapMode = false;
 AssetPaths.data_goes_here__txt = "assets/data/data-goes-here.txt";
-AssetPaths.Icons__jpg = "assets/images/Icons.jpg";
+AssetPaths["Icons _ Copy__png"] = "assets/images/Icons - Copy.png";
+AssetPaths.Icons__png = "assets/images/Icons.png";
 AssetPaths.images_go_here__txt = "assets/images/images-go-here.txt";
-AssetPaths.imgPlanets__png = "assets/images/imgPlanets.png";
+AssetPaths.Planets__png = "assets/images/Planets.png";
 AssetPaths.Stars__png = "assets/images/Stars.png";
+AssetPaths.uibar__png = "assets/images/uibar.png";
 AssetPaths.Wedges__png = "assets/images/Wedges.png";
 AssetPaths.music_goes_here__txt = "assets/music/music-goes-here.txt";
 AssetPaths.sounds_go_here__txt = "assets/sounds/sounds-go-here.txt";
@@ -74130,6 +76474,10 @@ flixel_animation_FlxPrerotatedAnimation.PREROTATED = "prerotated_animation";
 flixel_effects_FlxFlicker._pool = new flixel_util_FlxPool_$flixel_$effects_$FlxFlicker(flixel_effects_FlxFlicker);
 flixel_effects_FlxFlicker._boundObjects = new haxe_ds_ObjectMap();
 flixel_graphics_FlxGraphic.defaultPersist = false;
+flixel_graphics_atlas_FlxAtlas.point = new openfl_geom_Point();
+flixel_graphics_atlas_FlxAtlas.matrix = new openfl_geom_Matrix();
+flixel_graphics_atlas_FlxAtlas.defaultMinSize = new flixel_math_FlxPoint(128,128);
+flixel_graphics_atlas_FlxAtlas.defaultMaxSize = new flixel_math_FlxPoint(1024,1024);
 flixel_graphics_tile_FlxDrawTrianglesItem.point = (function($this) {
 	var $r;
 	var point = flixel_math_FlxPoint._pool.get().set(0,0);
@@ -75443,6 +77791,11 @@ flixel_system_debug_stats__$Stats_GraphicMinimizeButton.resourceType = "image/pn
 flixel_system_debug_stats__$Stats_GraphicMinimizeButton.resourceName = "__ASSET__:bitmap_flixel_system_debug_stats__Stats_GraphicMinimizeButton";
 flixel_system_debug_stats__$Stats_GraphicMaximizeButton.resourceType = "image/png";
 flixel_system_debug_stats__$Stats_GraphicMaximizeButton.resourceName = "__ASSET__:bitmap_flixel_system_debug_stats__Stats_GraphicMaximizeButton";
+flixel_text_FlxText.VERTICAL_GUTTER = 4;
+flixel_text__$FlxText_FlxTextAlign_$Impl_$.LEFT = "left";
+flixel_text__$FlxText_FlxTextAlign_$Impl_$.CENTER = "center";
+flixel_text__$FlxText_FlxTextAlign_$Impl_$.RIGHT = "right";
+flixel_text__$FlxText_FlxTextAlign_$Impl_$.JUSTIFY = "justify";
 flixel_tweens_FlxEase.PI2 = Math.PI / 2;
 flixel_tweens_FlxEase.EL = 2 * Math.PI / .45;
 flixel_tweens_FlxEase.B1 = 0.36363636363636365;
@@ -75592,6 +77945,16 @@ flixel_util_FlxSort.DESCENDING = 1;
 flixel_util_FlxSpriteUtil.flashGfxSprite = new openfl_display_Sprite();
 flixel_util_FlxSpriteUtil.flashGfx = flixel_util_FlxSpriteUtil.flashGfxSprite.get_graphics();
 flixel_util_LabelValuePair._pool = new flixel_util_FlxPool_$flixel_$util_$LabelValuePair(flixel_util_LabelValuePair);
+groups_Planets.members = [];
+groups_Planets.pID = 1000;
+groups_Planets.minScrollX = 0;
+groups_Planets.maxScrollX = 0;
+groups_Planets.minScrollY = 0;
+groups_Planets.maxScrollY = 0;
+groups_Players.members = [];
+groups_Players.pID = 100;
+groups_Groups.planets = new groups_Planets();
+groups_Groups.players = new groups_Players();
 haxe_Serializer.USE_CACHE = false;
 haxe_Serializer.USE_ENUM_INDEX = false;
 haxe_Serializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:";
@@ -76864,23 +79227,21 @@ openfl_utils__$CompressionAlgorithm_CompressionAlgorithm_$Impl_$.LZMA = 1;
 openfl_utils__$CompressionAlgorithm_CompressionAlgorithm_$Impl_$.ZLIB = 2;
 openfl_utils__$Endian_Endian_$Impl_$.BIG_ENDIAN = 0;
 openfl_utils__$Endian_Endian_$Impl_$.LITTLE_ENDIAN = 1;
-planets_PlanetType.GRAY = 1;
-planets_PlanetType.RED = 2;
-planets_PlanetType.ORANGE = 3;
-planets_PlanetType.YELLOW = 4;
-planets_PlanetType.BLUE = 5;
-planets_PlanetType.GREEN = 6;
-planets_PlanetType.PURPLE = 7;
-resources_ResourceTypes.Manpower = -16776961;
+planets_PlanetType.BLUE = 0;
+planets_PlanetType.GREEN = 1;
+planets_PlanetType.WHITE = 2;
+planets_PlanetType.GRAY = 3;
+planets_PlanetType.ORANGE = 4;
+planets_PlanetType.PURPLE = 5;
+planets_PlanetType.types = [planets_PlanetType.BLUE,planets_PlanetType.GREEN,planets_PlanetType.WHITE,planets_PlanetType.GRAY,planets_PlanetType.ORANGE,planets_PlanetType.PURPLE];
+resources_ResourceTypes.Productivity = -16776961;
 resources_ResourceTypes.Natural = -16744448;
 resources_ResourceTypes.Science = -1;
 resources_ResourceTypes.Minerals = -8355712;
 resources_ResourceTypes.Credits = -23296;
 resources_ResourceTypes.Power = -65536;
 resources_ResourceTypes.Happyness = -256;
-resources_ResourceTypes.Culture = -8388480;
-resources_ResourceTypes.Limes = -16711936;
-resources_ResourceTypes.Wood = -7650029;
-resources_ResourceTypes.types = [resources_ResourceTypes.Manpower,resources_ResourceTypes.Natural,resources_ResourceTypes.Science,resources_ResourceTypes.Minerals,resources_ResourceTypes.Credits,resources_ResourceTypes.Power,resources_ResourceTypes.Happyness,resources_ResourceTypes.Culture,resources_ResourceTypes.Limes,resources_ResourceTypes.Wood];
+resources_ResourceTypes.Influence = -8388480;
+resources_ResourceTypes.types = [resources_ResourceTypes.Productivity,resources_ResourceTypes.Natural,resources_ResourceTypes.Science,resources_ResourceTypes.Minerals,resources_ResourceTypes.Credits,resources_ResourceTypes.Power,resources_ResourceTypes.Happyness,resources_ResourceTypes.Influence];
 ApplicationMain.main();
 })(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this, typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
