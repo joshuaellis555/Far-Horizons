@@ -51,33 +51,59 @@ class Resources implements ResourceEnabled
 		{
 			if (ResourceMap[type] != null && resources.get(type) != null) ResourceMap[type] += resources.get(type);
 			if (ResourceMap[type] > 9999) ResourceMap[type] = 9999;
+			if (ResourceMap[type] < 0) ResourceMap[type] = 0;
 		}
 	}
 	public function addResource(type:FlxColor, value:Int)
 	{
 		if (ResourceMap[type] != null) ResourceMap[type] += value;
 		if (ResourceMap[type] > 9999) ResourceMap[type] = 9999;
+		if (ResourceMap[type] < 0) ResourceMap[type] = 0;
 	}
 	
-	public function remove(resources:Resources,?check:Bool=true,?allowNeg:Bool=false):Array<Bool>
+	public function multiply(multiplyer:Array<Float>)
+	{
+		for (i in 0...ResourceTypes.types.length)
+		{
+			if (ResourceMap[ResourceTypes.types[i]] != null && multiplyer[i] != null) ResourceMap[ResourceTypes.types[i]] = Std.int(ResourceMap[ResourceTypes.types[i]] * multiplyer[i]);
+			if (ResourceMap[ResourceTypes.types[i]] > 9999) ResourceMap[ResourceTypes.types[i]] = 9999;
+			if (ResourceMap[ResourceTypes.types[i]] < -9999) ResourceMap[ResourceTypes.types[i]] = -9999;
+		}
+	}
+	public function retMultiply(multiplyer:Array<Null<Float>>):Resources
+	{
+		var c:Resources = this.copy();
+		for (i in 0...ResourceTypes.types.length)
+		{
+			if (c.get(ResourceTypes.types[i]) != null && multiplyer[i] != null) c.setResource(ResourceTypes.types[i], Std.int(c.get(ResourceTypes.types[i]) * multiplyer[i]));
+			if (multiplyer[i] == null){
+				c.setResource(ResourceTypes.types[i], null);
+			}else{
+				if (c.get(ResourceTypes.types[i]) > 9999) c.setResource(ResourceTypes.types[i], 9999);
+				if (c.get(ResourceTypes.types[i]) < -9999) c.setResource(ResourceTypes.types[i], -9999);
+			}
+		}
+		return c;
+	}
+	
+	public function remove(resources:Resources,?check:Bool=true,?allowNeg:Bool=false):Null<Bool>
 	{
 		if (allowNeg){
 			for (type in ResourceTypes.types)
 			{
 				if (resources.get(type) == null) continue;
-				if (ResourceMap[type] == null) return [false];
+				if (ResourceMap[type] == null) return null;
 				ResourceMap[type] -= resources.get(type);
 			}
 		}else if (check){
 			for (type in ResourceTypes.types)
 			{
-				trace(ResourceMap[type] , resources.get(type));
 				if (resources.get(type) == null) continue;
-				if (ResourceMap[type] == null) return [false];
+				if (ResourceMap[type] == null) return null;
 				
 				if (ResourceMap[type] < resources.get(type))
 				{
-					return [false];
+					return false;
 				}
 			}
 			for (type in ResourceTypes.types)
@@ -90,7 +116,7 @@ class Resources implements ResourceEnabled
 			for (type in ResourceTypes.types)
 			{
 				if (resources.get(type) == null) continue;
-				if (ResourceMap[type] == null) return [false];
+				if (ResourceMap[type] == null) return null;
 				
 				if (ResourceMap[type] < resources.get(type)){
 					ResourceMap[type] = 0;
@@ -99,17 +125,17 @@ class Resources implements ResourceEnabled
 				}
 			}
 		}
-		return [true];
+		return true;
 	}
-	public function removeResource(type:FlxColor, value:Int,?check:Bool=true,?allowNeg:Bool=false):Array<Bool>
+	public function removeResource(type:FlxColor, value:Int,?check:Bool=true,?allowNeg:Bool=false):Null<Bool>
 	{
-		if (ResourceMap[type] == null) return [false];
+		if (ResourceMap[type] == null) return null;
 		if (allowNeg){
 			ResourceMap[type] -= value;
 		}else if (check){
 			if (ResourceMap[type] < value)
 			{
-				return [false];
+				return false;
 			}
 			ResourceMap[type] -= value;
 		}else{
@@ -119,22 +145,22 @@ class Resources implements ResourceEnabled
 				ResourceMap[type] -= value;
 			}
 		}
-		return [true];
+		return true;
 	}
 	
-	public function check(resources:Resources):Array<Bool>
+	public function check(resources:Resources):Null<Bool>
 	{
 		for (type in ResourceTypes.types)
 		{
 			if (resources.get(type) == null) continue;
-			if (ResourceMap[type] == null) return [false];
+			if (ResourceMap[type] == null) return null;
 			
 			if (ResourceMap[type] < resources.get(type))
 			{
-				return [false];
+				return false;
 			}
 		}
-		return [true];
+		return true;
 	}
 	
 	public function length():Int
@@ -156,6 +182,11 @@ class Resources implements ResourceEnabled
 		}
 		return a;
 	}
-
-	public function onNotify(event:Event):Void{}
+	public function copy():Resources
+	{
+		var c:Resources = new Resources([0, 0, 0, 0, 0]);
+		for (key in ResourceTypes.types)
+			c.setResource(key, ResourceMap[key]);
+		return c;
+	}
 }

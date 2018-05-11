@@ -61,31 +61,15 @@ class Player implements Observer implements ResourceEnabled
 				switch(resourceEvent.transactionType)
 				{
 					case Gain:{
-						trace("Gain");
 						resources.add(resourceEvent.resources);
 					}
 					case Lose:{
-						trace("Lose");
-						if (resourceEvent.returnCall != null){
-							var res:Array<Bool> = resources.remove(resourceEvent.resources);
-							trace(resourceEvent.returnCall,res);
-							resourceEvent.returnCall(res);
-						}else{
-							resources.remove(resourceEvent.resources);
-						}
+						resources.remove(resourceEvent.resources);
 					}
 					case LoseNoCheck:{
-						trace("LoseNoCheck");
 						resources.remove(resourceEvent.resources,false);
 					}
-					case Check:{
-						trace("Check");
-						if (resourceEvent.returnCall!=null){
-							resourceEvent.returnCall(resources.check(resourceEvent.resources));
-						}
-					}
 					case Update:{
-						trace("Update");
 						incomeSources[event.eventSource] = resourceEvent.resources;
 					}
 					default:null;
