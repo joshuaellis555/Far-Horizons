@@ -19,6 +19,15 @@ class Players
 		members.push(player);
 	}
 	
+	public function getScore(player:Player):Int
+	{
+		var score:Int = 0;
+		for (planet in Groups.planets.all())
+			if (planet.getOwner().getID() == player.getID())
+				score+= planet.population();
+		return score;
+	}
+	
 	public function all():Array<Player>
 	{
 		return members;

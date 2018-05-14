@@ -84,7 +84,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "1640", company : "", file : "Far-Horizons", fps : 60, name : "Far-Horizons", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 576, parameters : "{}", resizable : false, stencilBuffer : true, title : "Far-Horizons", vsync : true, width : 1024, x : null, y : null}]};
+	ApplicationMain.config = { build : "1707", company : "", file : "Far-Horizons", fps : 60, name : "Far-Horizons", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 576, parameters : "{}", resizable : false, stencilBuffer : true, title : "Far-Horizons", vsync : true, width : 1024, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -3594,6 +3594,7 @@ observer_Observer.prototype = {
 	__class__: observer_Observer
 };
 var PlayState = function(MaxSize) {
+	this.rounds = 9;
 	this.planetlist = [0,1,2,3,4,5];
 	this.theta = 0;
 	this.mouseOn = 0;
@@ -3608,7 +3609,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	create: function() {
 		flixel_FlxState.prototype.create.call(this);
 		this.persistentUpdate = true;
-		this.activePlayer = new player_Player(new resources_Resources([0,0,0,0,0]));
+		this.activePlayer = new player_Player(new resources_Resources([10,10,10,10,10]));
 		this.mapCam = new flixel_FlxCamera(0,0,flixel_FlxG.width,flixel_FlxG.height);
 		this.mapCam.bgColor = 0;
 		this.mapCam.set_antialiasing(true);
@@ -3681,6 +3682,17 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.uiMouseText.set_cameras([this.uiCam]);
 		this.uiMouseText.set_color(65280);
 		this.add(this.uiMouseText);
+		this.endRound = new button_Button(300,50,flixel_FlxG.width - 300,flixel_FlxG.height - 50,-65536,this,-1,this.menuUiCam);
+		this.add(this.endRound);
+		this.roundText = new flixel_text_FlxText(flixel_FlxG.width - 296,flixel_FlxG.height - 46,292,"End Round " + Std.string(this.rounds));
+		this.roundText.set_cameras([this.menuUiCam]);
+		this.roundText.setFormat(null,36,-1,"center");
+		var _this = this.roundText;
+		_this.set_borderStyle(flixel_text_FlxTextBorderStyle.OUTLINE);
+		_this.set_borderColor(-16777216);
+		_this.set_borderSize(5);
+		_this.set_borderQuality(1);
+		this.add(this.roundText);
 		groups_Groups.planets.upkeep();
 		groups_Groups.planets.updatePlayers();
 		this.activePlayer.updateIncome();
@@ -3770,11 +3782,12 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 				var mouseEvent = _g11[_g1];
 				++_g1;
 				switch(mouseEvent[1]) {
-				case 3:
-					if(event.eventSource == 99) {
-						haxe_Log.trace("upkeep",{ fileName : "PlayState.hx", lineNumber : 218, className : "PlayState", methodName : "onNotify"});
+				case 2:
+					if(event.eventSource == -1) {
+						if(this.rounds > 0) {
+							this.makePlanet();
+						}
 						groups_Groups.planets.upkeep();
-						this.makePlanet();
 						groups_Groups.planets.updatePlayers();
 						this.activePlayer.updateIncome();
 						var _g2 = 0;
@@ -3784,6 +3797,19 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 							++_g2;
 							this.uiTextResources.get(key).set_text(Std.string(this.activePlayer.resources.get(key)));
 						}
+						this.rounds--;
+						if(this.rounds > 1) {
+							this.roundText.set_text("End Round " + Std.string(this.rounds));
+						} else if(this.rounds == 1) {
+							this.roundText.set_text("End Game");
+						} else {
+							var score = groups_Groups.players.getScore(this.activePlayer);
+							this.openSubState(new endscreen_EndScreen(-16777216,0.6,score,"Well Done!"));
+						}
+						var bounds = groups_Groups.planets.getCameraBounds();
+						this.mapCam.scroll.set_x((bounds[0] + bounds[1]) / 2);
+						this.mapCam.scroll.set_y((bounds[2] + bounds[3]) / 2);
+						this.mapCam.set_zoom(Math.min(flixel_FlxG.width / (bounds[1] - bounds[0]),flixel_FlxG.height / (bounds[3] - bounds[2])));
 					}
 					break;
 				case 4:
@@ -6533,6 +6559,108 @@ button_Button.prototype = $extend(flixel_FlxSprite.prototype,{
 		}
 	}
 	,__class__: button_Button
+});
+var flixel_FlxSubState = function(BGColor) {
+	if(BGColor == null) {
+		BGColor = 0;
+	}
+	this._created = false;
+	flixel_FlxState.call(this);
+	this.closeCallback = null;
+	this.openCallback = null;
+	if(flixel_FlxG.renderTile) {
+		this._bgSprite = new flixel_system_FlxBGSprite();
+	}
+	this.set_bgColor(BGColor);
+};
+$hxClasses["flixel.FlxSubState"] = flixel_FlxSubState;
+flixel_FlxSubState.__name__ = ["flixel","FlxSubState"];
+flixel_FlxSubState.__super__ = flixel_FlxState;
+flixel_FlxSubState.prototype = $extend(flixel_FlxState.prototype,{
+	draw: function() {
+		if(flixel_FlxG.renderBlit) {
+			var _g = 0;
+			var _g1 = this.get_cameras();
+			while(_g < _g1.length) {
+				var camera = _g1[_g];
+				++_g;
+				camera.fill(this._bgColor);
+			}
+		} else {
+			this._bgSprite.draw();
+		}
+		flixel_FlxState.prototype.draw.call(this);
+	}
+	,destroy: function() {
+		flixel_FlxState.prototype.destroy.call(this);
+		this.closeCallback = null;
+		this.openCallback = null;
+		this._parentState = null;
+		this._bgSprite = null;
+	}
+	,close: function() {
+		if(this._parentState != null && this._parentState.subState == this) {
+			this._parentState.closeSubState();
+		}
+	}
+	,get_bgColor: function() {
+		return this._bgColor;
+	}
+	,set_bgColor: function(Value) {
+		if(flixel_FlxG.renderTile && this._bgSprite != null) {
+			this._bgSprite.get_pixels().setPixel32(0,0,Value);
+		}
+		return this._bgColor = Value;
+	}
+	,__class__: flixel_FlxSubState
+});
+var templates_Menu = function(color,alpha,observer) {
+	this.color = color;
+	this.alpha = alpha;
+	this.observer = observer;
+	flixel_FlxSubState.call(this,0);
+};
+$hxClasses["templates.Menu"] = templates_Menu;
+templates_Menu.__name__ = ["templates","Menu"];
+templates_Menu.__super__ = flixel_FlxSubState;
+templates_Menu.prototype = $extend(flixel_FlxSubState.prototype,{
+	create: function() {
+		flixel_FlxSubState.prototype.create.call(this);
+		this.background = new button_Button(flixel_FlxG.width,flixel_FlxG.height,0,0,this.color,this.observer,99,flixel_FlxG.cameras.list[3]);
+		this.background.set_alpha(this.alpha);
+		this.add(this.background);
+	}
+	,__class__: templates_Menu
+});
+var endscreen_EndScreen = function(color,alpha,score,message) {
+	this.score = score;
+	this.message = message;
+	templates_Menu.call(this,color,alpha,this);
+};
+$hxClasses["endscreen.EndScreen"] = endscreen_EndScreen;
+endscreen_EndScreen.__name__ = ["endscreen","EndScreen"];
+endscreen_EndScreen.__interfaces__ = [observer_Observer];
+endscreen_EndScreen.__super__ = templates_Menu;
+endscreen_EndScreen.prototype = $extend(templates_Menu.prototype,{
+	create: function() {
+		templates_Menu.prototype.create.call(this);
+		this.messageText = new flixel_text_FlxText(flixel_FlxG.width / 2 - 250,flixel_FlxG.height / 2 - 50,500,this.message);
+		this.messageText.setFormat(null,40,-1,"center");
+		this.messageText.set_cameras([flixel_FlxG.cameras.list[5]]);
+		this.add(this.messageText);
+		this.scoreText = new flixel_text_FlxText(flixel_FlxG.width / 2 - 250,flixel_FlxG.height / 2,500,"Score: " + Std.string(this.score));
+		this.scoreText.setFormat(null,40,-1,"center");
+		var _this = this.scoreText;
+		_this.set_borderStyle(flixel_text_FlxTextBorderStyle.OUTLINE);
+		_this.set_borderColor(-65536);
+		_this.set_borderSize(5);
+		_this.set_borderQuality(1);
+		this.scoreText.set_cameras([flixel_FlxG.cameras.list[5]]);
+		this.add(this.scoreText);
+	}
+	,onNotify: function(event) {
+	}
+	,__class__: endscreen_EndScreen
 });
 var event_Event = function(id,type) {
 	this.eventType = type;
@@ -10951,60 +11079,6 @@ flixel_IFlxSprite.prototype = {
 	__class__: flixel_IFlxSprite
 	,__properties__: {set_immovable:"set_immovable",set_moves:"set_moves",set_facing:"set_facing",set_angle:"set_angle",set_alpha:"set_alpha",set_y:"set_y",set_x:"set_x"}
 };
-var flixel_FlxSubState = function(BGColor) {
-	if(BGColor == null) {
-		BGColor = 0;
-	}
-	this._created = false;
-	flixel_FlxState.call(this);
-	this.closeCallback = null;
-	this.openCallback = null;
-	if(flixel_FlxG.renderTile) {
-		this._bgSprite = new flixel_system_FlxBGSprite();
-	}
-	this.set_bgColor(BGColor);
-};
-$hxClasses["flixel.FlxSubState"] = flixel_FlxSubState;
-flixel_FlxSubState.__name__ = ["flixel","FlxSubState"];
-flixel_FlxSubState.__super__ = flixel_FlxState;
-flixel_FlxSubState.prototype = $extend(flixel_FlxState.prototype,{
-	draw: function() {
-		if(flixel_FlxG.renderBlit) {
-			var _g = 0;
-			var _g1 = this.get_cameras();
-			while(_g < _g1.length) {
-				var camera = _g1[_g];
-				++_g;
-				camera.fill(this._bgColor);
-			}
-		} else {
-			this._bgSprite.draw();
-		}
-		flixel_FlxState.prototype.draw.call(this);
-	}
-	,destroy: function() {
-		flixel_FlxState.prototype.destroy.call(this);
-		this.closeCallback = null;
-		this.openCallback = null;
-		this._parentState = null;
-		this._bgSprite = null;
-	}
-	,close: function() {
-		if(this._parentState != null && this._parentState.subState == this) {
-			this._parentState.closeSubState();
-		}
-	}
-	,get_bgColor: function() {
-		return this._bgColor;
-	}
-	,set_bgColor: function(Value) {
-		if(flixel_FlxG.renderTile && this._bgSprite != null) {
-			this._bgSprite.get_pixels().setPixel32(0,0,Value);
-		}
-		return this._bgColor = Value;
-	}
-	,__class__: flixel_FlxSubState
-});
 var flixel_animation_FlxBaseAnimation = function(Parent,Name) {
 	this.curIndex = 0;
 	this.parent = Parent;
@@ -36667,19 +36741,19 @@ groups_Planets.prototype = {
 		if(planet.getOwner().resources.remove(cost)) {
 			switch(type) {
 			case resources_ResourceTypes.Credits:
-				planet.resources.add(new resources_Resources([0,0,0,0,1]));
+				planet.resources.add(new resources_Resources([0,0,0,1,0]));
 				break;
-			case resources_ResourceTypes.Minerals:
-				planet.resources.add(new resources_Resources([0,-1,0,1,0]));
-				if(planet.resources.get(resources_ResourceTypes.Natural) == 0) {
-					planet.resources.setResource(resources_ResourceTypes.Natural,null);
+			case resources_ResourceTypes.Materials:
+				planet.resources.add(new resources_Resources([-1,0,0,0,1]));
+				if(planet.resources.get(resources_ResourceTypes.Organic) == 0) {
+					planet.resources.setResource(resources_ResourceTypes.Organic,null);
 				}
 				break;
-			case resources_ResourceTypes.Natural:
-				planet.resources.add(new resources_Resources([0,1,0,0,0]));
+			case resources_ResourceTypes.Organic:
+				planet.resources.add(new resources_Resources([1,0,0,0,0]));
 				break;
 			case resources_ResourceTypes.Productivity:
-				planet.resources.add(new resources_Resources([1,0,0,0,0]));
+				planet.resources.add(new resources_Resources([0,1,0,0,0]));
 				break;
 			case resources_ResourceTypes.Science:
 				planet.resources.add(new resources_Resources([0,0,1,0,0]));
@@ -36694,35 +36768,35 @@ groups_Planets.prototype = {
 		var resources1 = new resources_Resources([]);
 		switch(type) {
 		case planets_PlanetType.BLUE:
-			resources1 = new resources_Resources([this.vhigh(),this.low(),this.vlow(),this.med(),this.med()]);
+			resources1 = new resources_Resources([this.low(),this.vhigh(),this.vlow(),this.med(),this.med()]);
 			break;
 		case planets_PlanetType.GRAY:
-			resources1 = new resources_Resources([this.med(),this.vlow(),this.vlow(),this.vhigh(),this.med()]);
+			resources1 = new resources_Resources([this.vlow(),this.med(),this.vlow(),this.med(),this.vhigh()]);
 			break;
 		case planets_PlanetType.GREEN:
-			resources1 = new resources_Resources([this.low(),this.vhigh(),this.med(),this.low(),this.low()]);
+			resources1 = new resources_Resources([this.vhigh(),this.low(),this.med(),this.low(),this.low()]);
 			break;
 		case planets_PlanetType.ORANGE:
-			resources1 = new resources_Resources([this.high(),this.low(),this.low(),this.med(),this.vhigh()]);
+			resources1 = new resources_Resources([this.low(),this.high(),this.low(),this.vhigh(),this.med()]);
 			break;
 		case planets_PlanetType.PURPLE:
-			resources1 = new resources_Resources([this.high() + 2,this.med() + 2,this.med() + 2,this.med() + 2,this.high() + 2]);
+			resources1 = new resources_Resources([this.med() + 2,this.high() + 2,this.med() + 2,this.high() + 2,this.med() + 2]);
 			break;
 		case planets_PlanetType.WHITE:
-			resources1 = new resources_Resources([this.med(),this.low(),this.high(),this.med(),this.med()]);
+			resources1 = new resources_Resources([this.low(),this.med(),this.high(),this.med(),this.med()]);
 			break;
 		default:
 			haxe_Log.trace("default",{ fileName : "Planets.hx", lineNumber : 93, className : "groups.Planets", methodName : "addRandom", customParams : [type]});
 		}
+		if(resources1.get(resources_ResourceTypes.Credits) < 1) {
+			resources1.setResource(resources_ResourceTypes.Credits,1);
+		}
 		var _g = 0;
-		while(_g < 4) {
+		while(_g < 5) {
 			var j = _g++;
 			if(resources1.get(resources_ResourceTypes.types[j]) < 1) {
 				resources1.setResource(resources_ResourceTypes.types[j],null);
 			}
-		}
-		if(resources1.get(resources_ResourceTypes.Credits) < 1) {
-			resources1.setResource(resources_ResourceTypes.Credits,1);
 		}
 		var planet = new planets_Planet(x,y,size,type,player,resources1);
 		return planet;
@@ -36776,6 +36850,19 @@ groups_Players.prototype = {
 		player.setID(groups_Players.pID);
 		groups_Players.pID++;
 		groups_Players.members.push(player);
+	}
+	,getScore: function(player) {
+		var score = 0;
+		var _g = 0;
+		var _g1 = groups_Groups.planets.all();
+		while(_g < _g1.length) {
+			var planet = _g1[_g];
+			++_g;
+			if(planet.getOwner().getID() == player.getID()) {
+				score += planet.population();
+			}
+		}
+		return score;
 	}
 	,all: function() {
 		return groups_Players.members;
@@ -38231,13 +38318,6 @@ haxe_ds_BalancedTree.prototype = {
 	,compare: function(k1,k2) {
 		return Reflect.compare(k1,k2);
 	}
-	,toString: function() {
-		if(this.root == null) {
-			return "{}";
-		} else {
-			return "{" + this.root.toString() + "}";
-		}
-	}
 	,__class__: haxe_ds_BalancedTree
 };
 var haxe_ds_TreeNode = function(l,k,v,r,h) {
@@ -38275,10 +38355,7 @@ var haxe_ds_TreeNode = function(l,k,v,r,h) {
 $hxClasses["haxe.ds.TreeNode"] = haxe_ds_TreeNode;
 haxe_ds_TreeNode.__name__ = ["haxe","ds","TreeNode"];
 haxe_ds_TreeNode.prototype = {
-	toString: function() {
-		return (this.left == null ? "" : this.left.toString() + ", ") + ("" + Std.string(this.key) + "=" + Std.string(this.value)) + (this.right == null ? "" : ", " + this.right.toString());
-	}
-	,__class__: haxe_ds_TreeNode
+	__class__: haxe_ds_TreeNode
 };
 var haxe_ds_EnumValueMap = function() {
 	haxe_ds_BalancedTree.call(this);
@@ -38357,23 +38434,6 @@ haxe_ds_IntMap.prototype = {
 		}
 		return HxOverrides.iter(a);
 	}
-	,toString: function() {
-		var s_b = "";
-		s_b += "{";
-		var it = this.keys();
-		var i = it;
-		while(i.hasNext()) {
-			var i1 = i.next();
-			s_b += i1 == null ? "null" : "" + i1;
-			s_b += " => ";
-			s_b += Std.string(Std.string(this.h[i1]));
-			if(it.hasNext()) {
-				s_b += ", ";
-			}
-		}
-		s_b += "}";
-		return s_b;
-	}
 	,__class__: haxe_ds_IntMap
 };
 var haxe_ds_ObjectMap = function() {
@@ -38417,23 +38477,6 @@ haxe_ds_ObjectMap.prototype = {
 		}
 		}
 		return HxOverrides.iter(a);
-	}
-	,toString: function() {
-		var s_b = "";
-		s_b += "{";
-		var it = this.keys();
-		var i = it;
-		while(i.hasNext()) {
-			var i1 = i.next();
-			s_b += Std.string(Std.string(i1));
-			s_b += " => ";
-			s_b += Std.string(Std.string(this.h[i1.__id__]));
-			if(it.hasNext()) {
-				s_b += ", ";
-			}
-		}
-		s_b += "}";
-		return s_b;
 	}
 	,__class__: haxe_ds_ObjectMap
 };
@@ -38539,25 +38582,6 @@ haxe_ds_StringMap.prototype = {
 			}
 		}
 		return out;
-	}
-	,toString: function() {
-		var s_b = "";
-		s_b += "{";
-		var keys = this.arrayKeys();
-		var _g1 = 0;
-		var _g = keys.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			var k = keys[i];
-			s_b += k == null ? "null" : "" + k;
-			s_b += " => ";
-			s_b += Std.string(Std.string(__map_reserved[k] != null ? this.getReserved(k) : this.h[k]));
-			if(i < keys.length - 1) {
-				s_b += ", ";
-			}
-		}
-		s_b += "}";
-		return s_b;
 	}
 	,__class__: haxe_ds_StringMap
 };
@@ -75515,12 +75539,10 @@ var planets_Planet = function(x,y,size,type,player,resources1) {
 		this.statsImgs.h[rTypes[i]].origin.set_y(0);
 		this.statsImgs.h[rTypes[i]].set_antialiasing(true);
 		flixel_FlxG.game._state.add(this.statsImgs.h[rTypes[i]]);
-		haxe_Log.trace(resources_ResourceTypes.types.length,{ fileName : "Planet.hx", lineNumber : 83, className : "planets.Planet", methodName : "new"});
 		var _g3 = 0;
 		var _g2 = resources_ResourceTypes.types.length;
 		while(_g3 < _g2) {
 			var j = _g3++;
-			haxe_Log.trace(j,{ fileName : "Planet.hx", lineNumber : 85, className : "planets.Planet", methodName : "new", customParams : ["j"]});
 			this.statsImgs.h[rTypes[i]].animation.add(Std.string(j + 1),[j + 1],1,false);
 		}
 		var this2 = this.costText;
@@ -75609,19 +75631,19 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 		var cost;
 		switch(type) {
 		case resources_ResourceTypes.Credits:
-			cost = this.resources.retMultiply([null,null,null,.5,1]);
+			cost = this.resources.retMultiply([null,null,.5,1,.5]);
 			break;
-		case resources_ResourceTypes.Minerals:
-			cost = this.resources.retMultiply([.5,null,null,1,null]);
+		case resources_ResourceTypes.Materials:
+			cost = this.resources.retMultiply([.5,null,null,.5,1]);
 			break;
-		case resources_ResourceTypes.Natural:
-			cost = this.resources.retMultiply([null,1,null,null,.5]);
+		case resources_ResourceTypes.Organic:
+			cost = this.resources.retMultiply([1,.5,null,null,null]);
 			break;
 		case resources_ResourceTypes.Productivity:
-			cost = this.resources.retMultiply([1,.5,.5,null,null]);
+			cost = this.resources.retMultiply([.5,1,.5,null,null]);
 			break;
 		case resources_ResourceTypes.Science:
-			cost = this.resources.retMultiply([.5,null,1,null,.5]);
+			cost = this.resources.retMultiply([null,.5,1,.5,null]);
 			break;
 		default:
 			cost = null;
@@ -75633,12 +75655,11 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 	}
 	,grow: function(growBy) {
 		if(growBy == null) {
-			if(this.resources.get(resources_ResourceTypes.Natural) == null) {
+			if(this.resources.get(resources_ResourceTypes.Organic) == null) {
 				this.growth += 1;
 			} else {
-				this.growth += 1 + this.resources.get(resources_ResourceTypes.Natural) * 2 / this.population();
+				this.growth += 1 + this.resources.get(resources_ResourceTypes.Organic) * 20 / this.population();
 			}
-			haxe_Log.trace(this.growth,{ fileName : "Planet.hx", lineNumber : 193, className : "planets.Planet", methodName : "grow"});
 			while(this.growth >= 1) {
 				this.resources.addResource(this.resources.types()[Std.random(this.resources.length())],1);
 				this.growth -= 1;
@@ -75723,13 +75744,9 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 					case 4:
 						HxOverrides.remove(this.mouseOverIDs,event.eventSource);
 						this.mouseOverIDs.push(event.eventSource);
-						haxe_Log.trace(this.mouseOverIDs,{ fileName : "Planet.hx", lineNumber : 284, className : "planets.Planet", methodName : "onNotify"});
 						this.showResources = true;
-						haxe_Log.trace(event.eventSource,{ fileName : "Planet.hx", lineNumber : 286, className : "planets.Planet", methodName : "onNotify"});
 						if(event.eventSource < resources_ResourceTypes.types.length) {
-							haxe_Log.trace(this.type,{ fileName : "Planet.hx", lineNumber : 289, className : "planets.Planet", methodName : "onNotify", customParams : [resources_ResourceTypes.types[this.type]]});
 							var cost = this.getUpgradeCost(resources_ResourceTypes.types[event.eventSource]);
-							haxe_Log.trace(cost.getMap().toString(),{ fileName : "Planet.hx", lineNumber : 291, className : "planets.Planet", methodName : "onNotify"});
 							var _g21 = 0;
 							var _g31 = resources_ResourceTypes.types;
 							while(_g21 < _g31.length) {
@@ -75745,7 +75762,6 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 						break;
 					case 5:
 						HxOverrides.remove(this.mouseOverIDs,event.eventSource);
-						haxe_Log.trace(this.mouseOverIDs,{ fileName : "Planet.hx", lineNumber : 301, className : "planets.Planet", methodName : "onNotify"});
 						break;
 					default:
 					}
@@ -75775,22 +75791,11 @@ planets_Planet.prototype = $extend(button_Button.prototype,{
 	}
 	,__class__: planets_Planet
 });
-var templates_Menu = function(color) {
-	flixel_FlxSubState.call(this,color);
-};
-$hxClasses["templates.Menu"] = templates_Menu;
-templates_Menu.__name__ = ["templates","Menu"];
-templates_Menu.__super__ = flixel_FlxSubState;
-templates_Menu.prototype = $extend(flixel_FlxSubState.prototype,{
-	__class__: templates_Menu
-});
 var planets_PlanetMenu = function(color,alpha,planet) {
 	this.costText = new haxe_ds_IntMap();
 	this.menuSubject = new observer_Subject([planet]);
 	this.myPlanet = planet;
-	this.color = color;
-	this.alpha = alpha;
-	templates_Menu.call(this,0);
+	templates_Menu.call(this,color,alpha,this);
 };
 $hxClasses["planets.PlanetMenu"] = planets_PlanetMenu;
 planets_PlanetMenu.__name__ = ["planets","PlanetMenu"];
@@ -75799,9 +75804,6 @@ planets_PlanetMenu.__super__ = templates_Menu;
 planets_PlanetMenu.prototype = $extend(templates_Menu.prototype,{
 	create: function() {
 		templates_Menu.prototype.create.call(this);
-		this.background = new button_Button(flixel_FlxG.width,flixel_FlxG.height,0,0,this.color,this,99,flixel_FlxG.cameras.list[3]);
-		this.background.set_alpha(this.alpha);
-		this.add(this.background);
 		flixel_FlxG.cameras.list[4].scroll.set(this.myPlanet.x + this.myPlanet.size / 2 - flixel_FlxG.width / 2,this.myPlanet.y + this.myPlanet.size / 2 - flixel_FlxG.height / 2);
 		this.myPlanet.get_cameras().push(flixel_FlxG.cameras.list[4]);
 		var _g = 0;
@@ -75849,6 +75851,10 @@ planets_PlanetMenu.prototype = $extend(templates_Menu.prototype,{
 			this.upgradeIcons.h[pTypes[i1]].updateHitbox();
 			this.add(this.upgradeIcons.h[pTypes[i1]]);
 		}
+		this.popText = new flixel_text_FlxText(flixel_FlxG.width / 2 - 250,flixel_FlxG.height - 50,500,"Pop. " + Std.string(this.myPlanet.population()));
+		this.popText.setFormat(null,30,-1,"center");
+		this.popText.set_cameras([flixel_FlxG.cameras.list[5]]);
+		this.add(this.popText);
 	}
 	,onNotify: function(event) {
 		var _g = event.eventType;
@@ -75863,10 +75869,10 @@ planets_PlanetMenu.prototype = $extend(templates_Menu.prototype,{
 				case 2:
 					var type = event.eventSource;
 					if(type < resources_ResourceTypes.types.length) {
-						if(resources_ResourceTypes.types[type] == resources_ResourceTypes.Minerals && this.myPlanet.resources.get(resources_ResourceTypes.Natural) == 1) {
+						if(resources_ResourceTypes.types[type] == resources_ResourceTypes.Materials && this.myPlanet.resources.get(resources_ResourceTypes.Organic) == 1) {
 							this.myPlanet.upgrade(resources_ResourceTypes.types[type]);
-							if(this.myPlanet.resources.get(resources_ResourceTypes.Natural) == null) {
-								this.upgradeIcons.get(resources_ResourceTypes.Natural).set_visible(false);
+							if(this.myPlanet.resources.get(resources_ResourceTypes.Organic) == null) {
+								this.upgradeIcons.get(resources_ResourceTypes.Organic).set_visible(false);
 								var NofResources = this.myPlanet.resources.types().length;
 								var pTypes = this.myPlanet.resources.types();
 								var screenCenter = new flixel_math_FlxPoint(flixel_FlxG.width / 2,flixel_FlxG.height / 2);
@@ -75899,6 +75905,7 @@ planets_PlanetMenu.prototype = $extend(templates_Menu.prototype,{
 								this.costText.get(key).set_text("");
 							}
 						}
+						this.popText.set_text("Pop. " + Std.string(this.myPlanet.population()));
 					}
 					break;
 				case 3:
@@ -75918,7 +75925,6 @@ planets_PlanetMenu.prototype = $extend(templates_Menu.prototype,{
 					break;
 				case 4:
 					if(event.eventSource < resources_ResourceTypes.types.length) {
-						haxe_Log.trace(this.myPlanet.type,{ fileName : "PlanetMenu.hx", lineNumber : 158, className : "planets.PlanetMenu", methodName : "onNotify", customParams : [resources_ResourceTypes.types[this.myPlanet.type]]});
 						var cost1 = this.myPlanet.getUpgradeCost(resources_ResourceTypes.types[event.eventSource]);
 						var _g23 = 0;
 						var _g33 = resources_ResourceTypes.types;
@@ -79229,21 +79235,21 @@ openfl_utils__$CompressionAlgorithm_CompressionAlgorithm_$Impl_$.LZMA = 1;
 openfl_utils__$CompressionAlgorithm_CompressionAlgorithm_$Impl_$.ZLIB = 2;
 openfl_utils__$Endian_Endian_$Impl_$.BIG_ENDIAN = 0;
 openfl_utils__$Endian_Endian_$Impl_$.LITTLE_ENDIAN = 1;
-planets_PlanetType.BLUE = 0;
-planets_PlanetType.GREEN = 1;
+planets_PlanetType.GREEN = 0;
+planets_PlanetType.BLUE = 1;
 planets_PlanetType.WHITE = 2;
-planets_PlanetType.GRAY = 3;
-planets_PlanetType.ORANGE = 4;
+planets_PlanetType.ORANGE = 3;
+planets_PlanetType.GRAY = 4;
 planets_PlanetType.PURPLE = 5;
-planets_PlanetType.types = [planets_PlanetType.BLUE,planets_PlanetType.GREEN,planets_PlanetType.WHITE,planets_PlanetType.GRAY,planets_PlanetType.ORANGE,planets_PlanetType.PURPLE];
+planets_PlanetType.types = [planets_PlanetType.GREEN,planets_PlanetType.BLUE,planets_PlanetType.WHITE,planets_PlanetType.ORANGE,planets_PlanetType.GRAY,planets_PlanetType.PURPLE];
+resources_ResourceTypes.Organic = -16744448;
 resources_ResourceTypes.Productivity = -16776961;
-resources_ResourceTypes.Natural = -16744448;
 resources_ResourceTypes.Science = -1;
-resources_ResourceTypes.Minerals = -8355712;
 resources_ResourceTypes.Credits = -23296;
+resources_ResourceTypes.Materials = -8355712;
 resources_ResourceTypes.Power = -65536;
 resources_ResourceTypes.Happyness = -256;
 resources_ResourceTypes.Influence = -8388480;
-resources_ResourceTypes.types = [resources_ResourceTypes.Productivity,resources_ResourceTypes.Natural,resources_ResourceTypes.Science,resources_ResourceTypes.Minerals,resources_ResourceTypes.Credits,resources_ResourceTypes.Power,resources_ResourceTypes.Happyness,resources_ResourceTypes.Influence];
+resources_ResourceTypes.types = [resources_ResourceTypes.Organic,resources_ResourceTypes.Productivity,resources_ResourceTypes.Science,resources_ResourceTypes.Credits,resources_ResourceTypes.Materials,resources_ResourceTypes.Power,resources_ResourceTypes.Happyness,resources_ResourceTypes.Influence];
 ApplicationMain.main();
 })(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this, typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);

@@ -80,9 +80,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 			statsImgs[rTypes[i]].origin.y = 0;
 			statsImgs[rTypes[i]].antialiasing = true;
 			FlxG.state.add(statsImgs[rTypes[i]]);
-			trace(ResourceTypes.types.length);
 			for (j in 0...ResourceTypes.types.length){
-				trace(j,"j");
 				statsImgs[rTypes[i]].animation.add(Std.string(j + 1), [j + 1], 1, false);
 			}
 				
@@ -156,21 +154,21 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	public function getUpgradeCost(type:FlxColor):Resources
 	{
 		var cost:Resources = switch (type)
-		{	//					P,G,S,M,C
-			case ResourceTypes.Productivity:{
-				resources.retMultiply([1, .5, .5, null, null]);
+		{	//							O,P,S,C,M
+			case ResourceTypes.Organic:{
+				resources.retMultiply([1, .5, null, null, null]);
 			}
-			case ResourceTypes.Natural:{
-				resources.retMultiply([null, 1, null, null, .5]);
+			case ResourceTypes.Productivity:{
+				resources.retMultiply([.5, 1, .5, null, null]);
 			}
 			case ResourceTypes.Science:{
-				resources.retMultiply([.5, null, 1, null, .5]);
-			}
-			case ResourceTypes.Minerals:{
-				resources.retMultiply([.5, null, null, 1, null]);
+				resources.retMultiply([null, .5, 1, .5, null]);
 			}
 			case ResourceTypes.Credits:{
-				resources.retMultiply([null, null, null, .5, 1]);
+				resources.retMultiply([null, null, .5, 1, .5]);
+			}
+			case ResourceTypes.Materials:{
+				resources.retMultiply([.5, null, null, .5, 1]);
 			}
 			default:null;
 		}
@@ -186,11 +184,10 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	{
 		if (growBy == null)
 		{
-			if (resources.get(ResourceTypes.Natural) == null)
+			if (resources.get(ResourceTypes.Organic) == null)
 				growth += 1;
 			else
-				growth += 1 + resources.get(ResourceTypes.Natural) * 2 / population();
-			trace(growth);
+				growth += 1 + resources.get(ResourceTypes.Organic) * 20 / population();
 			while (growth >= 1){
 				resources.addResource(resources.types()[Std.random(resources.length())], 1);
 				growth -= 1;
@@ -281,14 +278,10 @@ class Planet extends Button implements Observer implements ResourceEnabled
 							case MouseEventType.MouseOver:{
 								mouseOverIDs.remove(event.eventSource);
 								mouseOverIDs.push(event.eventSource);
-								trace(mouseOverIDs);
 								showResources = true;
-								trace(event.eventSource);
 								if (event.eventSource < ResourceTypes.types.length)
 								{
-									trace(this.type, ResourceTypes.types[this.type]);
 									var cost:Resources = getUpgradeCost(ResourceTypes.types[event.eventSource]);
-									trace(cost.getMap());
 									for (key in ResourceTypes.types)
 										if (cost.get(key) != null)
 											costText[key].text = "-" + Std.string(cost.get(key));
@@ -298,7 +291,6 @@ class Planet extends Button implements Observer implements ResourceEnabled
 							}
 							case MouseEventType.MouseOff:{
 								mouseOverIDs.remove(event.eventSource);
-								trace(mouseOverIDs);
 							}
 							default:null;
 						}

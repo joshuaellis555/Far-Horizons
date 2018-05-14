@@ -11,6 +11,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import groups.Groups;
 import observer.Observer;
+import endscreen.EndScreen;
 import planets.Planet;
 import planets.PlanetType;
 import player.Player;
@@ -39,13 +40,17 @@ class PlayState extends FlxState implements Observer
 	var theta:Float = 0;
 	var planetlist:Array<Int> = [0, 1, 2, 3, 4, 5];
 	
+	var rounds = 9;
+	var endRound:Button;
+	var roundText:FlxText;
+	
 	override public function create():Void
 	{
 		super.create();
 		
 		this.persistentUpdate = true;
 		
-		activePlayer = new Player(new Resources([0, 0, 0, 0, 0]));
+		activePlayer = new Player(new Resources([10, 10, 10, 10, 10]));
 		
 		// ################### Cameras #######################
 		mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
@@ -136,6 +141,15 @@ class PlayState extends FlxState implements Observer
 		uiMouseText.color = 0x00ff00;
 		add(uiMouseText);
 		
+		endRound = new Button(300, 50, FlxG.width - 300, FlxG.height - 50, FlxColor.RED, this, -1, menuUiCam);
+		add(endRound);
+		
+		roundText = new FlxText(FlxG.width - 296, FlxG.height - 46, 292, "End Round " + Std.string(rounds)); // x, y, width
+		roundText.cameras = [menuUiCam];
+		roundText.setFormat(null, 36, FlxColor.WHITE, FlxTextAlign.CENTER);
+		roundText.setBorderStyle(OUTLINE, FlxColor.BLACK, 5);
+		add(roundText);
+		
 		Groups.planets.upkeep();
 		
 		Groups.planets.updatePlayers();
@@ -213,16 +227,27 @@ class PlayState extends FlxState implements Observer
 				{
 					switch(mouseEvent)
 					{
-						case RightJustReleased:{
-							if (event.eventSource==99){
-								trace("upkeep");
+						case LeftJustReleased:{
+							if (event.eventSource == -1){
+								if (rounds>0) makePlanet();
 								Groups.planets.upkeep();
-								makePlanet();
 								Groups.planets.updatePlayers();
 								activePlayer.updateIncome();
 								for (key in ResourceTypes.types)
 									uiTextResources[key].text = Std.string(activePlayer.resources.get(key));
-								
+								rounds--;
+								if (rounds>1)
+									roundText.text = "End Round " + Std.string(rounds);
+								else if (rounds == 1)
+									roundText.text = "End Game";
+								else{
+									var score:Int = Groups.players.getScore(activePlayer);
+									openSubState(new EndScreen(FlxColor.BLACK, 0.6, score, "Well Done!"));
+								}
+								var bounds:Array<Float> = Groups.planets.getCameraBounds();
+								mapCam.scroll.x = (bounds[0] + bounds[1]) / 2;
+								mapCam.scroll.y = (bounds[2] + bounds[3]) / 2;
+								mapCam.zoom = Math.min(FlxG.width / (bounds[1] - bounds[0]), FlxG.height / (bounds[3] - bounds[2]));
 							}
 						}
 						case MouseOver:{
