@@ -29,34 +29,25 @@ import templates.Menu;
  */
 class PlanetMenu extends Menu implements Observer
 {
-	private var background:Button;
-	private var color:FlxColor;
-	private var alpha:Float;
-	
 	private var menuSubject:Subject;
 	private var myPlanet:Planet;
 	
 	public var upgradeIcons:Map<FlxColor, Button>;
 	
 	private var costText:Map<FlxColor,FlxText> = new Map<FlxColor,FlxText>();
+	private var popText:FlxText;
 	
 	public function new(color:FlxColor,alpha:Float,planet:Planet)
 	{
 		menuSubject = new Subject([planet]);
 		myPlanet = planet;
-		this.color = color;
-		this.alpha = alpha;
-		super(FlxColor.TRANSPARENT);
+		super(color,alpha,this);
 	}
 	override public function create()
 	{
 		super.create();
-		background = new Button(FlxG.width, FlxG.height, 0, 0 , color, this, 99, FlxG.cameras.list[3]);
-		background.alpha = alpha;
-		add(background);
 		
 		FlxG.cameras.list[4].scroll.set(myPlanet.x + myPlanet.size / 2 - FlxG.width/2, myPlanet.y + myPlanet.size / 2 - FlxG.height / 2);
-		//trace(FlxG.cameras.list[4].scroll);
 		
 		myPlanet.cameras.push(FlxG.cameras.list[4]);
 		for (key in myPlanet.resources.types())
@@ -96,6 +87,11 @@ class PlanetMenu extends Menu implements Observer
 			
 			add(upgradeIcons[pTypes[i]]);
 		}
+		
+		popText = new FlxText(FlxG.width/2-250,FlxG.height-50, 500,"Pop. "+Std.string(myPlanet.population())); // x, y, width
+		popText.setFormat(null, 30, FlxColor.WHITE, CENTER);
+		popText.cameras = [FlxG.cameras.list[5]];
+		add(popText);
 	}
 	
 	/* INTERFACE observer.Observer */
@@ -112,12 +108,12 @@ class PlanetMenu extends Menu implements Observer
 							var type:Int = event.eventSource;
 							if (type < ResourceTypes.types.length){
 								
-								if (ResourceTypes.types[type] == ResourceTypes.Minerals && myPlanet.resources.get(ResourceTypes.Natural)==1)
+								if (ResourceTypes.types[type] == ResourceTypes.Materials && myPlanet.resources.get(ResourceTypes.Organic)==1)
 								{
 									myPlanet.upgrade(ResourceTypes.types[type]);
-									if (myPlanet.resources.get(ResourceTypes.Natural) == null)
+									if (myPlanet.resources.get(ResourceTypes.Organic) == null)
 									{
-										upgradeIcons[ResourceTypes.Natural].visible = false;
+										upgradeIcons[ResourceTypes.Organic].visible = false;
 										
 										var NofResources:Int = myPlanet.resources.types().length;
 										var pTypes:Array<FlxColor> = myPlanet.resources.types();
@@ -139,6 +135,7 @@ class PlanetMenu extends Menu implements Observer
 										costText[key].text = "-" + Std.string(cost.get(key));
 									else
 										costText[key].text = "";
+								popText.text = "Pop. " + Std.string(myPlanet.population());
 							}
 						}
 						case RightJustReleased:{
@@ -155,7 +152,6 @@ class PlanetMenu extends Menu implements Observer
 						case MouseEventType.MouseOver:{
 							{
 								if (event.eventSource<ResourceTypes.types.length){
-									trace(myPlanet.type, ResourceTypes.types[myPlanet.type]);
 									var cost:Resources = myPlanet.getUpgradeCost(ResourceTypes.types[event.eventSource]);
 									for (key in ResourceTypes.types)
 										if (cost.get(key) != null)

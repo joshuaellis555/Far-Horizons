@@ -53,23 +53,23 @@ class Planets
 		
 		if (planet.getOwner().resources.remove(cost)){
 			switch (type)
-			{	//					P,G,S,M,C
-				case ResourceTypes.Productivity:{
+			{	//							O,P,S,C,M
+				case ResourceTypes.Organic:{
 					planet.resources.add(new Resources([1,0,0,0,0]));
 				}
-				case ResourceTypes.Natural:{
+				case ResourceTypes.Productivity:{
 					planet.resources.add(new Resources([0,1,0,0,0]));
 				}
 				case ResourceTypes.Science:{
 					planet.resources.add(new Resources([0,0,1,0,0]));
 				}
-				case ResourceTypes.Minerals:{
-					planet.resources.add(new Resources([0, -1, 0, 1, 0]));
-					if (planet.resources.get(ResourceTypes.Natural) == 0)
-						planet.resources.setResource(ResourceTypes.Natural, null);
-				}
 				case ResourceTypes.Credits:{
-					planet.resources.add(new Resources([0,0,0,0,1]));
+					planet.resources.add(new Resources([0,0,0,1,0]));
+				}
+				case ResourceTypes.Materials:{
+					planet.resources.add(new Resources([-1,0,0,0,1]));
+					if (planet.resources.get(ResourceTypes.Organic) == 0)
+						planet.resources.setResource(ResourceTypes.Organic, null);
 				}
 				default:null;
 			}
@@ -83,21 +83,21 @@ class Planets
 	{
 		var resources:Resources = new Resources([]);
 		switch (type)
-		{
-			case BLUE: resources = new Resources([vhigh(), low(), vlow(), med(), med()]);
-			case GREEN: resources = new Resources([low(),vhigh(),med(),low(),low()]);
-			case WHITE: resources = new Resources([med(),low(),high(),med(),med()]);
-			case GRAY: resources = new Resources([med(),vlow(),vlow(),vhigh(),med()]);
-			case ORANGE: resources = new Resources([high(),low(),low(),med(),vhigh()]);
-			case PURPLE: resources = new Resources([high()+2, med()+2, med()+2, med()+2, high()+2]);
+		{	//										O		,P	  ,S	,C	  ,M
+			case GREEN: resources = new Resources([vhigh(),low(),med(),low(),low()]);
+			case BLUE: resources = new Resources([low(),vhigh(),vlow(),med(),med()]);
+			case WHITE: resources = new Resources([low(),med(),high(),med(),med()]);
+			case ORANGE: resources = new Resources([low(),high(),low(),vhigh(),med()]);
+			case GRAY: resources = new Resources([vlow(),med(),vlow(),med(),vhigh()]);
+			case PURPLE: resources = new Resources([med()+2, high()+2, med()+2, high()+2, med()+2]);
 			default:trace("default", type);
 		}
 		
-		for (j in 0...4){
+		if (resources.get(ResourceTypes.Credits) < 1) resources.setResource(ResourceTypes.Credits, 1);
+		for (j in 0...5){
 			if (resources.get(ResourceTypes.types[j]) < 1)
 				resources.setResource(ResourceTypes.types[j], null);
 		}
-		if (resources.get(ResourceTypes.Credits) < 1) resources.setResource(ResourceTypes.Credits, 1);
 		
 		var planet:Planet = new Planet(x, y, size, cast type, player, resources);
 		
