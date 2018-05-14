@@ -18,3 +18,5 @@ Click resources to upgrade
 Right click to close menu
 
 **The game lasts 9 rounds**
+
+You will be scored based on total population off all your planets
