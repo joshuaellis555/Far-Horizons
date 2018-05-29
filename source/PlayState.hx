@@ -39,29 +39,38 @@ class PlayState extends FlxState implements Observer
 	var endRound:Button;
 	var roundText:FlxText;
 	
+	var mapCam:Cam;
+	var bgCam:Cam;
+	var menuUiCam:Cam;
+	var planetCam:Cam;
+	var menuCam:Cam;
+	var uiCam:Cam;
+	
 	override public function create():Void
 	{
 		super.create();
 		
 		this.persistentUpdate = true;
 		
-		Cameras.mapCam = new Cam(0, 0, FlxG.width, FlxG.height, 0, FlxColor.TRANSPARENT);
-		Cameras.bgCam = new Cam(0, 0, FlxG.width, FlxG.height);
-		Cameras.menuUiCam = new Cam(0, 0, FlxG.width, FlxG.height, FlxColor.TRANSPARENT, FlxG.width, FlxG.height);
-		Cameras.planetCam = new Cam(0, 0, FlxG.width, FlxG.height, 0, FlxColor.TRANSPARENT);
-		Cameras.menuCam = new Cam(0, 0, FlxG.width, FlxG.height, FlxColor.TRANSPARENT, FlxG.width, FlxG.height);
-		Cameras.uiCam = new Cam(0, 0, FlxG.width, FlxG.height, FlxColor.TRANSPARENT, FlxG.width, FlxG.height);
+		mapCam = new Cam(0, 0, FlxG.width, FlxG.height, 0, FlxColor.TRANSPARENT);
+		//mapCam.setScale(0, 0);
+		mapCam.setSize(FlxG.width, FlxG.height);
+		bgCam = new Cam(0, 0, FlxG.width, FlxG.height);
+		menuUiCam = new Cam(0, 0, FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
+		planetCam = new Cam(0, 0, FlxG.width, FlxG.height, 0, FlxColor.TRANSPARENT);
+		menuCam = new Cam(0, 0, FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
+		uiCam = new Cam(0, 0, FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
 		
 		activePlayer = new Player(new Resources([10, 10, 10, 10, 10]));
 		
-		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,99,Cameras.bgCam,AssetPaths.Stars__png, 4096, 2304);
+		var background = new Button(FlxG.width*4, FlxG.height*4, Std.int(-FlxG.width*2), Std.int(-FlxG.height*2) , FlxColor.BLACK,this,99,bgCam,AssetPaths.Stars__png, 4096, 2304);
 		add(background);
 		
 		makePlanet();
 		makePlanet();
 			
 		var bar:FlxSprite = new FlxSprite();
-		bar.cameras = [Cameras.uiCam];
+		bar.cameras = [uiCam];
 		bar.makeGraphic(1024, 52, FlxColor.GRAY);
 		add(bar);
 		
@@ -72,7 +81,7 @@ class PlayState extends FlxState implements Observer
 		
 		for (i in 0...ResourceTypes.types.length)
 		{
-			uiIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, Cameras.uiCam, false, false, AssetPaths.Icons__png, true, 52, 52);
+			uiIcons[rTypes[i]] = new Button(0, 0, 0, 0, FlxColor.WHITE, this, i, uiCam, false, false, AssetPaths.Icons__png, true, 52, 52);
 			
 			uiIcons[rTypes[i]].antialiasing = true;
 			
@@ -86,12 +95,12 @@ class PlayState extends FlxState implements Observer
 			add(uiIcons[rTypes[i]]);
 			
 			uiTextIncome[rTypes[i]] = new FlxText(54 + i * 128, 1, 74, Std.string(activePlayer.resources.get(rTypes[i])), 20, true);
-			uiTextIncome[rTypes[i]].cameras = [Cameras.uiCam];
+			uiTextIncome[rTypes[i]].cameras = [uiCam];
 			uiTextIncome[rTypes[i]].color = 0x00ff00;
 			add(uiTextIncome[rTypes[i]]);
 			
 			uiTextResources[rTypes[i]] = new FlxText(54 + i * 128, 24, 74, Std.string(activePlayer.resources.get(rTypes[i])), 20, true);
-			uiTextResources[rTypes[i]].cameras = [Cameras.uiCam];
+			uiTextResources[rTypes[i]].cameras = [uiCam];
 			add(uiTextResources[rTypes[i]]);
 			
 			if (activePlayer.resources.get(rTypes[i]) == null){
@@ -102,15 +111,15 @@ class PlayState extends FlxState implements Observer
 		}
 		
 		uiMouseText = new FlxText(0, 0, 300, "", 20);
-		uiMouseText.cameras = [Cameras.uiCam];
+		uiMouseText.cameras = [uiCam];
 		uiMouseText.color = 0x00ff00;
 		add(uiMouseText);
 		
-		endRound = new Button(300, 50, FlxG.width - 300, FlxG.height - 50, FlxColor.RED, this, -1, Cameras.menuUiCam);
+		endRound = new Button(300, 50, FlxG.width - 300, FlxG.height - 50, FlxColor.RED, this, -1, menuUiCam);
 		add(endRound);
 		
 		roundText = new FlxText(FlxG.width - 296, FlxG.height - 46, 292, "End Round " + Std.string(rounds)); // x, y, width
-		roundText.cameras = [Cameras.menuUiCam];
+		roundText.cameras = [menuUiCam];
 		roundText.setFormat(null, 36, FlxColor.WHITE, FlxTextAlign.CENTER);
 		roundText.setBorderStyle(OUTLINE, FlxColor.BLACK, 5);
 		add(roundText);
@@ -120,8 +129,8 @@ class PlayState extends FlxState implements Observer
 		Groups.planets.updatePlayers();
 		activePlayer.updateIncome();
 		
-		Cameras.mapCam.zoom = 0.7;
-		Cameras.bgCam.zoom = (Cameras.mapCam.zoom + 39) / 60;
+		mapCam.zoom = 0.7;
+		bgCam.zoom = (mapCam.zoom + 39) / 60;
 	}
 	
 	private function makePlanet()
@@ -141,34 +150,34 @@ class PlayState extends FlxState implements Observer
 		super.update(elapsed);
 		
 		var bounds:Array<Float> = Groups.planets.getCameraBounds();
-		bounds = [bounds[0] + FlxG.width / 2 * Cameras.mapCam.zoom, bounds[1] - FlxG.width / 2 * Cameras.mapCam.zoom, bounds[2] + FlxG.height / 2 * Cameras.mapCam.zoom, bounds[3] - FlxG.height / 2 * Cameras.mapCam.zoom];
+		bounds = [bounds[0] + FlxG.width / 2 * mapCam.zoom, bounds[1] - FlxG.width / 2 * mapCam.zoom, bounds[2] + FlxG.height / 2 * mapCam.zoom, bounds[3] - FlxG.height / 2 * mapCam.zoom];
 		
 		if (FlxG.mouse.wheel != 0)
 		{
-			Cameras.mapCam.zoom = Math.min(Math.max(0.1, Cameras.mapCam.zoom + (FlxG.mouse.wheel / Math.abs(FlxG.mouse.wheel) * Cameras.mapCam.zoom / 4)), 1);
-			Cameras.bgCam.zoom = (Cameras.mapCam.zoom + 39) / 60;
-			if (FlxG.mouse.wheel>0 && Cameras.mapCam.zoom < 1){
-				var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(Cameras.mapCam).subtractPoint(grabbedPos);
-				Cameras.mapCam.scroll.subtractPoint(mousePosChange);
-				if (Cameras.mapCam.scroll.x < bounds[0]) Cameras.mapCam.scroll.x = bounds[0];
-				if (Cameras.mapCam.scroll.x > bounds[1]) Cameras.mapCam.scroll.x = bounds[1];
-				if (Cameras.mapCam.scroll.y < bounds[2]) Cameras.mapCam.scroll.y = bounds[2];
-				if (Cameras.mapCam.scroll.y > bounds[3]) Cameras.mapCam.scroll.y = bounds[3];
-				Cameras.bgCam.scroll.set(Cameras.mapCam.scroll.x/40,Cameras.mapCam.scroll.y/40);
+			mapCam.zoom = Math.min(Math.max(0.1, mapCam.zoom + (FlxG.mouse.wheel / Math.abs(FlxG.mouse.wheel) * mapCam.zoom / 4)), 1);
+			bgCam.zoom = (mapCam.zoom + 39) / 60;
+			if (FlxG.mouse.wheel>0 && mapCam.zoom < 1){
+				var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(mapCam).subtractPoint(grabbedPos);
+				mapCam.scroll.subtractPoint(mousePosChange);
+				if (mapCam.scroll.x < bounds[0]) mapCam.scroll.x = bounds[0];
+				if (mapCam.scroll.x > bounds[1]) mapCam.scroll.x = bounds[1];
+				if (mapCam.scroll.y < bounds[2]) mapCam.scroll.y = bounds[2];
+				if (mapCam.scroll.y > bounds[3]) mapCam.scroll.y = bounds[3];
+				bgCam.scroll.set(mapCam.scroll.x/40,mapCam.scroll.y/40);
 			}
 		}
 		
 		if (!FlxG.mouse.pressedMiddle || FlxG.mouse.justPressedMiddle){
-			grabbedPos = FlxG.mouse.getWorldPosition(Cameras.mapCam);
+			grabbedPos = FlxG.mouse.getWorldPosition(mapCam);
 		}else{
-			var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(Cameras.mapCam).subtractPoint(grabbedPos);
-			Cameras.mapCam.scroll.subtractPoint(mousePosChange);
-			if (Cameras.mapCam.scroll.x < bounds[0]) Cameras.mapCam.scroll.x = bounds[0];
-			if (Cameras.mapCam.scroll.x > bounds[1]) Cameras.mapCam.scroll.x = bounds[1];
-			if (Cameras.mapCam.scroll.y < bounds[2]) Cameras.mapCam.scroll.y = bounds[2];
-			if (Cameras.mapCam.scroll.y > bounds[3]) Cameras.mapCam.scroll.y = bounds[3];
-			Cameras.bgCam.scroll.set(Cameras.mapCam.scroll.x / 40, Cameras.mapCam.scroll.y / 40);
-			trace(Cameras.mapCam.scroll.x, Cameras.mapCam.scroll.y);
+			var mousePosChange:FlxPoint = FlxG.mouse.getWorldPosition(mapCam).subtractPoint(grabbedPos);
+			mapCam.scroll.subtractPoint(mousePosChange);
+			if (mapCam.scroll.x < bounds[0]) mapCam.scroll.x = bounds[0];
+			if (mapCam.scroll.x > bounds[1]) mapCam.scroll.x = bounds[1];
+			if (mapCam.scroll.y < bounds[2]) mapCam.scroll.y = bounds[2];
+			if (mapCam.scroll.y > bounds[3]) mapCam.scroll.y = bounds[3];
+			bgCam.scroll.set(mapCam.scroll.x / 40, mapCam.scroll.y / 40);
+			trace(mapCam.scroll.x, mapCam.scroll.y);
 		}
 		
 		uiMouseText.setPosition(FlxG.mouse.x, FlxG.mouse.y + 30);
@@ -211,9 +220,9 @@ class PlayState extends FlxState implements Observer
 									openSubState(new EndScreen(FlxColor.BLACK, 0.6, score, "Well Done!"));
 								}
 								var bounds:Array<Float> = Groups.planets.getCameraBounds();
-								Cameras.mapCam.scroll.x = (bounds[0] + bounds[1]) / 2;
-								Cameras.mapCam.scroll.y = (bounds[2] + bounds[3]) / 2;
-								Cameras.mapCam.zoom = Math.min(FlxG.width / (bounds[1] - bounds[0]), FlxG.height / (bounds[3] - bounds[2]));
+								mapCam.scroll.x = (bounds[0] + bounds[1]) / 2;
+								mapCam.scroll.y = (bounds[2] + bounds[3]) / 2;
+								mapCam.zoom = Math.min(FlxG.width / (bounds[1] - bounds[0]), FlxG.height / (bounds[3] - bounds[2]));
 							}
 						}
 						case MouseOver:{
