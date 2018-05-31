@@ -1,7 +1,6 @@
 package observer;
 import event.Event;
 import event.EventType;
-import event.ResourceEvent;
 
 /**
  * Basic class for subjects in the Observer design pattern.

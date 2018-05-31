@@ -21,7 +21,6 @@ import cameras.Cameras;
 
 class PlayState extends FlxState implements Observer
 {
-	public var activePlayer:Player;
 	
 	var grabbedPos:FlxPoint = new FlxPoint( -1, -1); //For camera scrolling
 	
@@ -43,8 +42,6 @@ class PlayState extends FlxState implements Observer
 		super.create();
 		
 		this.persistentUpdate = true;
-		
-		activePlayer = new Player(new Resources([10, 10, 10, 10, 10]));
 		
 		// ################### Cameras #######################
 		Cameras.mapCam = new FlxCamera(0, 0, FlxG.width, FlxG.height);
@@ -113,16 +110,16 @@ class PlayState extends FlxState implements Observer
 			
 			add(uiIcons[rTypes[i]]);
 			
-			uiTextIncome[rTypes[i]] = new FlxText(54 + i * 128, 1, 74, Std.string(activePlayer.resources.get(rTypes[i])), 20, true);
+			uiTextIncome[rTypes[i]] = new FlxText(54 + i * 128, 1, 74, Std.string(Groups.activePlayer.resources.get(rTypes[i])), 20, true);
 			uiTextIncome[rTypes[i]].cameras = [Cameras.uiCam];
 			uiTextIncome[rTypes[i]].color = 0x00ff00;
 			add(uiTextIncome[rTypes[i]]);
 			
-			uiTextResources[rTypes[i]] = new FlxText(54 + i * 128, 24, 74, Std.string(activePlayer.resources.get(rTypes[i])), 20, true);
+			uiTextResources[rTypes[i]] = new FlxText(54 + i * 128, 24, 74, Std.string(Groups.activePlayer.resources.get(rTypes[i])), 20, true);
 			uiTextResources[rTypes[i]].cameras = [Cameras.uiCam];
 			add(uiTextResources[rTypes[i]]);
 			
-			if (activePlayer.resources.get(rTypes[i]) == null){
+			if (Groups.activePlayer.resources.get(rTypes[i]) == null){
 				uiIcons[rTypes[i]].visible = false;
 				uiTextIncome[rTypes[i]].visible = false;
 				uiTextResources[rTypes[i]].visible = false;
@@ -146,7 +143,7 @@ class PlayState extends FlxState implements Observer
 		Groups.planets.upkeep();
 		
 		Groups.planets.updatePlayers();
-		activePlayer.updateIncome();
+		Groups.activePlayer.updateIncome();
 		
 		Cameras.mapCam.zoom = 0.7;
 		Cameras.bgCam.zoom = (Cameras.mapCam.zoom + 39) / 60;
@@ -160,7 +157,7 @@ class PlayState extends FlxState implements Observer
 		var n = Std.random(6);
 		t = planetlist[n];
 		planetlist.remove(planetlist[n]);
-		Groups.planets.addRandom(Std.int(Math.cos(theta) * (Std.int(theta + Std.random(1000) / 1000) * 60 + 200))+300, Std.int(Math.sin(theta) * (Std.int(theta + Std.random(1000) / 1000) * 60 + 200))+230, 100 + Std.random(50), cast t, activePlayer);
+		Groups.planets.addRandom(Std.int(Math.cos(theta) * (Std.int(theta + Std.random(1000) / 1000) * 60 + 200))+300, Std.int(Math.sin(theta) * (Std.int(theta + Std.random(1000) / 1000) * 60 + 200))+230, 100 + Std.random(50), cast t, Groups.activePlayer);
 		theta += 1/Std.int(theta/6.283+1) + Std.random(500) / 1000;
 	}
 
@@ -200,10 +197,10 @@ class PlayState extends FlxState implements Observer
 		
 		uiMouseText.setPosition(FlxG.mouse.x, FlxG.mouse.y + 30);
 		
-		var income = activePlayer.income;
+		var income = Groups.activePlayer.income;
 		for (key in income.types()){
 			uiTextIncome[key].text = "+" + Std.string(income.get(key));
-			uiTextResources[key].text = Std.string(activePlayer.resources.get(key));
+			uiTextResources[key].text = Std.string(Groups.activePlayer.resources.get(key));
 		}
 	}
 	
@@ -225,16 +222,16 @@ class PlayState extends FlxState implements Observer
 								if (rounds>0) makePlanet();
 								Groups.planets.upkeep();
 								Groups.planets.updatePlayers();
-								activePlayer.updateIncome();
+								Groups.activePlayer.updateIncome();
 								for (key in ResourceTypes.types)
-									uiTextResources[key].text = Std.string(activePlayer.resources.get(key));
+									uiTextResources[key].text = Std.string(Groups.activePlayer.resources.get(key));
 								rounds--;
 								if (rounds>1)
 									roundText.text = "End Round " + Std.string(rounds);
 								else if (rounds == 1)
 									roundText.text = "End Game";
 								else{
-									var score:Int = Groups.players.getScore(activePlayer);
+									var score:Int = Groups.players.getScore(Groups.activePlayer);
 									openSubState(new EndScreen(FlxColor.BLACK, 0.6, score, "Well Done!"));
 								}
 								var bounds:Array<Float> = Groups.planets.getCameraBounds();

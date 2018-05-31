@@ -8,7 +8,7 @@ import player.Player;
 class Players 
 {
 	public static var members:Array<Player> = [];
-	private static var pID:Int=100;
+	private static var pID:Int = 100;
 	
 	public function new(){}
 	
@@ -23,8 +23,9 @@ class Players
 	{
 		var score:Int = 0;
 		for (planet in Groups.planets.all())
-			if (planet.getOwner().getID() == player.getID())
-				score+= planet.population();
+			for (owner in planet.getOwners())
+				if (player.getID() == owner.getID())
+					score+= planet.population();
 		return score;
 	}
 	

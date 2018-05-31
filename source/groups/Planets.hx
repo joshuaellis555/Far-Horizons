@@ -47,38 +47,6 @@ class Planets
 		return [minScrollX,maxScrollX,minScrollY,maxScrollY];
 	}
 	
-	public function upgrade(planet:Planet,type:FlxColor)
-	{
-		var cost:Resources = planet.getUpgradeCost(type);
-		
-		if (planet.getOwner().resources.remove(cost)){
-			switch (type)
-			{	//							O,P,S,C,M
-				case ResourceTypes.Organic:{
-					planet.resources.add(new Resources([1,0,0,0,0]));
-				}
-				case ResourceTypes.Productivity:{
-					planet.resources.add(new Resources([0,1,0,0,0]));
-				}
-				case ResourceTypes.Science:{
-					planet.resources.add(new Resources([0,0,1,0,0]));
-				}
-				case ResourceTypes.Credits:{
-					planet.resources.add(new Resources([0,0,0,1,0]));
-				}
-				case ResourceTypes.Materials:{
-					planet.resources.add(new Resources([-1,0,0,0,1]));
-					if (planet.resources.get(ResourceTypes.Organic) == 0)
-						planet.resources.setResource(ResourceTypes.Organic, null);
-				}
-				default:null;
-			}
-		}
-		
-		planet.updateStatsImg();
-		planet.getOwner().updateIncome();
-	}
-	
 	public function addRandom(x:Int, y:Int, size:Int, type:PlanetType, player:Player):Planet
 	{
 		var resources:Resources = new Resources([]);

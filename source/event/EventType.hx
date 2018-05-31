@@ -6,5 +6,4 @@ package event;
 enum EventType 
 {
 	Mouse;
-	Resource;
 }

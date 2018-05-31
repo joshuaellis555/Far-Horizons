@@ -3,8 +3,6 @@ import button.Button;
 import event.Event;
 import event.MouseEvent;
 import event.MouseEventType;
-import event.ResourceEvent;
-import event.ResourceEventType;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
@@ -24,15 +22,15 @@ import resources.Resources;
  */
 class Planet extends Button implements Observer implements ResourceEnabled
 {
+	private var id:Int;
+	
 	public var resources:Resources;
 	
 	public var type:Int;
 	
 	private var growth:Float=0;
 	
-	private var owner:Player;
-	
-	private var planetSubject:Subject;
+	private var owners:Array<Player>;
 	
 	public var statsImgs:Map<FlxColor, Button> = new Map<FlxColor, Button>();
 	private var maxResource = 20;
@@ -53,8 +51,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 		this.type = type;
 		this.resources = resources;
 		
-		owner = player;
-		planetSubject = new Subject([owner]);
+		owners = [player];
 		
 		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), FlxColor.WHITE, this, 0, FlxG.cameras.list[2], false, true);
 		
@@ -177,7 +174,35 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	
 	public function upgrade(type:FlxColor)
 	{
-		Groups.planets.upgrade(this,type);
+		var cost:Resources = getUpgradeCost(type);
+		
+		if (Groups.activePlayer.resources.remove(cost)){
+			switch (type)
+			{	//							O,P,S,C,M
+				case ResourceTypes.Organic:{
+					resources.add(new Resources([1,0,0,0,0]));
+				}
+				case ResourceTypes.Productivity:{
+					resources.add(new Resources([0,1,0,0,0]));
+				}
+				case ResourceTypes.Science:{
+					resources.add(new Resources([0,0,1,0,0]));
+				}
+				case ResourceTypes.Credits:{
+					resources.add(new Resources([0,0,0,1,0]));
+				}
+				case ResourceTypes.Materials:{
+					resources.add(new Resources([-1,0,0,0,1]));
+					if (resources.get(ResourceTypes.Organic) == 0)
+						resources.setResource(ResourceTypes.Organic, null);
+				}
+				default:null;
+			}
+		}
+		
+		updateStatsImg();
+		reportIncome();
+		updatePlayers();
 	}
 	
 	public function grow(growBy:Null<Float>=null)
@@ -209,23 +234,28 @@ class Planet extends Button implements Observer implements ResourceEnabled
 		return i;
 	}
 	
-	public function getOwner():Player
+	public function getOwners():Array<Player>
 	{
-		return owner;
+		return owners;
 	}
-	public function setOwner(player:Player)
+	public function addOwner(player:Player)
 	{
-		owner = player;
-		planetSubject = new Subject([owner]);
+		owners.push(player);
+	}
+	public function removeOwner(player:Player)
+	{
+		owners.remove(player);
 	}
 	
 	public function upkeep()
 	{
-		planetSubject.notify(new ResourceEvent(planetSubject,resources, ResourceEventType.Gain));
+		for (owner in owners)
+			owner.resources.add(resources);
 	}
 	public function reportIncome()
 	{
-		planetSubject.notify(new ResourceEvent(planetSubject,resources, ResourceEventType.Update));
+		for (owner in owners)
+			owner.reportIncome(this);
 	}
 	public function updatePlayers()
 	{
@@ -234,11 +264,11 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	
 	public function getID():Int
 	{
-		return planetSubject.getID();
+		return id;
 	}
 	public function setID(newID:Int)
 	{
-		planetSubject.setID(newID);
+		id=newID;
 	}
 	
 	public function lock()
@@ -295,25 +325,6 @@ class Planet extends Button implements Observer implements ResourceEnabled
 							default:null;
 						}
 					}
-				}
-			}
-			case Resource:{
-				var resourceEvent:ResourceEvent = cast event;
-				switch(resourceEvent.transactionType)
-				{
-					case Gain:{
-						resources.add(resourceEvent.resources);
-						updateStatsImg();
-					}
-					case Lose:{
-						resources.remove(resourceEvent.resources);
-						updateStatsImg();
-					}
-					case LoseNoCheck:{
-						resources.remove(resourceEvent.resources, false);
-						updateStatsImg();
-					}
-					default:null;
 				}
 			}
 			default:null;
