@@ -1,7 +1,5 @@
 package cameras;
-import flixel.FlxG;
-import cameras.Cam;
-import flixel.util.FlxColor;
+import flixel.FlxCamera;
 
 /**
  * ...
@@ -10,10 +8,10 @@ import flixel.util.FlxColor;
 @:enum
 class Cameras 
 {	
-	public static var mapCam:Cam;
-	public static var bgCam:Cam;
-	public static var menuUiCam:Cam;
-	public static var planetCam:Cam;
-	public static var menuCam:Cam;
-	public static var uiCam:Cam;
+	public static var mapCam:FlxCamera;
+	public static var bgCam:FlxCamera;
+	public static var menuUiCam:FlxCamera;
+	public static var planetCam:FlxCamera;
+	public static var menuCam:FlxCamera;
+	public static var uiCam:FlxCamera;
 }
