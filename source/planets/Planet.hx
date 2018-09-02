@@ -5,6 +5,7 @@ import event.MouseEvent;
 import event.MouseEventType;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import groups.Groups;
@@ -37,6 +38,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	private var popupResources:Int = 0;
 	public var showResources:Bool = false;
 	private var mouseOverIDs:Array<Int> = [];
+	public var mousedOver:Bool = false;
 	private var NofResources:Int = 0;
 	
 	var costText:Map<FlxColor,FlxText> = new Map<FlxColor,FlxText>();
@@ -102,6 +104,9 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	
 	override public function update(elapsed:Float):Void
 	{
+		if (mousedOver)
+			showResources = true;
+		
 		super.update(elapsed);
 		if (!locked){
 			if (showResources){
@@ -118,10 +123,11 @@ class Planet extends Button implements Observer implements ResourceEnabled
 		}
 		
 		if (mouseOverIDs.length==0){
-			showResources = false;
+			mousedOver = false;
 			for (key in resources.types())
 				costText[key].text = "";
 		}
+		showResources = false;
 	}
 	
 	public function updateStatsImg()
@@ -176,7 +182,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	{
 		var cost:Resources = getUpgradeCost(type);
 		
-		if (Groups.activePlayer.resources.remove(cost)){
+		if (owners[0].resources.remove(cost)){
 			switch (type)
 			{	//							O,P,S,C,M
 				case ResourceTypes.Organic:{
@@ -250,16 +256,23 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	public function upkeep()
 	{
 		for (owner in owners)
-			owner.resources.add(resources);
+			if (owner!=null)
+				owner.resources.add(resources);
 	}
 	public function reportIncome()
 	{
 		for (owner in owners)
-			owner.reportIncome(this);
+			if (owner!=null)
+				owner.reportIncome(this);
 	}
 	public function updatePlayers()
 	{
 		Groups.planets.updatePlayers();
+	}
+	
+	public function point():FlxPoint
+	{
+		return new FlxPoint(x, y);
 	}
 	
 	public function getID():Int
@@ -306,9 +319,10 @@ class Planet extends Button implements Observer implements ResourceEnabled
 							case MouseEventType.RightJustReleased:{
 							}
 							case MouseEventType.MouseOver:{
+								trace(event.eventSource);
 								mouseOverIDs.remove(event.eventSource);
 								mouseOverIDs.push(event.eventSource);
-								showResources = true;
+								mousedOver = true;
 								if (event.eventSource < ResourceTypes.types.length)
 								{
 									var cost:Resources = getUpgradeCost(ResourceTypes.types[event.eventSource]);
