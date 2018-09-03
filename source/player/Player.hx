@@ -1,7 +1,7 @@
 package player;
 
+import cameras.Cameras;
 import event.Event;
-import flash.geom.Point;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
@@ -44,7 +44,7 @@ class Player extends FlxSprite implements ResourceEnabled
 		super(0, 0);
 		this.loadGraphic(AssetPaths.Cursor__png, false, 401, 401);
 		this.color = FlxColor.RED;
-		this.camera = FlxG.cameras.list[2];
+		this.camera = Cameras.cursorCam.flxCam();
 		this.resources = resources;
 		
 		var players:Players = new Players();
@@ -87,9 +87,10 @@ class Player extends FlxSprite implements ResourceEnabled
 			this.visible = true;
 			this.x = target.getMidpoint().x;
 			this.y = target.getMidpoint().y;
-			this.scale = new FlxPoint(target.scale.x+.02,target.scale.y+.02);
+			this.scale = new FlxPoint(target.scale.x*.88,target.scale.y*.88);
 			this.offset = new FlxPoint(this.width / 2, this.height / 2);
 			target.showResources = true;
+			target.focused = true;
 		} else {
 			this.visible = false;
 		}
@@ -129,22 +130,23 @@ class Player extends FlxSprite implements ResourceEnabled
 				var newBest:Null<Planet> = null;
 				if (leftStickPoint.distanceTo(zeroPoint) > .2)
 				{
-					trace(leftStickPoint.distanceTo(zeroPoint));
+					//trace(leftStickPoint.distanceTo(zeroPoint));
 					var angle:Float = zeroPoint.angleBetween(leftStickPoint);
-					trace(angle);
+					//trace(angle);
 					var best:Null<Float>=null;
 					for (planet in Groups.planets.all()){
 						if (best == null && planet.getID() != target.getID()){
 							var delta = Math.abs(angle-target.point().angleBetween(planet.point()));
-							if (delta<=45){
-								best = Math.pow(target.point().distanceTo(planet.point()),1) * Math.sqrt(Math.max(5,delta));
+							if (delta > 180) delta = 360 - delta;
+							if (delta<=55){
+								best = Math.pow(target.point().distanceTo(planet.point()),2) * (Math.max(4,delta)+100);
 								newBest = planet;
 							}
 						} else {
 							if (planet.getID() != target.getID()){
 								var delta = Math.abs(angle-target.point().angleBetween(planet.point()));
-								var test = Math.pow(target.point().distanceTo(planet.point()),1) * Math.sqrt(Math.max(5,delta));
-								if (test < best && delta<=45){
+								var test = Math.pow(target.point().distanceTo(planet.point()),2) * (Math.max(4,delta)+100);
+								if (test < best && delta<=55){
 									best = test;
 									newBest = planet;
 								}
@@ -152,12 +154,22 @@ class Player extends FlxSprite implements ResourceEnabled
 						}
 					}
 					if (newBest != null){
-						trace(target.point().angleBetween(newBest.point()));
+						//trace('new angle');
+						//trace(target.point().angleBetween(newBest.point()));
+						var delta = Math.abs(angle-target.point().angleBetween(newBest.point()));
+						//trace('delta');
+						//trace(delta);
+						if (delta > 180) delta = 360 - delta;
+						//trace('delta');
+						//trace(delta);
+						//trace('dist');
+						//trace(Math.pow(target.point().distanceTo(newBest.point()), 2));
+						//trace(Math.pow(target.point().distanceTo(newBest.point()), 2) * (Math.max(4, delta)+100));
 						target = newBest;
 					}
 				}
 			}
-			stickActive = 12;
+			stickActive = 17;
 		}
 		stickActive -= 1;
     }

@@ -33,6 +33,7 @@ class Button extends FlxSprite
 		}else{
 			super(x, y);
 			this.loadGraphic(image, animated, imgW, imgH);
+			this.color = color;
 		}
 		if (camera!=null)
 			this.cameras = [camera];

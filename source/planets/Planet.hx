@@ -1,5 +1,6 @@
 package planets;
 import button.Button;
+import cameras.Cameras;
 import event.Event;
 import event.MouseEvent;
 import event.MouseEventType;
@@ -11,7 +12,6 @@ import flixel.util.FlxColor;
 import groups.Groups;
 import observer.Observer;
 import observer.Subject;
-import planets.PlanetMenu;
 import player.Player;
 import resources.ResourceEnabled;
 import resources.ResourceTypes;
@@ -41,21 +41,23 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	public var mousedOver:Bool = false;
 	private var NofResources:Int = 0;
 	
-	var costText:Map<FlxColor,FlxText> = new Map<FlxColor,FlxText>();
+	public var focused:Bool = false;
+	
+	private var costText:Map<FlxColor,FlxText> = new Map<FlxColor,FlxText>();
 	
 	public var size:Int;
-	
-	private var locked:Bool;
+	private var baseScale:FlxPoint;
+	private var shrink:Float = 0.35;
 	
 	public function new(x:Int,y:Int,size:Int,type:Int,player:Player,resources:Resources)
 	{
-		this.size = size;
+		this.size = Std.int(size*1.5);
 		this.type = type;
 		this.resources = resources;
 		
 		owners = [player];
 		
-		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), FlxColor.WHITE, this, 0, FlxG.cameras.list[2], false, true);
+		super(size, size, Std.int(x - size / 2), Std.int(y - size / 2), FlxColor.WHITE, this, 0, Cameras.mapCam.flxCam(), false, true);
 		
 		loadGraphic(AssetPaths.Planets__png, true, 401, 401);
 		setGraphicSize(size, size);
@@ -73,7 +75,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 		{
 			statsImgs[rTypes[i]] = new Button(125, 125, x, y, FlxColor.WHITE, this, i, null, true,true);
 			statsImgs[rTypes[i]].loadGraphic(AssetPaths.Wedges__png, true, 125, 125);
-			statsImgs[rTypes[i]].camera = FlxG.cameras.list[2];
+			statsImgs[rTypes[i]].camera = Cameras.planetUiCam.flxCam();
 			statsImgs[rTypes[i]].color = cast rTypes[i];
 			statsImgs[rTypes[i]].origin.x = 0;
 			statsImgs[rTypes[i]].origin.y = 0;
@@ -85,7 +87,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 				
 			costText[rTypes[i]] = new FlxText(54 + i * 128, 50, 74, null, 20, true);
 			costText[rTypes[i]].color = FlxColor.RED;
-			costText[rTypes[i]].cameras = [FlxG.cameras.list[6]];
+			costText[rTypes[i]].cameras = [Cameras.uiCam.flxCam()];
 			FlxG.state.add(costText[rTypes[i]]);
 			
 		}
@@ -96,6 +98,8 @@ class Planet extends Button implements Observer implements ResourceEnabled
 			statsImgs[key].animation.play(Std.string(NofResources));
 		}
 		
+		baseScale = new FlxPoint(this.size/401,this.size/401);
+		
 		updateStatsImg();
 		
 		Groups.planets.add(this);
@@ -104,21 +108,26 @@ class Planet extends Button implements Observer implements ResourceEnabled
 	
 	override public function update(elapsed:Float):Void
 	{
-		if (mousedOver)
+		if (mousedOver){
 			showResources = true;
+			focused = true;
+		}
+		
+		if (focused)
+			this.scale = new FlxPoint(baseScale.x,baseScale.y);
+		else
+			this.scale = new FlxPoint(baseScale.x*shrink,baseScale.y*shrink);
 		
 		super.update(elapsed);
-		if (!locked){
-			if (showResources){
-				if (popupResources < 10){
-					popupResources += 1;
-					updateStatsImg();
-				}
-			}else{
-				if (popupResources > 0){
-					popupResources -= 1;
-					updateStatsImg();
-				}
+		if (showResources){
+			if (popupResources < 10){
+				popupResources += 1;
+				updateStatsImg();
+			}
+		}else{
+			if (popupResources > 0){
+				popupResources -= 1;
+				updateStatsImg();
 			}
 		}
 		
@@ -128,6 +137,7 @@ class Planet extends Button implements Observer implements ResourceEnabled
 				costText[key].text = "";
 		}
 		showResources = false;
+		focused = false;
 	}
 	
 	public function updateStatsImg()
@@ -284,15 +294,6 @@ class Planet extends Button implements Observer implements ResourceEnabled
 		id=newID;
 	}
 	
-	public function lock()
-	{
-		locked = true;
-	}
-	public function unlock()
-	{
-		locked = false;
-	}
-	
 	/* INTERFACE observer.Observer */
 	
 	public function onNotify(event:Event):Void 
@@ -302,42 +303,31 @@ class Planet extends Button implements Observer implements ResourceEnabled
 				var m:MouseEvent = cast event;
 				for (mouseEvent in m.mouseEvents)
 				{
-					if (!locked){
-						switch(mouseEvent)
-						{
-							case MouseEventType.LeftJustReleased:{
-								if (buttonSubject.getID() == event.eventSource){
-									mouseOverIDs = [];
-									for (key in ResourceTypes.types)
-										costText[key].text = "";
-									this.lock();
-									popupResources = 10;
-									updateStatsImg();
-									FlxG.state.openSubState(new PlanetMenu(FlxColor.BLACK, 0.6, this));
-								}
-							}
-							case MouseEventType.RightJustReleased:{
-							}
-							case MouseEventType.MouseOver:{
-								trace(event.eventSource);
-								mouseOverIDs.remove(event.eventSource);
-								mouseOverIDs.push(event.eventSource);
-								mousedOver = true;
-								if (event.eventSource < ResourceTypes.types.length)
-								{
-									var cost:Resources = getUpgradeCost(ResourceTypes.types[event.eventSource]);
-									for (key in ResourceTypes.types)
-										if (cost.get(key) != null)
-											costText[key].text = "-" + Std.string(cost.get(key));
-										else
-											costText[key].text = "";
-								}
-							}
-							case MouseEventType.MouseOff:{
-								mouseOverIDs.remove(event.eventSource);
-							}
-							default:null;
+					switch(mouseEvent)
+					{
+						case MouseEventType.LeftJustReleased:{
 						}
+						case MouseEventType.RightJustReleased:{
+						}
+						case MouseEventType.MouseOver:{
+							trace(event.eventSource);
+							mouseOverIDs.remove(event.eventSource);
+							mouseOverIDs.push(event.eventSource);
+							mousedOver = true;
+							if (event.eventSource < ResourceTypes.types.length)
+							{
+								var cost:Resources = getUpgradeCost(ResourceTypes.types[event.eventSource]);
+								for (key in ResourceTypes.types)
+									if (cost.get(key) != null)
+										costText[key].text = "-" + Std.string(cost.get(key));
+									else
+										costText[key].text = "";
+							}
+						}
+						case MouseEventType.MouseOff:{
+							mouseOverIDs.remove(event.eventSource);
+						}
+						default:null;
 					}
 				}
 			}
